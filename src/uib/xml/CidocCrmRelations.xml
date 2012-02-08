@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : CidocCrmRelations.xml
+    Created on : 12. april 2011, 10:24
+    Author     : Olav
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+<?xml version="1.0" encoding="UTF-8"?>
+    <Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <DescriptionMetadata>
+            <Version>6.0</Version>
+            <Comment>
+                <FreeTextAnnotation />
+            </Comment>
+            <Creator>
+                <Role href="creatorCS">
+                    <Name>Creator</Name>
+                </Role>
+                <Agent xsi:type="PersonType">
+                    <Name>
+                        <FamilyName>Doe</FamilyName>
+                        <GivenName>John</GivenName>
+                    </Name>
+                </Agent>
+            </Creator>
+            <CreationTime>2011-10-20T16:39</CreationTime>
+            <Instrument>
+                <Tool>
+                    <Name>Caliph v0.9.25</Name>
+                </Tool>
+            </Instrument>
+        </DescriptionMetadata>
+        <Description xsi:type="ContentEntityType">
+            <MultimediaContent xsi:type="ImageType">
+                <Image>
+                    <MediaInformation>
+                        <MediaProfile master="true">
+                            <MediaFormat>
+                                <Content href="image" />
+                                <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                    <Name>JPEG</Name>
+                                </FileFormat>
+                                <VisualCoding>
+                                    <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                        <Name>JPEG</Name>
+                                    </Format>
+                                    <Pixel bitsPer="24" />
+                                    <Frame width="2592" height="1944" />
+                                </VisualCoding>
+                            </MediaFormat>
+                            <MediaInstance>
+                                <InstanceIdentifier />
+                                <MediaLocator>
+                                    <MediaUri>file:/E:/Bileter/Nokian95/20080528/28052008050.jpg</MediaUri>
+                                </MediaLocator>
+                            </MediaInstance>
+                        </MediaProfile>
+                        <MediaProfile>
+                            <MediaFormat>
+                                <Content href="image" />
+                                <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                    <Name>JPEG</Name>
+                                </FileFormat>
+                                <VisualCoding>
+                                    <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                        <Name>JPEG</Name>
+                                    </Format>
+                                    <Pixel bitsPer="24" />
+                                    <Frame width="120" height="120" />
+                                </VisualCoding>
+                            </MediaFormat>
+                            <MediaInstance>
+                                <InstanceIdentifier />
+                                <MediaLocator>
+                                    <MediaUri>file:/E:/Bileter/Nokian95/20080528/tn_28052008050.jpg</MediaUri>
+                                </MediaLocator>
+                            </MediaInstance>
+                        </MediaProfile>
+                    </MediaInformation>
+                    <CreationInformation>
+                        <Creation>
+                            <Title>Creation information</Title>
+                            <Creator>
+                                <Role href="creatorCS">
+                                    <Name>Creator</Name>
+                                </Role>
+                                <Agent xsi:type="PersonType">
+                                    <Name>
+                                        <FamilyName>Doe</FamilyName>
+                                        <GivenName>John</GivenName>
+                                    </Name>
+                                </Agent>
+                            </Creator>
+                            <CreationCoordinates>
+                                <Date>
+                                    <TimePoint>2008-05-28T22:03:41</TimePoint>
+                                </Date>
+                            </CreationCoordinates>
+                            <CreationTool>
+                                <Tool>
+                                    <Name>Nokia N95</Name>
+                                </Tool>
+                                <Setting name="Make" value="Nokia" />
+                                <Setting name="Model" value="N95" />
+                                <Setting name="Orientation" value="Top, left side (Horizontal / normal)" />
+                                <Setting name="X Resolution" value="72 dots per inch" />
+                                <Setting name="Y Resolution" value="72 dots per inch" />
+                                <Setting name="Resolution Unit" value="Inch" />
+                                <Setting name="YCbCr Positioning" value="Center of pixel array" />
+                                <Setting name="Exposure Time" value="9000/1000000 sec" />
+                                <Setting name="F-Number" value="F2,8" />
+                                <Setting name="ISO Speed Ratings" value="200" />
+                                <Setting name="Date/Time Original" value="2008:05:28 22:03:41" />
+                                <Setting name="Date/Time Digitized" value="2008:05:28 22:03:41" />
+                                <Setting name="Shutter Speed Value" value="1/111 sec" />
+                                <Setting name="Aperture Value" value="F2,8" />
+                                <Setting name="Light Source" value="Unknown" />
+                                <Setting name="Flash" value="Flash did not fire, auto" />
+                                <Setting name="Focal Length" value="5,6 mm" />
+                                <Setting name="Color Space" value="sRGB" />
+                                <Setting name="Exif Image Width" value="2592 pixels" />
+                                <Setting name="Exif Image Height" value="1944 pixels" />
+                                <Setting name="Custom Rendered" value="Normal process" />
+                                <Setting name="Exposure Mode" value="Auto exposure" />
+                                <Setting name="White Balance" value="Auto white balance" />
+                                <Setting name="Digital Zoom Ratio" value="1" />
+                                <Setting name="Scene Capture Type" value="Standard" />
+                                <Setting name="Gain Control" value="Low gain up" />
+                                <Setting name="Compression" value="JPEG (old-style)" />
+                                <Setting name="Thumbnail Offset" value="3076 bytes" />
+                                <Setting name="Thumbnail Length" value="21580 bytes" />
+                            </CreationTool>
+                        </Creation>
+                    </CreationInformation>
+                    <TextAnnotation>
+                        <StructuredAnnotation>
+                            <Who>
+                                <Name>jhjkjkhkj</Name>
+                            </Who>
+                            <WhatObject>
+                                <Name>hjkh</Name>
+                            </WhatObject>
+                            <Where>
+                                <Name>hjkhjkhjk</Name>
+                            </Where>
+                            <When>
+                                <Name>May 2008</Name>
+                            </When>
+                            <Why>
+                                <Name>hjkhjk</Name>
+                            </Why>
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name>John Doe</Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>John</GivenName>
+                                    <FamilyName>Doe</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>Summer 2004</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the summer in the year 2004</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>Presentation</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This event symbolizes a presentation</FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Presentation</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name />
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of Presentation</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>2004-11-05T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Talking</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This event symbolizes general talking</FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Talking</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>Somewhere</Name>
+                                    </Label>
+                                    <Place>
+                                        <PostalAddress>
+                                            <AddressLine />
+                                        </PostalAddress>
+                                    </Place>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of Talking</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>2004-11-05T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_5">
+                            <Label>
+                                <Name>Speedway</Name>
+                            </Label>
+                            <Event>
+                                <Label>
+                                    <Name>Speedway</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>Mureck</Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of Speedway</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>2004-08-03T22:18</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="ConceptType" id="id_6">
+                            <Label>
+                                <Name>Sorrow</Name>
+                            </Label>
+                            <Agent xsi:type="AbstractType">
+                                <Name>
+                                    <GivenName>Sorrow</GivenName>
+                                    <FamilyName>Pain</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <Graph>
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:beneficiary" source="#id_4" target="#id_5" />
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifiedBy" source="#id_4" target="#id_3" />
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:property" source="#id_5" target="#id_1" />
+                            <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifiedBy" source="#id_6" target="#id_5" />
+                        </Graph>
+                    </Semantic>
+                    <VisualDescriptor xsi:type="ColorLayoutType">
+                        <YDCCoeff>24</YDCCoeff>
+                        <CbDCCoeff>26</CbDCCoeff>
+                        <CrDCCoeff>34</CrDCCoeff>
+                        <YACCoeff63>22 18 22 20 17 18 13 25 27 23 16 13 15 17 15 16 14 14 14 14 14 16 13 16 16 16 15 16 15 15 17 16 13 15 19 16 15 15 15 15 15 16 15 15 16 15 15 15 15 16 15 15 16 16 16 15 15 16 16 16 16 15 15</YACCoeff63>
+                        <CbACCoeff63>16 11 15 17 14 16 15 18 18 17 16 16 16 16 16 16 16 15 16 16 16 16 15 16 16 16 16 15 15 16 16 15 15 16 16 15 15 15 16 15 15 16 16 16 15 15 15 15 15 16 15 16 16 16 16 15 15 16 16 16 16 16 16</CbACCoeff63>
+                        <CrACCoeff63>15 17 16 15 16 16 16 15 15 15 15 15 16 16 16 15 16 16 15 15 15 15 16 15 15 16 16 16 16 16 15 16 16 15 15 16 16 16 16 16 16 15 16 16 16 16 16 16 16 15 16 16 15 16 16 15 16 16 16 16 16 16 16</CrACCoeff63>
+                    </VisualDescriptor>
+                    <VisualDescriptor xsi:type="ScalableColorType" numOfBitplanesDiscarded="0" numOfCoeff="256">
+                        <Coeff>72 -44 -30 62 -11 1 -2 0 -31 16 17 10 -30 -2 -11 -3 -7 0 3 11 -6 5 0 4 -15 4 4 1 -3 5 1 -4 -3 -1 1 3 3 3 1 3 -1 0 1 3 1 2 4 1 2 -3 1 1 -2 -1 1 -1 -2 -2 0 -2 1 0 -3 -3 1 1 -1 -2 -1 -1 -2 1 -5 -4 2 1 2 2 2 -1 1 1 -3 -3 -1 -3 -5 -4 -6 -5 2 1 3 3 2 0 -3 -3 -3 -4 -3 -3 -5 -5 0 0 2 1 3 3 1 0 -7 -3 -3 -3 -3 -6 -4 -6 1 1 1 0 1 0 -1 1 0 0 0 0 0 1 0 1 1 -1 -1 0 1 0 0 1 3 -1 0 -1 0 0 1 0 1 -2 0 0 0 0 1 1 -1 -1 0 0 1 0 0 0 2 -1 0 -1 1 -1 0 0 3 -1 0 -1 0 0 1 -2 1 -1 0 0 0 0 1 -1 1 -1 0 1 1 0 -1 1 3 -1 0 -1 0 0 1 -1 2 -1 1 -1 0 1 1 -2 0 0 0 0 0 1 0 -1 -3 -1 0 0 1 0 -1 -1 1 0 1 0 0 0 0 -1 0 0 0 0 0 1 0 -1 0 0 0 0 0 1 0 1</Coeff>
+                    </VisualDescriptor>
+                    <VisualDescriptor xsi:type="EdgeHistogramType">
+                        <BinCounts>0 2 5 2 2 1 4 3 1 1 0 4 5 2 3 2 3 4 3 5 0 6 2 0 3 0 3 4 2 2 0 4 2 3 5 0 5 1 2 3 0 7 5 2 2 1 7 2 5 3 2 4 4 6 6 1 6 5 5 4 0 7 0 2 3 0 7 1 3 3 1 6 6 4 6 1 6 5 4 4</BinCounts>
+                    </VisualDescriptor>
+                    <VisualDescriptor xsi:type="DominantColorType">
+                        <SpatialCoherency>0</SpatialCoherency>
+                    </VisualDescriptor>
+                </Image>
+            </MultimediaContent>
+        </Description>
+    </Mpeg7>
+
+
+</root>

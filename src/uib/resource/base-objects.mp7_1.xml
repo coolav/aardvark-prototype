@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Mathias Lux (.) -->
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Description xsi:type="SemanticDescriptionType">
+    <Semantics>
+      <Label>
+        <Name>Semanitscher Katalog</Name>
+      </Label>
+      <SemanticBase xsi:type="AgentObjectType">
+        <Label>
+          <Name>John Doe</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>John</GivenName>
+            <FamilyName>Doe</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType">
+        <Label>
+          <Name>Mathias Lux</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Mathias</GivenName>
+            <FamilyName>Lux</FamilyName>
+          </Name>
+          <Affiliation>
+            <Organization>
+              <Name>Know-Center</Name>
+            </Organization>
+          </Affiliation>
+          <Address>
+            <PostalAddress>
+              <AddressLine>Inffeldgasse 21a</AddressLine>
+              <AddressLine>8010 Graz</AddressLine>
+              <AddressLine>AUSTRIA</AddressLine>
+            </PostalAddress>
+          </Address>
+          <ElectronicAddress>
+            <Telephone>+43 (316) 873 9274</Telephone>
+            <Email>mlux@know-center.at</Email>
+            <Url>http://www.know-center.at</Url>
+          </ElectronicAddress>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType" id="id_1">
+        <Label>
+          <Name>Turtle Berta</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Turtle</GivenName>
+            <FamilyName>Berta</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_4">
+        <Label>
+          <Name>Driving</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Driving</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Graz</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Driving</Name>
+            </Label>
+            <Time>
+              <TimePoint>2005-02-03T22:13</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_3">
+        <Label>
+          <Name>Graz 2003</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>Graz and culture</FreeTextAnnotation>
+        </Definition>
+        <Event>
+          <Label>
+            <Name>Graz 2003</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Graz</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Graz 2003</Name>
+            </Label>
+            <Time>
+              <TimePoint>2003-02-03T22:01</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType">
+        <Label>
+          <Name>I-Know 04</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>4th International Conference on Knowledge Management</FreeTextAnnotation>
+        </Definition>
+        <Event>
+          <Label>
+            <Name>I-Know 04</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Stadthalle Graz</Name>
+            </Label>
+            <Place>
+              <PostalAddress>
+                <AddressLine>Conrad v. Hoerzendorf Strasse</AddressLine>
+                <AddressLine>8010 Graz</AddressLine>
+                <AddressLine>AUSTRIA</AddressLine>
+              </PostalAddress>
+            </Place>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of I-Know 04</Name>
+            </Label>
+            <Time>
+              <TimePoint>2004-07-01T12:00</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_2">
+        <Label>
+          <Name>Jonglieren</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Jonglieren</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Schloss Rheintal</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Jonglieren</Name>
+            </Label>
+            <Time>
+              <TimePoint>2005-02-03T22:09</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType">
+        <Label>
+          <Name>Presentation</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This event symbolizes a presentation</FreeTextAnnotation>
+        </Definition>
+        <Event>
+          <Label>
+            <Name>Presentation</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name />
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Presentation</Name>
+            </Label>
+            <Time>
+              <TimePoint>2004-11-05T10:50</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_2">
+        <Label>
+          <Name>Speedway</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Speedway</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Mureck</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Speedway</Name>
+            </Label>
+            <Time>
+              <TimePoint>2004-08-03T22:18</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_4">
+        <Label>
+          <Name>Taking a bath</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Taking a bath</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Graz</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Taking a bath</Name>
+            </Label>
+            <Time>
+              <TimePoint>2005-02-03T21:58</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType">
+        <Label>
+          <Name>Talking</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This event symbolizes general talking</FreeTextAnnotation>
+        </Definition>
+        <Event>
+          <Label>
+            <Name>Talking</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Somewhere</Name>
+            </Label>
+            <Place>
+              <PostalAddress>
+                <AddressLine />
+              </PostalAddress>
+            </Place>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Talking</Name>
+            </Label>
+            <Time>
+              <TimePoint>2004-11-05T10:50</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_2">
+        <Label>
+          <Name>Trip</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Trip</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>Riegersburg</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Trip</Name>
+            </Label>
+            <Time>
+              <TimePoint>2005-02-03T22:15</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="EventType" id="id_4">
+        <Label>
+          <Name>Walking</Name>
+        </Label>
+        <Event>
+          <Label>
+            <Name>Walking</Name>
+          </Label>
+          <SemanticPlace>
+            <Label>
+              <Name>here</Name>
+            </Label>
+          </SemanticPlace>
+          <SemanticTime>
+            <Label>
+              <Name>Time of Walking</Name>
+            </Label>
+            <Time>
+              <TimePoint>2005-02-03T21:56</TimePoint>
+            </Time>
+          </SemanticTime>
+        </Event>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_5">
+        <Label>
+          <Name>Austria</Name>
+        </Label>
+        <Place>
+          <PostalAddress>
+            <AddressLine>Europe</AddressLine>
+          </PostalAddress>
+        </Place>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Balloons</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Diabolo</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_3">
+        <Label>
+          <Name>Graz</Name>
+        </Label>
+        <Place>
+          <PostalAddress>
+            <AddressLine>8010 Graz</AddressLine>
+            <AddressLine>Austria</AddressLine>
+          </PostalAddress>
+        </Place>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Juggling Balls</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Juggling clubs</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Motorbike</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_5">
+        <Label>
+          <Name>Mur</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>A river in Austrai, the main river in Styria</FreeTextAnnotation>
+        </Definition>
+        <Place>
+          <PostalAddress>
+            <AddressLine>Styria, Austria</AddressLine>
+          </PostalAddress>
+        </Place>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_4">
+        <Label>
+          <Name>Mureck</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Murinsel</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>Graz's second landmark, the Murinsel. A floating island in a river.</FreeTextAnnotation>
+        </Definition>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_3">
+        <Label>
+          <Name>Quad</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_1">
+        <Label>
+          <Name>Riegersburg</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_1">
+        <Label>
+          <Name>Schloss Rheintal</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>Spring 2003</Name>
+        </Label>
+        <Time>
+          <TimePoint>2003-01-04T21:55</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_6">
+        <Label>
+          <Name>Styria</Name>
+        </Label>
+        <Place>
+          <PostalAddress>
+            <AddressLine>Austria</AddressLine>
+          </PostalAddress>
+        </Place>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType">
+        <Label>
+          <Name>Summer 2004</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 2004</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_5">
+        <Label>
+          <Name>Trike</Name>
+        </Label>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType" id="id_4">
+        <Label>
+          <Name>Uhrturm</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>the town's landmark of Graz, Austria</FreeTextAnnotation>
+        </Definition>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticPlaceType" id="id_4">
+        <Label>
+          <Name>Villach</Name>
+        </Label>
+        <Place>
+          <PostalAddress>
+            <AddressLine>9500 Villach</AddressLine>
+            <AddressLine>Austria</AddressLine>
+          </PostalAddress>
+        </Place>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>Winter 2003</Name>
+        </Label>
+        <Time>
+          <TimePoint>2003-01-01T22:01</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType">
+        <Label>
+          <Name>zxcv</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>zxczxc</FreeTextAnnotation>
+        </Definition>
+      </SemanticBase>
+    </Semantics>
+  </Description>
+</Mpeg7>
+

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Archos_CIDOC_CRM.xml
+    Created on : 21. september 2011, 11:17
+    Author     : Olav
+    Description:
+        Purpose of the document follows.
+-->
+
+<E19.Physical_Object>
+    <P46.is_composed_of>
+        <E22.Man-Made_Object>
+            <P70I.is_documented_in>
+                <E31.Document>
+                    <P48.has_preferred_identifier>
+                        <E42.Identifier>
+                            <value>PS_ObjektgemaeldeID</value>
+                        </E42.Identifier>
+                    </P48.has_preferred_identifier>
+                </E31.Document>
+            </P70I.is_documented_in>
+            <P108I.was_produced_by>
+                <E12.Production>
+                    <P33.used_specific_technique>
+                        <E55.Type>
+                            <value>TechnikGemaeldeCheck</value>
+                            <value>TechnikGemaelde</value>
+                        </E55.Type>
+                        <E29.Design_or_Procedure>
+                            <value>DekorationsartObjektgemaelde</value>
+                        </E29.Design_or_Procedure>
+                    </P33.used_specific_technique>
+                    <P14.carried_out_by>
+                        <E21.Person>
+                            <value>KuenstlerFlaechenkunst</value>
+                            <value>KuenstlerGemaelde</value>
+                        </E21.Person>
+                    </P14.carried_out_by>
+                    <P10.falls_within>
+                        <E4.Period>
+                            <value>MarmorinkrustationenStilObjektgemaelde</value>
+                            <value>MalereistilObjektgemaelde</value>
+                        </E4.Period>
+                    </P10.falls_within>
+                </E12.Production>
+            </P108I.was_produced_by>
+            <P130.shows_features_of>
+                <E22.Man-Made_Object>
+                    <P108I.was_produced_by>
+                        <E12.Production>
+                            <P14.carried_out_by>
+                                <E21.Person>
+                                    <value>KuenstlerVorbildGemaelde</value>
+                                </E21.Person>
+                            </P14.carried_out_by>
+                        </E12.Production>
+                    </P108I.was_produced_by>
+                </E22.Man-Made_Object>
+            </P130.shows_features_of>
+            <P128.carries>
+                <E34.Inscription>
+                    <value>ObenRechts</value>
+                    <value>ObenMitte</value>
+                    <value>ObenLinks</value>
+                    <value>UntenRechts</value>
+                    <value>UntenMitte</value>
+                    <value>UntenLinks</value>
+                    <value>Bezeichnet</value>
+                </E34.Inscription>
+            </P128.carries>
+            <P45.consists_of>
+                <E57.Material>
+                    <value>GemaeldeMatMalerei</value>
+                    <value>GemaeldeMatTraeger</value>
+                    <P2.has_type>
+                        <E55.Type>
+                            <value>SpezGemaeldeMatMalerei</value>
+                            <value>SpezGemaeldeMatTraeger</value>
+                            <value>MarmorsorteObjektgemaelde</value>
+                        </E55.Type>
+                    </P2.has_type>
+                </E57.Material>
+            </P45.consists_of>
+            <P39I.was_measured_by>
+                <E16.Measurement>
+                    <P40.observed_dimension>
+                        <E54.Dimension>
+                            <P90.has_value>
+                                <E60.Number>
+                                    <value>BlattMasze</value>
+                                    <value>PlatteMasze</value>
+                                    <value>BildMasze</value>
+                                </E60.Number>
+                            </P90.has_value>
+                        </E54.Dimension>
+                    </P40.observed_dimension>
+                </E16.Measurement>
+            </P39I.was_measured_by>
+            <P3.has_note>
+                <E62.String>
+                    <value>BeschreibungFlaechenkunst</value>
+                    <value>BeschreibungGemaelde</value>
+                </E62.String>
+            </P3.has_note>
+            <P31I.was_modified_by>
+                <E11.Modification>
+                    <value>RestaurierungenFlaechenkunst</value>
+                    <value>RestaurierungGemaelde</value>
+                </E11.Modification>
+            </P31I.was_modified_by>
+            <P44.has_condition>
+                <E3.Condition_State>
+                    <value>ZustandGemaelde</value>
+                </E3.Condition_State>
+            </P44.has_condition>
+        </E22.Man-Made_Object>
+    </P46.is_composed_of>
+</E19.Physical_Object>

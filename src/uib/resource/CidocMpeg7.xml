@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : CidocMpeg7.xml
+    Created on : 4. mai 2011, 13:18
+    Author     : Olav
+    Description:
+        Purpose of the document follows.
+-->
+<rdf:RDF
+	xmlns="http://cidoc.ics.forth.gr/rdfs/caspar/cidoc.rdfs#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <C1_Digital-Object rdf:ID="C1_Digital_Object_Type">
+        <P2_Has_Type_of>
+            <E55_Type rdf:ID="E55_Type">
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">JPG</rdfs:label>
+            </E55_Type>
+       </P2_Has_Type_of>
+    </C1_Digital-Object>
+    <E22_Man-Made_Object rdf:ID="E22_Man-Made_Object_Painting">
+        <P70B_is_documented_in>
+            <E31_Document rdf:ID="E31_Document_Digital_Image1">
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Image.jpg</rdfs:label>
+            </E31_Document>
+        </P70B_is_documented_in>
+    </E22_Man-Made_Object>
+    <E7_Activity rdf:ID="E7_Activity_Depicted">
+        <P70B_is_documented_in rdf:resource="E31_Document_Digital_Image1"/>
+    </E7_Activity>
+    <E65_Creation rdf:ID="E65_Creation_11">
+        <P94F_has_created rdf:resource="#E73_Information_Object_SpatializedSounds"/>
+    </E65_Creation>
+    <E55_Type rdf:ID="E55_Type_Composer"/>
+    <E65_Creation rdf:ID="E65_Creation_8">
+        <P94F_has_created>
+            <E73_Information_Object rdf:ID="E73_Information_Object_Sounds">
+                <P16B_was_used_for rdf:resource="#E65_Creation_11"/>
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sounds</rdfs:label>
+            </E73_Information_Object>
+        </P94F_has_created>
+        <P94F_has_created>
+            <E73_Information_Object rdf:ID="E73_Information_Object_SpatializationTools">
+                <P16B_was_used_for rdf:resource="#E65_Creation_11"/>
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Spatialization Tools</rdfs:label>
+            </E73_Information_Object>
+        </P94F_has_created>
+    </E65_Creation>
+    <E82_Actor_Appellation rdf:ID="Hans_Tutschku"/>
+    <E21_Person rdf:ID="E21_Person_HansTutschku">
+        <P1F_is_identified_by rdf:resource="#Hans_Tutschku"/>
+        <P70B_is_documented_in rdf:resource="#E31_Document_Biography"/>
+        <P70B_is_documented_in rdf:resource="#E31_Document_Photo"/>
+        <P70B_is_documented_in rdf:resource="#E31_Document_WebSite"/>
+        <P14B_performed rdf:resource="#E65_Creation_8"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hans Tutschku</rdfs:label>
+    </E21_Person>
+</rdf:RDF>

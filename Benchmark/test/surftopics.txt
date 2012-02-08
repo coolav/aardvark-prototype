@@ -1,0 +1,9 @@
+<top>
+<num> Number: 1
+<title>E:\Bileter\Nokian95\20080528\28052008049.jpg
+<desc> Description:
+<narr> Narrative:
+</top>
+
+
+

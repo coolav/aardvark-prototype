@@ -1,0 +1,1 @@
+package uib.gui.util;import java.io.File;public interface FileTreeWalk {    public void walk(File path);}

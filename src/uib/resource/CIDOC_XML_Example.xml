@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root xsi:noNamespaceSchemaLocation="CIDOC_CRM.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<!--
+    Document   : CIDOC_XML_Example.xml
+    Created on : 6. mai 2011, 11:38
+    Author     : Olav
+    Description:
+        Purpose of the document follows.
+-->
+    <CRMset>
+        <CRM_Entity> Image Collection
+            <in_class>E22: Man-Made Object</in_class>
+            <is_identified_by>
+                     Version ID:  0.1
+                <in_class>E41: Appellation</in_class>
+            </is_identified_by>
+            <has_type>Collection
+                <in_class>E55: Collection Type</in_class>
+            </has_type>
+            <has_note>identifies :  Lc.1269..Lc.1355</has_note>
+            <is_documented_in>Object Record 750
+                <in_class>E22: Man-Made Object</in_class>
+                <was_created_by>Event of type creation</was_created_by>
+            </is_documented_in>
+            <CRM_Entity>ID 001 Almond blossom
+                <in_class>E22: Man-Made Object</in_class>
+                <is_identified_by>
+                        ID 001
+                    <in_class>E41: Appellation</in_class>
+                </is_identified_by>
+                <is_identified_by>
+                        ID 001
+                    <in_class>E42: Object Identifier</in_class>
+                </is_identified_by>
+                <consists_of>Oilpaint on canvas
+                    <in_class>E57: Material</in_class>
+                </consists_of>
+                <was_measured>116827  Event
+                    <in_class>E16: Measurement</in_class>
+                    <in_class> E8: Acquisition </in_class>
+                    <has_type>Accession - Accession (delivery)
+                        <in_class>E55: Event Type</in_class>
+                    </has_type>
+                    <observed_dimension>001  Painting Width - W
+                        <in_class>E54: Dimension</in_class>
+                        <has_type>Width - W
+                            <in_class>E55: Dimension Type</in_class>
+                        </has_type>
+                        <value>77.50</value>
+                        <unit>cm</unit>
+                    </observed_dimension>
+                    <observed_dimension>001  Painting Height - H
+                        <in_class>E54: Dimension</in_class>
+                        <has_type>Height - H
+                            <in_class>E55: Dimension Type</in_class>
+                        </has_type>
+                        <value>88.80</value>
+                        <unit>cm</unit>
+                    </observed_dimension>
+                    <carried_out_by>001  Actor
+                        <in_class>E39: Actor</in_class>
+                        <is_identified_by>Actor ID:  001
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                        <is_identified_by>
+                                System ID:  001
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                        <has_note>Title: Coservation Technician
+                            Surname: Doe
+                            First Name: John
+                        </has_note>
+                        <in_the_role_of>Measuring
+                            <in_class>E55: carried-out-by Type</in_class>
+                        </in_the_role_of>
+                    </carried_out_by>
+                    <carried_out_by>001  Actor
+                        <in_class>E39: Actor</in_class>
+                        <is_identified_by>Actor ID:  001
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                        <is_identified_by>
+                            System ID: 001
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                        <has_note>Surname: Louvre</has_note>
+                        <in_the_role_of>Owner
+                            <in_class>E55: carried-out-by Type</in_class>
+                        </in_the_role_of>
+                    </carried_out_by>
+                    <at_most_within>
+                        <begins_at>01-02-1890
+                            <in_class>E52: Time-Span</in_class>
+                        </begins_at>
+                        <ends_at>01-02-1890
+                            <in_class>E52: Time-Span</in_class>
+                        </ends_at>
+                    </at_most_within>
+                </was_measured>
+                <was_classified_by>001  Event
+                    <in_class>E17: Type Assignment</in_class>
+                    <in_class> E7: Activity </in_class>
+                    <has_type>Description/Use
+                        <in_class>E55: Event Type</in_class>
+                    </has_type>
+                    <assigned>Two dimetional art object
+                        <in_class>E55: Man-Made Object Type</in_class>
+                    </assigned>
+                    <assigned>Painting
+                        <in_class>E55: Man-Made Object Type</in_class>
+                    </assigned>
+                    <took_place_at>France
+                        <in_class>E53: Place</in_class>
+                        <is_identified_by>MAP COORDONATES:  NSEW
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                    </took_place_at>
+                    <took_place_at>Arles
+                        <in_class>E53: Place</in_class>
+                        <is_identified_by>MAP COORDONATES:  NSEW
+                            <in_class>E41: Appellation</in_class>
+                        </is_identified_by>
+                    </took_place_at>
+                    <took_place_at>Area of the: French
+                        <in_class>E53: Place</in_class>
+                    </took_place_at>
+                    <at_most_within>
+                        <begins_at>1888
+                            <in_class>E52: Time-Span</in_class>
+                        </begins_at>
+                        <ends_at>1892
+                            <in_class>E52: Time-Span</in_class>
+                        </ends_at>
+                    </at_most_within>
+                </was_classified_by>
+                <is_documented_in>E:\Bileter\Htc Hero\IMAG0009.jpg
+                    <in_class>E31: Document</in_class>
+                    <in_class>E38: Image</in_class>
+                    <has_type>Expressionistic Painting
+                        <in_class>E55: Image Type</in_class>
+                    </has_type>
+                    <was_produced_by>Digitizing Event
+                        <in_class>E12: Production</in_class>
+                        <has_type>Administration - Recording
+                            <in_class>E55: Event Type</in_class>
+                        </has_type>
+                        <has_note>Photography related to conservation</has_note>
+                        <at_most_within>
+                            <begins_at>07-09-2010
+                                <in_class>E52: Time-Span</in_class>
+                            </begins_at>
+                            <ends_at>31-12-9999
+                                <in_class>E52: Time-Span</in_class>
+                            </ends_at>
+                        </at_most_within>
+                    </was_produced_by>
+                    <has_note>FrameNr: 50933
+                    </has_note>
+                </is_documented_in>
+            </CRM_Entity>
+            <CRM_Entity>Image Name; Surfing i osen
+            <in_class>E22: Man-Made Object</in_class>
+            <is_identified_by>System ID 002
+                <in_class>E42: Object Identifier</in_class>
+            </is_identified_by>
+            <is_documented_in>E:\Bileter\Nokian95\20080529\29052008055.jpg
+                <in_class>E31: Document</in_class>
+            </is_documented_in>
+            <is_documented_in>E:\Bileter\Nokian95\20080529\29052008055.jpg
+                <in_class>E31: Document</in_class>
+            </is_documented_in>
+            <has_note>
+                Image picturing surfing in Lilandsosen spring 2008
+                <has_type> Statement
+                    <in_class>E55: Type</in_class>
+                </has_type>
+            </has_note>
+            <has_note>
+                 Image is depicting surfers Eirik Haugo, Erlend Haugo and Lars Haugo
+                 riding the same wave
+                <has_type> Description
+                    <in_class>E55: Type</in_class>
+                </has_type>
+            </has_note>
+            <has_note>
+                Used to depict current event
+                <has_type> Used Note
+                    <in_class>E55: Type</in_class>
+                </has_type>
+            </has_note>
+            <has_note>
+                Lilandsosen; Voss Norway
+                <has_type> Used
+                    <in_class>E55: Type</in_class>
+                </has_type>
+            </has_note>
+            <has_note>
+                Surfing; Outdoors Avtivity; Watersport
+                <has_type> Subject
+                    <in_class>E55: Type</in_class>
+                </has_type>
+            </has_note>
+            <has_type> 3 surfers on a wave
+                <in_class>E55: Object Type</in_class>
+            </has_type>
+            <has_dimension>
+                002 Images; Image W
+                <in_class>E54: Dimension</in_class>
+                <has_type>W
+                    <in_class>E55: Dimension Type</in_class>
+                </has_type>
+                <value>1200</value>
+                <unit>Pixels</unit>
+            </has_dimension>
+            <has_dimension>
+                002 Images; Image L
+                <in_class>E54: Dimension</in_class>
+                <has_type>L
+                    <in_class>E55: Dimension Type</in_class>
+                </has_type>
+                <value>800</value>
+                <unit>Pixels</unit>
+            </has_dimension>
+            <has_dimension>
+        </CRM_Entity>
+    </CRM_Entity>
+</CRMset>
+</root>
+
