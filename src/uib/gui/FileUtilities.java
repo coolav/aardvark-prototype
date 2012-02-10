@@ -49,6 +49,7 @@ public class FileUtilities extends Thread {
     @Override
     public void run() {
         //parent.setEnabled(false);
+        if(img != null){
         parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         status.setText("Please wait while loading imageinformation " + img.toString());
 
@@ -77,6 +78,11 @@ public class FileUtilities extends Thread {
         // clearing previous information:
         //textPanel.resetTextFields();
         status.setText("Finished");
+        }
+        else{
+             parent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+             status.setText("No files in index, please open or create an index");
+        }
     }
 
     private void extractInformation(String filePath) {
