@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.7" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
@@ -29,6 +29,24 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Container class="uib.gui.ImagePanel" name="browseimagePanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
+      </AuxValues>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="677" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="463" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
@@ -57,9 +75,6 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Olav\Documents\NetBeansProjects\GuiSketch\resources\Erreur_16px.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
@@ -226,30 +241,20 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,2,0,0,4,87"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="statusPanel" alignment="1" max="32767" attributes="0"/>
-          <Component id="topPanel" alignment="0" pref="1111" max="32767" attributes="0"/>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="topPanel" pref="705" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="statusPanel" min="-2" max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-  </Layout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="topPanel">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Center"/>
+        </Constraint>
+      </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
@@ -264,7 +269,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="controlButtonsPane" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cardPanel" alignment="0" pref="1111" max="32767" attributes="0"/>
+                  <Component id="cardPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -272,7 +277,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="controlButtonsPane" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cardPanel" pref="596" max="32767" attributes="0"/>
+                      <Component id="cardPanel" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -307,12 +312,14 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="switchButtonOptions" min="-2" pref="78" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="buttonCreatePrecisionRecall" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonCreatePrecisionRecall" min="-2" pref="79" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="switchButtonAbout" min="-2" pref="78" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="switchButtonAbout1" min="-2" pref="78" max="-2" attributes="0"/>
-                          <EmptySpace pref="359" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="switchButtonAbout2" min="-2" pref="78" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -330,6 +337,7 @@
                               <Component id="switchButtonIndex" alignment="0" pref="79" max="32767" attributes="1"/>
                               <Component id="switchButtonSearch" alignment="0" pref="79" max="32767" attributes="1"/>
                               <Component id="switchButtonBrowse" alignment="0" pref="79" max="32767" attributes="1"/>
+                              <Component id="switchButtonAbout2" alignment="1" pref="79" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -510,6 +518,27 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </Component>
+                <Component class="javax.swing.JButton" name="switchButtonAbout2">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/uib/resource/warning.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Test Bro"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Infomation about the application"/>
+                    <Property name="horizontalTextPosition" type="int" value="0"/>
+                    <Property name="opaque" type="boolean" value="false"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[75, 59]"/>
+                    </Property>
+                    <Property name="verticalTextPosition" type="int" value="3"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonAbout2ActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="cardPanel">
@@ -544,7 +573,8 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Component id="labelIndexingPanelToplabel" alignment="1" pref="1109" max="32767" attributes="1"/>
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="progressBarIndexing" alignment="0" pref="1089" max="32767" attributes="1"/>
@@ -558,14 +588,12 @@
                                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                       <Component id="buttonStartIndexing" min="-2" pref="117" max="-2" attributes="1"/>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="501" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="labelIndexingPanelToplabel" alignment="1" pref="1109" max="32767" attributes="1"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="511" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -585,7 +613,7 @@
                                   <Component id="buttonStartIndexing" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="checkBoxAddToExistingIndex" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="230" max="32767" attributes="0"/>
+                              <EmptySpace pref="238" max="32767" attributes="0"/>
                               <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
@@ -692,45 +720,35 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="textfieldSearchImage" pref="954" max="32767" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="buttonSearchPanelOpenImage" min="-2" pref="117" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
                           <Component id="labelSearchPanelToplabel" alignment="0" pref="1109" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="progressBarSearchProgress" pref="1089" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="textfieldSearchImage" pref="954" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="buttonSearchPanelOpenImage" min="-2" pref="117" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="progressBarSearchProgress" alignment="0" pref="1089" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="0" pref="972" max="32767" attributes="0"/>
+                                      <Component id="buttonSearchButton" min="-2" pref="117" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="textfieldSearchText" pref="956" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="buttonSearchText" min="-2" pref="115" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="labelSearchPanelHintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="labelStructuralSearch" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                                          <Component id="labelTextSearch" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="982" max="32767" attributes="0"/>
-                              <Component id="buttonSearchButton" min="-2" pref="117" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelSearchPanelHintLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="569" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="textfieldSearchText" pref="956" max="32767" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="buttonSearchText" min="-2" pref="115" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelStructuralSearch" min="-2" pref="145" max="-2" attributes="0"/>
-                              <EmptySpace pref="954" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelTextSearch" min="-2" pref="203" max="-2" attributes="0"/>
-                              <EmptySpace pref="896" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -756,7 +774,7 @@
                                   <Component id="textfieldSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="buttonSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="139" max="32767" attributes="0"/>
+                              <EmptySpace pref="147" max="32767" attributes="0"/>
                               <Component id="labelSearchPanelHintLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                           </Group>
@@ -856,23 +874,26 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="labelBrowsePanelToplabel" alignment="0" pref="1109" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
-                              <Component id="labelCurrentDocumentSpinner" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-                              <Component id="spinnerCurrentDoc" min="-2" pref="67" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                              <Component id="labelDocCount" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                              <Component id="spinnerMaxDoc" min="-2" pref="68" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                              <Component id="buttonSearchFromBrowse" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="280" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="219" max="-2" attributes="0"/>
-                              <Component id="imageLabel" min="-2" pref="661" max="-2" attributes="0"/>
-                              <EmptySpace pref="229" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
+                                      <Component id="labelCurrentDocumentSpinner" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+                                      <Component id="spinnerCurrentDoc" min="-2" pref="67" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                                      <Component id="labelDocCount" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="spinnerMaxDoc" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                                      <Component id="buttonSearchFromBrowse" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="219" max="-2" attributes="0"/>
+                                      <Component id="imageLabel" min="-2" pref="661" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -890,7 +911,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="imageLabel" min="-2" pref="434" max="-2" attributes="0"/>
-                              <EmptySpace pref="22" max="32767" attributes="0"/>
+                              <EmptySpace pref="30" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -990,7 +1011,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="panelAnnotateKeywords" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="labelAnnotatePanelToplabel" alignment="0" pref="1109" max="32767" attributes="0"/>
+                          <Component id="labelAnnotatePanelToplabel" alignment="0" pref="1087" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1066,7 +1087,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                   <Component id="buttonAnnotateOpenImage" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="142" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1121,63 +1142,72 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="lablelAnnotateMaterials" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="lablelAnnotateHeight" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="lableAnnotateTechnique" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="textfieldAnnotateTechnique" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="textfieldAnnotateMaterials" alignment="0" pref="182" max="32767" attributes="0"/>
-                                                          <Component id="textfieldAnnotateHeight" alignment="0" pref="182" max="32767" attributes="0"/>
-                                                          <Component id="textfieldAnnotateDate" alignment="0" pref="182" max="32767" attributes="0"/>
-                                                          <Component id="textfieldAnnotatePeriod" alignment="0" pref="182" max="32767" attributes="0"/>
-                                                          <Component id="textfieldAnnotateActor" alignment="0" pref="182" max="32767" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="labelAnnotateName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jlabelAnnotateCreator" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="textfieldAnnotateCreator" alignment="0" max="32767" attributes="1"/>
-                                                          <Component id="textfieldAnnotateName" alignment="0" max="32767" attributes="1"/>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
                                               <Component id="labelAnnotatePeriod" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="239" max="32767" attributes="0"/>
+                                          <EmptySpace pref="474" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="labelAnnotateConcept" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelAnnotateTheme" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lablelAnnotateActivity" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="lableAnnotateLocation" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="labelAnnotateWidth" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="labelFreeTextAnnotation" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                                  <Component id="labelAnnotateTheme" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lablelAnnotateActivity" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="lablelAnnotateDate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="labelAnnotateActor" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                                          <Component id="buttonAnnotateSavebutton" min="-2" pref="77" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                                          <Component id="buttonAnnotateUpdatebutton" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                          <Component id="jButton1" min="-2" pref="72" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lablelAnnotateDate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelAnnotateActor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="lableAnnotateTechnique" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="textfieldAnnotateDate" alignment="1" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateHeight" alignment="1" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateMaterials" alignment="1" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateTechnique" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateActor" alignment="1" max="32767" attributes="0"/>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="buttonAnnotateSavebutton" min="-2" pref="77" max="-2" attributes="0"/>
+                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                          <Component id="buttonAnnotateUpdatebutton" min="-2" pref="77" max="-2" attributes="0"/>
+                                                          <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="labelAnnotateName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jlabelAnnotateCreator" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Component id="textfieldAnnotatePeriod" alignment="1" pref="174" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateName" max="32767" attributes="1"/>
+                                                      <Component id="textfieldAnnotateCreator" max="32767" attributes="1"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="buttonClearTextFields" min="-2" pref="77" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="textfieldAnnotateWidth" alignment="0" pref="234" max="32767" attributes="1"/>
-                                      <Component id="textfieldAnnotateLocation" alignment="0" pref="234" max="32767" attributes="1"/>
-                                      <Component id="textFieldAnnotateConcept" alignment="0" pref="234" max="32767" attributes="0"/>
-                                      <Component id="textfieldAnnotateTheme" alignment="0" pref="234" max="32767" attributes="1"/>
-                                      <Component id="textfieldAnnotateActivity" alignment="0" pref="234" max="32767" attributes="1"/>
-                                      <Component id="jScrollPaneFreeTextAnnotation" alignment="0" pref="234" max="32767" attributes="0"/>
+                                      <Component id="textfieldAnnotateWidth" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="textfieldAnnotateLocation" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="textFieldAnnotateConcept" alignment="0" pref="175" max="32767" attributes="0"/>
+                                      <Component id="textfieldAnnotateTheme" alignment="0" pref="175" max="32767" attributes="1"/>
+                                      <Component id="textfieldAnnotateActivity" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="jScrollPaneFreeTextAnnotation" alignment="0" pref="175" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -1187,40 +1217,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="textfieldAnnotateWidth" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                              <Component id="labelAnnotateWidth" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="114" pref="114" max="114" attributes="0"/>
-                                                  <Component id="textFieldAnnotateConcept" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="textfieldAnnotateLocation" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                                      <Component id="lableAnnotateLocation" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="textfieldAnnotateActivity" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="lablelAnnotateActivity" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="textfieldAnnotateTheme" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="labelAnnotateTheme" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="labelAnnotateConcept" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jScrollPaneFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="labelAnnotateName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1246,29 +1243,67 @@
                                               <Component id="lablelAnnotateMaterials" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="textfieldAnnotateMaterials" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="lablelAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="textfieldAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelFreeTextAnnotation" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateWidth" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelAnnotateWidth" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="textfieldAnnotateLocation" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lableAnnotateLocation" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="lablelAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="textfieldAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateActivity" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lablelAnnotateActivity" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="labelAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="textfieldAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateTheme" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelAnnotateTheme" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="buttonAnnotateSavebutton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jButton1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                              <Component id="buttonAnnotateUpdatebutton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textFieldAnnotateConcept" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="labelAnnotateConcept" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="lablelAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="textfieldAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="lablelAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="textfieldAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="labelAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="textfieldAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Component id="jScrollPaneFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                          <Component id="labelFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="buttonAnnotateSavebutton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="buttonAnnotateUpdatebutton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="buttonClearTextFields" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
                               </Group>
@@ -1364,6 +1399,11 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="textfieldAnnotateWidth">
+                          <Properties>
+                            <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                              <ComponentRef name="jPopupMenuSemantic"/>
+                            </Property>
+                          </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="annotationFields.add(textfieldAnnotateWidth);"/>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -1449,6 +1489,9 @@
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Update"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAnnotateUpdatebuttonActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotateActor">
                           <Properties>
@@ -1461,21 +1504,10 @@
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton1">
+                        <Component class="javax.swing.JButton" name="buttonClearTextFields">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Clear"/>
-                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                                <BevelBorder/>
-                              </Border>
-                            </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-                          </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new GradientButton(&quot;Clear&quot;);"/>
-                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1513,7 +1545,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="panelAnnotateImage1" alignment="1" max="32767" attributes="1"/>
-                                  <Component id="semanticPanel" alignment="1" pref="535" max="32767" attributes="0"/>
+                                  <Component id="semanticPanel" alignment="1" pref="543" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1587,7 +1619,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                   <Component id="buttonAnnotateOpenImage1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="142" max="32767" attributes="0"/>
+                                  <EmptySpace pref="150" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1638,7 +1670,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="535" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="543" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                   <Component id="graphicalAnnotation1" alignment="1" pref="535" max="32767" attributes="0"/>
                               </Group>
@@ -1671,7 +1703,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="optionsPanelTopLabel" alignment="0" pref="1109" max="32767" attributes="0"/>
+                          <Component id="optionsPanelTopLabel" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="1">
@@ -1740,7 +1772,7 @@
                                   <Component id="checkboxRamIndex" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="panelAdvancedOptions" pref="351" max="32767" attributes="0"/>
+                              <Component id="panelAdvancedOptions" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1855,7 +1887,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="351" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="359" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -1968,7 +2000,7 @@
                                               <Component id="labelSliderAdjustFeatureWeight2" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace pref="110" max="32767" attributes="0"/>
+                                      <EmptySpace pref="118" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2161,9 +2193,9 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="buttonOpenTopicsFile" alignment="1" min="-2" max="-2" attributes="1"/>
-                                      <Component id="buttonCreatePRGraph" alignment="1" max="32767" attributes="1"/>
-                                      <Component id="buttonChartOpenQrels" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="buttonChartOpenQrels" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="buttonOpenTopicsFile" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="buttonCreatePRGraph" alignment="0" max="32767" attributes="1"/>
                                       <Component id="buttonExportGraphImage" alignment="1" max="32767" attributes="1"/>
                                   </Group>
                                   <EmptySpace pref="38" max="32767" attributes="0"/>
@@ -2263,7 +2295,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelChart" alignment="1" pref="551" max="32767" attributes="0"/>
+                              <Component id="jLabelChart" alignment="1" pref="559" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -2310,7 +2342,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="curvesPanel1" alignment="0" pref="594" max="32767" attributes="0"/>
+                          <Component id="curvesPanel1" alignment="0" pref="602" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -2345,11 +2377,89 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="594" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="602" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                         </Container>
+                      </SubComponents>
+                    </Container>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="TestBrowsePanel">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                      <CardConstraints cardName="card10"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                  <SubComponents>
+                    <Container class="javax.swing.JPanel" name="browseContainerPanel">
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                          <BorderConstraints direction="Center"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="browseControlPanel">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
+                      </AuxValues>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                          <BorderConstraints direction="First"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jSpinner1" min="-2" pref="96" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jSpinner2" min="-2" pref="96" max="-2" attributes="0"/>
+                                  <EmptySpace pref="759" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="40" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JSpinner" name="jSpinner1">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel1">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="jLabel1"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel2">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="jLabel2"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JSpinner" name="jSpinner2">
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -2490,6 +2600,11 @@
           </Border>
         </Property>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="South"/>
+        </Constraint>
+      </Constraints>
 
       <Layout>
         <DimensionLayout dim="0">
