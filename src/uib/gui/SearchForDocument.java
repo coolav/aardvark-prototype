@@ -12,7 +12,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.FSDirectory;
 
-
 /**
  *
  * @author Olav
@@ -23,8 +22,8 @@ public class SearchForDocument extends Thread {
     private Document document;
     private JPanel frame;
 
-
-    public SearchForDocument(AardvarkGui parent, Document searchDocument) throws FileNotFoundException, IOException {
+    public SearchForDocument(AardvarkGui parent, Document searchDocument) 
+            throws FileNotFoundException, IOException {
         this.parent = parent;
         document = searchDocument;
         frame = parent.topPanel;
@@ -32,7 +31,7 @@ public class SearchForDocument extends Thread {
 
     public SearchForDocument(AardvarkGui parent, int searchRow) {
         this.parent = parent;
-        
+
     }
 
     @Override
@@ -61,21 +60,20 @@ public class SearchForDocument extends Thread {
             parent.jScrollPanelResults.getViewport().setViewPosition(bounds.getLocation());
             long timeTaken = (System.currentTimeMillis() - time);
             parent.status.setText("Finished search in " + timeTaken + " miliseconds");
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog
-                    (null, "An error occurred while searching: "
+            JOptionPane.showMessageDialog(null, "An error occurred while searching: "
                     + e.getMessage(), "Error while searching", JOptionPane.ERROR_MESSAGE);
 
         } finally {
-            parent.resultsTable.setRowHeight(128);
+            parent.resultsTable.setRowHeight(192);
             parent.resultsTable.getColumnModel().getColumn(1).setMaxWidth(256);
             parent.resultsTable.getColumnModel().getColumn(1).setMinWidth(256);
             parent.resultsTable.getColumnModel().getColumn(2).setMaxWidth(64);
 
             ((CardLayout) parent.topPanel.getLayout()).last(frame);
             parent.resultsTable.setEnabled(true);
-            
+
         }
     }
 }

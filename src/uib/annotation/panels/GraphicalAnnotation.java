@@ -62,11 +62,14 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
 
     public GraphicalAnnotation()  {
         super(new BorderLayout());
+        
+        
+        /*  No need for this?
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
 
-        }
+        }*/
         
         xmlBuilder = new SAXBuilder();
         readRelations();

@@ -14,15 +14,14 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifReader;
 import com.drew.metadata.iptc.IptcReader;
-import net.semanticmetadata.lire.DocumentBuilderFactory;
-import net.semanticmetadata.lire.impl.ChainedDocumentBuilder;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
+import net.semanticmetadata.lire.DocumentBuilderFactory;
+import net.semanticmetadata.lire.impl.ChainedDocumentBuilder;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 
 public class MetadataBuilder extends ChainedDocumentBuilder {
 
@@ -35,6 +34,7 @@ public class MetadataBuilder extends ChainedDocumentBuilder {
         addBuilder(DocumentBuilderFactory.getDefaultAutoColorCorrelationDocumentBuilder());
         addBuilder(DocumentBuilderFactory.getTamuraDocumentBuilder());
         addBuilder(DocumentBuilderFactory.getGaborDocumentBuilder());
+        addBuilder(DocumentBuilderFactory.getDefaultDocumentBuilder());
     }
 
     @Override

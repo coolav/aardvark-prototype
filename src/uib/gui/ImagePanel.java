@@ -58,7 +58,6 @@ public class ImagePanel extends JPanel {
         int h = this.getHeight()-10;
         int iw = image.getWidth();
         int ih = image.getHeight();
-        
         if (iw > w || ih > h) { // we have to scale the image
             int tmpw, tmph;
             // trying to go by width:

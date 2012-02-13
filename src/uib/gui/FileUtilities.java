@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uib.gui;
 
 import java.util.logging.Level;
@@ -22,6 +21,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import org.apache.lucene.document.Document;
 import uib.annotation.util.AnnotationToolkit;
+
 /**
  *
  * @author Olav
@@ -45,43 +45,42 @@ public class FileUtilities extends Thread {
         this.textPanel = textPanel;
         this.graphicalAnnotation = graphicalAnnotation;
     }
-    
+
     @Override
     public void run() {
         //parent.setEnabled(false);
-        if(img != null){
-        parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        status.setText("Please wait while loading imageinformation " + img.toString());
+        if (img != null) {
+            parent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            status.setText("Please wait while loading imageinformation " + img.toString());
 
-        try {
-            d = parent.reader.document(parent.currentDocument);
-             String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
-             
-             if (!file.startsWith("http:")) {
-                
-                extractInformation(file);
-                //textPanel.resetTextFields();
-                status.setText("Finished");
-            } else {
-                
-                extractInformation(file);
-                textPanel.resetTextFields();
+            try {
+                d = parent.reader.document(parent.currentDocument);
+                String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
+
+                if (!file.startsWith("http:")) {
+
+                    extractInformation(file);
+                    //textPanel.resetTextFields();
+                    status.setText("Finished");
+                } else {
+
+                    extractInformation(file);
+                    textPanel.resetTextFields();
+                }
+            } catch (CorruptIndexException ex) {
+                Logger.getLogger(FileUtilities.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUtilities.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                parent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
-        } catch (CorruptIndexException ex) {
-            Logger.getLogger(FileUtilities.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FileUtilities.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-        parent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        }
-        
-        // clearing previous information:
-        //textPanel.resetTextFields();
-        status.setText("Finished");
-        }
-        else{
-             parent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-             status.setText("No files in index, please open or create an index");
+
+            // clearing previous information:
+            //textPanel.resetTextFields();
+            status.setText("Finished");
+        } else {
+            parent.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            status.setText("No files in index, please open or create an index");
         }
     }
 
@@ -89,9 +88,9 @@ public class FileUtilities extends Thread {
 
         try {
             filePath = img.getCanonicalPath();
-            
+
             String mp7name = filePath.substring(0, filePath.lastIndexOf('.')) + ".mp7.xml";
-            
+
             File mp7file = new File(mp7name);
             if (mp7file.exists()) {
                 debug("Reading existing MPEG-7 information " + mp7name);
@@ -125,7 +124,7 @@ public class FileUtilities extends Thread {
                 }
                 text = getSingleValue(root, "//Image/TextAnnotation/StructuredAnnotation/Materials/Name");
                 if (text != null) {
-                     parent.textfieldAnnotateMaterials.setText(text);
+                    parent.textfieldAnnotateMaterials.setText(text);
                 }
                 text = getSingleValue(root, "//Image/TextAnnotation/StructuredAnnotation/Actor/Name");
                 if (text != null) {
@@ -149,21 +148,21 @@ public class FileUtilities extends Thread {
                 }
                 // semantics ...
                 java.util.List results = AnnotationToolkit.xpathQuery(root, "//Image/Semantic", null);
-                
+
                 if (results.size() > 0) {
                     debug("setting semantic description ...");
-                    parent.graphicalAnnotation1.setSemantics((Element)((Element)results.get(0)).detach());
+                    parent.graphicalAnnotation1.setSemantics((Element) ((Element) results.get(0)).detach());
                 }
 
-            }else{
-                    parent.status.setText("No Mpeg-7 description exits yet");
-        }
+            } else {
+                parent.status.setText("No Mpeg-7 description exits yet");
+            }
         } catch (IOException e) {
             debug("IOException while searching and reading existing MPEG-7 description " + e.toString());
         } catch (JDOMException e) {
             debug("Exception parsing existing MPEG-7 description" + e.toString());
         }
-        
+
         AardvarkGui.setDirty(false);
         parent.setTitle(AardvarkGui.TITLE_BAR + ": " + filePath);
 
@@ -183,12 +182,8 @@ public class FileUtilities extends Thread {
         }
         return text;
     }
-    
+
     public void shutDown() {
         this.interrupt();
     }
-
 }
-
-
-

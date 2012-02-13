@@ -7,59 +7,46 @@ package uib.gui;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifDirectory;
 import com.drew.metadata.exif.ExifReader;
-;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import net.semanticmetadata.lire.*;
-import net.semanticmetadata.lire.utils.ImageUtils;
+import net.semanticmetadata.lire.DocumentBuilder;
+import net.semanticmetadata.lire.ImageSearchHits;
 import org.apache.lucene.analysis.SimpleAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
-import org.apache.lucene.store.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Fieldable;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.RAMDirectory;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import uib.annotation.model.Mpeg7ImageDescription;
 import uib.annotation.panels.GraphicalAnnotation;
 import uib.annotation.util.AnnotationToolkit;
-import uib.annotation.util.image.ScaleImage;
+import uib.annotation.util.image.IconCache;
 import uib.gui.util.ImageResize;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import net.semanticmetadata.lire.*;
-import net.semanticmetadata.lire.utils.ImageUtils;
-import org.apache.lucene.analysis.SimpleAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
-import org.apache.lucene.store.*;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import uib.annotation.model.Mpeg7ImageDescription;
-import uib.annotation.panels.GraphicalAnnotation;
-import uib.annotation.util.AnnotationToolkit;
-import uib.annotation.util.image.ScaleImage;
 
 /**
  *
  * @author Olav
  */
-
-
 public class GuiUtils {
 
     private AardvarkGui parent;
     private BufferedImage image;
+    private BufferedImage defaultImage;
     ImageSearchHits hits = null;
     public static final boolean DEBUG = false;
     private SemanticAnnotation semanticAnnotation;
@@ -73,19 +60,26 @@ public class GuiUtils {
 
     public void initReader(JSpinner spinnerMax, JSpinner spinnerCurrent, JLabel label) {
         try {
-            if (parent.reader == null) {
+            if (parent.reader == null && parent.checkboxRamIndex.isSelected() == false) {
 
                 parent.reader = IndexReader.open(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText())));
-                if (parent.checkboxRamIndex.isSelected()) {
-                    parent.reader = IndexReader.open(new RAMDirectory(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText()))));
-                }
+            }
 
+            if (parent.checkboxRamIndex.isSelected() == false) {
+                parent.reader = IndexReader.open(new RAMDirectory(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText()))));
             } else {
                 parent.reader.close();
                 parent.reader = IndexReader.open(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText())));
             }
             spinnerMax.setValue(parent.reader.maxDoc());
-            setDocumentImageIcon(((Integer) spinnerCurrent.getValue()).intValue(), label);
+            if (parent.reader != null) {
+                setDocumentImageIcon(((Integer) spinnerCurrent.getValue()).intValue(), label);
+                //BufferedImage img = parent.browseimagePanel.getImageParent(((Integer) spinnerCurrent.getValue()).intValue());
+                //parent.browseimagePanel.setImage(img);
+
+            } else {
+                setDefaultImage(label);
+            }
             setExifFields(((Integer) spinnerCurrent.getValue()).intValue());
             setCurrentFile(getCurrentDocumentFile(((Integer) spinnerCurrent.getValue()).intValue()));
 
@@ -109,6 +103,7 @@ public class GuiUtils {
             currentFile = new File(file);
 
         } catch (Exception e) {
+
             JOptionPane.showConfirmDialog(parent, "Error loading image:\n" + e.toString(),
                     "An error occurred", JOptionPane.ERROR_MESSAGE);
             System.err.println(e.toString());
@@ -120,7 +115,7 @@ public class GuiUtils {
     public BufferedImage getImage(int docId) {
         try {
             Document d = parent.reader.document(docId);
-
+            defaultImage = ImageIO.read(new java.io.FileInputStream(""));
             image = null;
             String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
             if (!file.startsWith("http:")) {
@@ -139,9 +134,11 @@ public class GuiUtils {
 
     public void setDocumentImageIcon(int docId, JLabel label) {
         if (docId < 0) {
+
             return;
         }
         if (docId > parent.reader.maxDoc()) {
+
             return;
         }
         try {
@@ -154,16 +151,27 @@ public class GuiUtils {
             } else {
                 img = ImageIO.read(new URL(file));
             }
-            if (image == null) {
+            if (img != null) {
                 icon = new ImageIcon(ImageResize.scale(img, label.getWidth(), label.getHeight()));
                 //icon = new ImageIcon(ImageUtils.scaleImage(img, label.getWidth(), label.getHeight()));
+            } else {
+                icon = IconCache.getInstance().getDefaultBrowserIcon();
             }
             label.setIcon(icon);
+            parent.browseimagePanel.setImage(img);
+            parent.browseimagePanel.repaint();
+
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(parent, "Error loading image:\n" + e.toString(),
                     "An error occurred", JOptionPane.ERROR_MESSAGE);
             System.err.println(e.toString());
         }
+    }
+
+    public void setDefaultImage(JLabel label) {
+        ImageIcon icon = null;
+        icon = IconCache.getInstance().getDefaultBrowserIcon();
+
     }
 
     public void writeQrels(String fileName) {
@@ -304,11 +312,15 @@ public class GuiUtils {
 
             Document d = parent.reader.document(parent.currentDocument);
             String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
-            if (!file.startsWith("http:")) {
+            String URL = d.getField("FlickrURL").stringValue();
+            //System.out.println(file + " " + URL);
+            if (URL == null) {
+                //(!file.startsWith("http:")) {
                 parent.textfieldAnnotateDate.setText(getDate(docId));
                 parent.textfieldAnnotateWidth.setText(getExifInt(docId, ExifDirectory.TAG_EXIF_IMAGE_WIDTH));
                 parent.textfieldAnnotateHeight.setText(getExifInt(docId, ExifDirectory.TAG_EXIF_IMAGE_HEIGHT));
             } else {
+                parent.textfieldAnnotateName.setText(getFlickrData(docId, "FlickrTitle"));
                 parent.textfieldAnnotateDate.setText("");
                 parent.textfieldAnnotateWidth.setText("");
                 parent.textfieldAnnotateHeight.setText("");
@@ -364,6 +376,19 @@ public class GuiUtils {
         }
         return Integer.toString(value);
 
+    }
+
+    private String getFlickrData(int docId, String field) {
+        String title = null;
+
+        try {
+            Document d = parent.reader.document(docId);
+            title = d.getField(field).stringValue();
+        } catch (CorruptIndexException ex) {
+        } catch (IOException e) {
+        }
+
+        return title;
     }
 
     public void setCurrentFile(File f) throws IOException {
@@ -474,7 +499,7 @@ public class GuiUtils {
 
         Mpeg7ImageDescription m7id = new Mpeg7ImageDescription(AnnotationToolkit.getMpeg7MediaInstance(f),
                 semantics);
-                // semanticAnnotation.createXML(),
+        // semanticAnnotation.createXML(),
 
         org.jdom.Document document = m7id.createDocument();
         return document;

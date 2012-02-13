@@ -29,7 +29,7 @@ public class TestXmlOuput {
         
     }
    
-    public Element createXML() {
+    public void createXML() {
 
         try {
             
@@ -57,19 +57,21 @@ public class TestXmlOuput {
             staff2.addContent(new Element("salary").setText("188888"));
 
             doc.getRootElement().addContent(staff2);
-
+            
             // new XMLOutputter().output(doc, System.out);
             XMLOutputter xmlOutput = new XMLOutputter();
 
             // display nice nice
             xmlOutput.setFormat(Format.getPrettyFormat());
             xmlOutput.output(doc, new FileWriter("c:\\file.xml"));
-
+            
+            
             System.out.println("File Saved!");
+         
             } catch (IOException io) 
             {
                 System.out.println(io.getMessage());
             }
-    
+       
     }
 }

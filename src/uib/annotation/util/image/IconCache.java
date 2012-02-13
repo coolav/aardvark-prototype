@@ -18,7 +18,7 @@ public class IconCache {
     private static IconCache instance = null;
 
     private ImageIcon agentIcon, placeIcon, timeIcon, objectIcon, eventIcon, helpIcon, removeIcon;
-    private ImageIcon embedIcon, dbIcon, addIcon, saveAsIcon, iconImageFilePath;
+    private ImageIcon embedIcon, dbIcon, addIcon, saveAsIcon, iconImageFilePath, iconDefaultBrowserImage;
 
     private IconCache() {
        agentIcon = new ImageIcon(getClass().getResource("/uib/resource/PlainPeople.gif"));
@@ -32,6 +32,7 @@ public class IconCache {
        embedIcon = new ImageIcon(getClass().getResource("/uib/resource/elements_obj.gif"));
        addIcon = new ImageIcon(getClass().getResource("/uib/resource/addgreen.png"));
        iconImageFilePath = new ImageIcon(getClass().getResource("/uib/resource/folder_16.png"));
+       iconDefaultBrowserImage = new ImageIcon(getClass().getResource("/uib/resource/Aardvark.jpg"));
     }
 
     public static IconCache getInstance() {
@@ -81,6 +82,9 @@ public class IconCache {
 
     public ImageIcon getSaveAsIcon(){
         return saveAsIcon;
+    }
+    public ImageIcon getDefaultBrowserIcon(){
+        return iconDefaultBrowserImage;
     }
 }
 

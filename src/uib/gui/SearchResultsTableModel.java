@@ -23,6 +23,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifReader;
 import com.drew.metadata.exif.ExifDirectory;
 import com.thebuzzmedia.imgscalr.Scalr;
+import java.awt.RenderingHints;
 import java.util.Date;
 import uib.gui.util.ImageResize; 
 
@@ -151,7 +152,7 @@ public class SearchResultsTableModel extends DefaultTableModel {
                 } else {
                     img = ImageIO.read(new URL(fileIdentifier));
                 }           
-                icon = new ImageIcon(ImageResize.scaleImage(img, 256));
+                icon = new ImageIcon(ImageResize.scale(img, 256, 192));
                 if (progress != null)progress.setValue((i * 100) / hits.length());
             } catch (Exception ex) {
                 Logger.getLogger("global").log(Level.SEVERE, null, ex);

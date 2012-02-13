@@ -1,4 +1,3 @@
-
 package uib.gui;
 
 import java.awt.CardLayout;
@@ -52,21 +51,18 @@ public class SearchForImage extends Thread {
             System.out.println("numDocs = " + numDocs);
 
             ImageSearcher searcher = getSearcher();
-            ImageSearchHits hits = searcher.search
-                    (ImageIO.read(new FileInputStream(path)), reader);
-            parent.tableModel.setHits
-                    (hits, parent.progressBarSearchProgress);
+            ImageSearchHits hits = searcher.search(ImageIO.read(new FileInputStream(path)), reader);
+            parent.tableModel.setHits(hits, parent.progressBarSearchProgress);
             reader.close();
 
             Rectangle bounds = parent.resultsTable.getCellRect(2, 2, true);
             parent.jScrollPanelResults.getViewport().setViewPosition(bounds.getLocation());
             long timeTaken = (System.currentTimeMillis() - time);
-            parent.status.setText("Finished search in " + timeTaken + 
-                    " miliseconds" + " found " + numDocs + " documents");
+            parent.status.setText("Finished search in " + timeTaken
+                    + " miliseconds" + " found " + numDocs + " documents");
         } catch (Exception e) {
-
         } finally {
-            parent.resultsTable.setRowHeight(128);
+            parent.resultsTable.setRowHeight(192);
             parent.resultsTable.getColumnModel().getColumn(1).setMaxWidth(256);
             parent.resultsTable.getColumnModel().getColumn(1).setMinWidth(256);
             parent.resultsTable.getColumnModel().getColumn(2).setMaxWidth(64);
@@ -84,8 +80,7 @@ public class SearchForImage extends Thread {
             numResults = Integer.parseInt(parent.textfieldNumberOfResults.getText());
         } catch (Exception e) {
         }
-        ImageSearcher searcher = ImageSearcherFactory.createWeightedSearcher
-                (numResults, scalableColorLayout, scalableColorWeight, edgeHistogramWeight);
+        ImageSearcher searcher = ImageSearcherFactory.createWeightedSearcher(numResults, scalableColorLayout, scalableColorWeight, edgeHistogramWeight);
         if (parent.selectboxDocumentBuilder.getSelectedIndex() == 1) {
             parent.jsliderScalableColor.setValue(100);
             parent.jsliderEdgeHistogram.setValue(0);
