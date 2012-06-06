@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName>
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2010-09-25T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\A starry night.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\A starry night.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Olav</FamilyName>
+                                    <GivenName>Løne</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                    </Creation>
+                </CreationInformation>  
+                <TextAnnotation>
+                    <FreeTextAnnotation>Van Gogh's night sky is a field of roiling energy. 
+                        Below the exploding stars, the village is a place of quiet order. Connecting earth and sky is the 
+                        flamelike cypress, a tree traditionally associated with graveyards and mourning. But death was not 
+                        ominous for van Gogh. "Looking at the stars always makes me dream," he said, "Why, I ask myself, 
+                        shouldn't the shining dots of the sky be as accessible as the black dots on the map of France? 
+                        Just as we take the train to get to Tarascon or Rouen, we take death to reach a star."
+
+                        The artist wrote of his experience to his brother Theo: "This morning I saw the country from my window a long 
+                        time before sunrise, with nothing but the morning star, which looked very big." This morning star, or Venus, may 
+                        be the large white star just left of center in The Starry Night. The hamlet, on the other hand, is invented, and 
+                        the church spire evokes van Gogh's native land, the Netherlands. The painting, like its daytime companion, 
+                        The Olive Trees, is rooted in imagination and memory. Leaving behind the Impressionist doctrine of truth to 
+                        nature in favor of restless feeling and intense color, as in this highly charged picture, van Gogh made his 
+                        work a touchstone for all subsequent Expressionist painting.
+                    </FreeTextAnnotation>
+                    <StructuredAnnotation>
+                        <Name>	
+                            <Name>A starry night</Name>
+                        </Name>
+                        <Creator>
+                            <Name>Vincent van Gogh</Name>	
+                        </Creator>
+                        <Period>
+                            <Name>Post-Impressionism</Name>          						
+                        </Period>
+                        <Technique>
+                            <Name>Oil painting</Name>
+                        </Technique>
+                        <Materials>
+                            <Name>Oil on canvas</Name>
+                        </Materials>
+                        <Date>
+                            <Name>
+                                1889
+                            </Name>
+                        </Date>
+                        <Actor>
+                            <Name>Sky Landscape</Name>          
+                        </Actor>
+                        <Location>
+                            <Name>Saint-Rémy-de-Provence, France</Name> 
+                        </Location>
+                        <Activity>
+                            <Name>A starlit sky</Name>
+                        </Activity>
+                        <Theme>
+                            <Name>Night-sky stars stillness calm esxploding stars calm village</Name>
+                        </Theme>
+                        <Concept>
+                            <Name>A caotic starry sky invoking wonder about the great universe</Name>
+                        </Concept>															            
+                    </StructuredAnnotation>
+                </TextAnnotation>
+                <Semantic>
+                    <Label>
+                        <Name />
+                    </Label>
+                    <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                        <Label>
+                            <Name>Olav Løne</Name>
+                        </Label>
+                        <Agent xsi:type="PersonType">
+                            <Name>
+                                <GivenName>Vincent </GivenName>
+                                <FamilyName>Van Gogh</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                        <Label>
+                            <Name>Summer 1889</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This semantic time defines the summer in the year 1889</FreeTextAnnotation>
+                        </Definition>
+                        <Time>
+                            <TimePoint>2004-07-01T12:00</TimePoint>
+                        </Time>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_3">
+                        <Label>
+                            <Name>Starry night</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>Today the response The Starry Night provokes 
+                                is based in part upon its celebrity, but also on its universality.
+                                Throughout the ages people have been drawn to the night sky, to its stillness, 
+                                sublimity, and infinitude, which together evoke in us emotions of peace and 
+                                humility, awe and wonder. In The Starry Night, van Gogh fused those feelings 
+                                with a sense of the surging energies of terrestrial nature, which he conveyed—
+                                in terms of his own style—with the confidence of his composition, the dynamism 
+                                of his brush, and the resonance of his color. Painted from memories of observed 
+                                experience, recollections of pictures seen long ago, and in creative competition 
+                                with colleagues whose new work van Gogh could only imagine, The Starry Night is 
+                                a painting made on the edge, by confidently taking risks. In isolation he created
+                                a work entirely and unforgettably in his own style. From Richard Thomson, 
+                                Vincent van Gogh: The Starry Night, New York: The Museum of Modern Art (2008)
+                            </FreeTextAnnotation>
+                        </Definition>
+                        <Event>
+                            <Label>
+                                <Name>Starry nigh</Name>
+                            </Label>
+                            <SemanticPlace>
+                                <Label>
+                                    <Name />
+                                </Label>
+                            </SemanticPlace>
+                            <SemanticTime>
+                                <Label>
+                                    <Name>Time of Presentation</Name>
+                                </Label>
+                                <Time>
+                                    <TimePoint>1870-11-05T10:50</TimePoint>
+                                </Time>
+                            </SemanticTime>
+                        </Event>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_4">
+                        <Label>
+                            <Name>Nighttime</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This event symbolizes nighttime</FreeTextAnnotation>
+                        </Definition> 
+                    </SemanticBase>
+                    <SemanticBase xsi:type="ConceptType" id="id_6">
+                        <Label>
+                            <Name>Stillness contrast</Name>
+                        </Label>
+                        <Agent xsi:type="AbstractType">
+                            <Name>
+                                <GivenName>Vincent</GivenName>
+                                <FamilyName>Van Gogh</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <Graph>
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                    </Graph>
+                </Semantic>        
+            </Image>
+        </MultimediaContent>
+    </Description>
+</Mpeg7>
+

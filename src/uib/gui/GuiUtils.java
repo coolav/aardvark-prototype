@@ -7,6 +7,10 @@ package uib.gui;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifDirectory;
 import com.drew.metadata.exif.ExifReader;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -36,6 +40,7 @@ import uib.annotation.model.Mpeg7ImageDescription;
 import uib.annotation.panels.GraphicalAnnotation;
 import uib.annotation.util.AnnotationToolkit;
 import uib.annotation.util.image.IconCache;
+//import uib.download.ExampleProgressMonitor;
 import uib.gui.util.ImageResize;
 
 /**
@@ -58,24 +63,29 @@ public class GuiUtils {
 
     }
 
-    public void initReader(JSpinner spinnerMax, JSpinner spinnerCurrent, JLabel label) {
+    /**
+     * This method initializes the Lucene reader object for each panel it is
+     * used: BrowsePanel, AnnotatePanel and SemanticPanel. The medthds then sets
+     * the image at the current indexnumber where the jSpinner is currently
+     * at<p>
+     *
+     * @param spinnerMax JSPinner the max index number of the jspinner and
+     * @param spinnerCurrent JSpinner the current index of the jspinner.
+     * @param label JLabel is the label where the image icon is set.
+     */
+    public void initReader(JSpinner spinnerMax, JSpinner spinnerCurrent, JLabel label) throws IOException, InterruptedException {
         try {
             if (parent.reader == null && parent.checkboxRamIndex.isSelected() == false) {
 
                 parent.reader = IndexReader.open(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText())));
             }
 
-            if (parent.checkboxRamIndex.isSelected() == false) {
+            if (parent.checkboxRamIndex.isSelected() == true) {
                 parent.reader = IndexReader.open(new RAMDirectory(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText()))));
-            } else {
-                parent.reader.close();
-                parent.reader = IndexReader.open(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText())));
             }
             spinnerMax.setValue(parent.reader.maxDoc());
             if (parent.reader != null) {
                 setDocumentImageIcon(((Integer) spinnerCurrent.getValue()).intValue(), label);
-                //BufferedImage img = parent.browseimagePanel.getImageParent(((Integer) spinnerCurrent.getValue()).intValue());
-                //parent.browseimagePanel.setImage(img);
 
             } else {
                 setDefaultImage(label);
@@ -87,8 +97,51 @@ public class GuiUtils {
             JOptionPane.showMessageDialog(parent, "Could not open index. "
                     + "Please ensure that an index has been created.", "Error opening index", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
+    /**
+     * This method initializes the Lucene reader object for the class
+     * ImagePanel: The medthds then sets the image at the current index where
+     * the jSpinner is currently at<p>
+     *
+     * @param spinnerMax JSPinner the max index number of the jspinner and
+     * @param spinnerCurrent JSpinner the current index of the jspinner.
+     */
+    public void initReaderImagePanel(JSpinner spinnerMax, JSpinner spinnerCurrent) throws IOException, InterruptedException {
+        try {
+            if (parent.reader == null && parent.checkboxRamIndex.isSelected() == false) {
+
+                parent.reader = IndexReader.open(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText())));
+            }
+
+            if (parent.checkboxRamIndex.isSelected() == true) {
+                parent.reader = IndexReader.open(new RAMDirectory(FSDirectory.open(new File(parent.textfieldIndexDirectory.getText()))));
+            }
+            spinnerMax.setValue(parent.reader.maxDoc());
+            if (parent.reader != null) {
+                setImagePanel(((Integer) spinnerCurrent.getValue()).intValue());
+
+            } else {
+                // setDefaultImage(img);
+            }
+            //TODO use this method if there are no structual metadata available.
+            //setExifFields(((Integer) spinnerCurrent.getValue()).intValue());
+            setCurrentFile(getCurrentDocumentFile(((Integer) spinnerCurrent.getValue()).intValue()));
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(parent, "Could not open index. "
+                    + "Please ensure that an index has been created.", "Error opening index", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * This method return the current image or description file using the
+     * ducument identity in the Lucene index <p>
+     *
+     * @param docId int the current document
+     * @return the current file associated with that document
+     */
     public File getCurrentDocumentFile(int docId) {
 
         if (docId < 0) {
@@ -168,6 +221,71 @@ public class GuiUtils {
         }
     }
 
+    public void setImagePanel(int docId) {
+        if (docId < 0) {
+
+            return;
+        }
+        if (docId > parent.reader.maxDoc()) {
+
+            return;
+        }
+        try {
+            Document d = parent.reader.document(docId);
+            ImageIcon icon = null;
+            BufferedImage img, image = null;
+            String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
+            if (!file.startsWith("http:")) {
+                img = ImageIO.read(new java.io.FileInputStream(file));
+            } else {
+                img = ImageIO.read(new URL(file));
+            }
+
+            parent.browseimagePanel.setImage(img);
+            parent.browseimagePanel.repaint();
+
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(parent, "Error loading image:\n" + e.toString(),
+                    "An error occurred", JOptionPane.ERROR_MESSAGE);
+            System.err.println(e.toString());
+        }
+    }
+
+    public void setDocumentIcon(int docId, JLabel label) {
+        if (docId < 0) {
+
+            return;
+        }
+        if (docId > parent.reader.maxDoc()) {
+
+            return;
+        }
+        try {
+            Document d = parent.reader.document(docId);
+            ImageIcon icon = null;
+            BufferedImage img, image = null;
+            String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
+            if (!file.startsWith("http:")) {
+                img = ImageIO.read(new java.io.FileInputStream(file));
+            } else {
+                img = ImageIO.read(new URL(file));
+            }
+            if (img != null) {
+                icon = new ImageIcon(ImageResize.scale(img, label.getWidth(), label.getHeight()));
+                //icon = new ImageIcon(ImageUtils.scaleImage(img, label.getWidth(), label.getHeight()));
+            } else {
+                icon = IconCache.getInstance().getDefaultBrowserIcon();
+            }
+            label.setIcon(icon);
+
+
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(parent, "Error loading image:\n" + e.toString(),
+                    "An error occurred", JOptionPane.ERROR_MESSAGE);
+            System.err.println(e.toString());
+        }
+    }
+
     public void setDefaultImage(JLabel label) {
         ImageIcon icon = null;
         icon = IconCache.getInstance().getDefaultBrowserIcon();
@@ -177,6 +295,7 @@ public class GuiUtils {
     public void writeQrels(String fileName) {
 
         try {
+            int queryNumber = 0;
             File qrelsFile = new File(fileName);
             Writer output = new BufferedWriter(new FileWriter(qrelsFile));
             output.write("");
@@ -189,7 +308,7 @@ public class GuiUtils {
                             + parent.tableModel.hits.doc(i).getField("FlickrURL").stringValue();
                 }
                 output.write("0 \t 0 \t " + text
-                        + "     \t " + parent.tableModel.getIsRelevant(i) + "\n");
+                        + "     \t \t \t \t" + parent.tableModel.getIsRelevant(i) + "\n");
 
             }
 
@@ -199,6 +318,46 @@ public class GuiUtils {
             Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void uploadQrels(String fileName) throws Exception {
+        try {
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            String respondentName = "";
+            String newFolder = "/Home/stud3/olo001/Master/ExperimentResults/San/";
+
+            String user = "olo001";
+            String password = "123Fakemcs1!";
+            String host = "login.uib.no";
+            int port = 22;
+            String knownHostsFilename = "/Home/stud3/olo001/.ssh/id_dsa.pub";
+            String sourcePath = fileName;
+            String destPath = "/Home/stud3/olo001/Master/ExperimentResults/Linda/" + fileName;
+            
+            JSch jsch = new JSch();
+            jsch.setKnownHosts(knownHostsFilename);
+            Session session = jsch.getSession(user, host, port);
+            session.setConfig(config);
+            session.setPassword(password);
+            session.connect();
+            System.out.println("connected");
+            
+            ChannelSftp sftpChannel = (ChannelSftp) session.openChannel("sftp");
+            sftpChannel.connect();
+            sftpChannel.mkdir(newFolder);
+            System.out.println("Created new folder");
+            sftpChannel.put(sourcePath, destPath);
+            System.out.println("uploaded file");
+            parent.status.setText("Uploaded file to server");
+            sftpChannel.exit();
+            session.disconnect();
+        } catch (Exception e) {
+            System.err.println("Unable to connect to FTP server. " + e.toString());
+            throw e;
+        }
+
+    }
+    
 
     public void writeLuceneAnnotation(int docId) throws IOException {
 
@@ -312,15 +471,14 @@ public class GuiUtils {
 
             Document d = parent.reader.document(parent.currentDocument);
             String file = d.getField(net.semanticmetadata.lire.DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
-            String URL = d.getField("FlickrURL").stringValue();
+            //String URL = d.getField("FlickrURL").stringValue();
             //System.out.println(file + " " + URL);
-            if (URL == null) {
-                //(!file.startsWith("http:")) {
+            if (!file.startsWith("http:")) {
                 parent.textfieldAnnotateDate.setText(getDate(docId));
                 parent.textfieldAnnotateWidth.setText(getExifInt(docId, ExifDirectory.TAG_EXIF_IMAGE_WIDTH));
                 parent.textfieldAnnotateHeight.setText(getExifInt(docId, ExifDirectory.TAG_EXIF_IMAGE_HEIGHT));
             } else {
-                parent.textfieldAnnotateName.setText(getFlickrData(docId, "FlickrTitle"));
+                //parent.textfieldAnnotateName.setText(getFlickrData(docId, "FlickrTitle"));
                 parent.textfieldAnnotateDate.setText("");
                 parent.textfieldAnnotateWidth.setText("");
                 parent.textfieldAnnotateHeight.setText("");
@@ -391,8 +549,9 @@ public class GuiUtils {
         return title;
     }
 
-    public void setCurrentFile(File f) throws IOException {
+    public void setCurrentFile(File f) throws IOException, InterruptedException {
         boolean loadIt = true;
+
         if (AardvarkGui.DIRTY) {
             loadIt = askIfSave();
         }
@@ -405,9 +564,10 @@ public class GuiUtils {
             t.shutDown();
 
         }
+
     }
 
-    public void loadCurrentFile(File f) throws IOException {
+    public void loadCurrentFile(File f) throws IOException, InterruptedException {
         FileUtilities t = new FileUtilities(parent.status, parent, f, semanticAnnotation,
                 graphicalAnnotation);
         t.start();
@@ -498,8 +658,7 @@ public class GuiUtils {
         }
 
         Mpeg7ImageDescription m7id = new Mpeg7ImageDescription(AnnotationToolkit.getMpeg7MediaInstance(f),
-                semantics);
-        // semanticAnnotation.createXML(),
+                semantics, semanticAnnotation.createXML());
 
         org.jdom.Document document = m7id.createDocument();
         return document;

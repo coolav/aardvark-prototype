@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package uib.gui;
 
@@ -23,6 +19,7 @@ public class SemanticAnnotation implements AnnotationPanel{
         
     }
        
+    @Override
     public Element createXML() {
                
         Element root, textElement = null;
@@ -38,6 +35,8 @@ public class SemanticAnnotation implements AnnotationPanel{
         boolean hasStructuredTextAnnotation = false;
         boolean hasFreeTextAnnotation = false;
 
+        
+        
         // create and add subelements:
         hasStructuredTextAnnotation = addStructuredTExtElement
                 (structTextElement, parent.textfieldAnnotateName, "Name", mpeg7) || hasStructuredTextAnnotation;
@@ -50,7 +49,13 @@ public class SemanticAnnotation implements AnnotationPanel{
         hasStructuredTextAnnotation = addStructuredTExtElement
                 (structTextElement, parent.textfieldAnnotateMaterials, "Materials", mpeg7) || hasStructuredTextAnnotation;
         hasStructuredTextAnnotation = addStructuredTExtElement
+                (structTextElement, parent.textfieldAnnotateHeight, "Height", mpeg7) || hasStructuredTextAnnotation;
+        hasStructuredTextAnnotation = addStructuredTExtElement
+                (structTextElement, parent.textfieldAnnotateDate, "Date", mpeg7) || hasStructuredTextAnnotation;
+        hasStructuredTextAnnotation = addStructuredTExtElement
                 (structTextElement, parent.textfieldAnnotateActor, "Actor", mpeg7) || hasStructuredTextAnnotation;
+        hasStructuredTextAnnotation = addStructuredTExtElement
+                (structTextElement, parent.textfieldAnnotateWidth, "Width", mpeg7) || hasStructuredTextAnnotation;
         hasStructuredTextAnnotation = addStructuredTExtElement
                 (structTextElement, parent.textfieldAnnotateLocation, "Location", mpeg7) || hasStructuredTextAnnotation;
         hasStructuredTextAnnotation = addStructuredTExtElement
@@ -59,7 +64,7 @@ public class SemanticAnnotation implements AnnotationPanel{
                 (structTextElement, parent.textfieldAnnotateTheme, "Theme", mpeg7) || hasStructuredTextAnnotation;
         hasStructuredTextAnnotation = addStructuredTExtElement
                 (structTextElement, parent.textFieldAnnotateConcept, "Concept", mpeg7) || hasStructuredTextAnnotation;
-
+        
         // create free text annotation element
         if (ft.length() > 0) {
             textElement = new Element("FreeTextAnnotation", mpeg7);
@@ -67,9 +72,11 @@ public class SemanticAnnotation implements AnnotationPanel{
             textElement.setText(ft);
 
         }
+        
         if (hasFreeTextAnnotation || hasStructuredTextAnnotation) {
             if (hasFreeTextAnnotation) root.addContent(textElement);
             if (hasStructuredTextAnnotation) root.addContent(structTextElement);
+            System.out.println(root);
             return root;
             
         } else {

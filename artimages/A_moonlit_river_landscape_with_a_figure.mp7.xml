@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName>
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2010-09-25T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\A moonlit river landscape with a figure.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\A moonlit river landscape with a figure.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Doe</FamilyName>
+                                    <GivenName>John</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                    </Creation>
+                </CreationInformation>  
+                <TextAnnotation>
+                    <FreeTextAnnotation>Image depicting a river landscape in moonlight</FreeTextAnnotation>
+                    <StructuredAnnotation>
+                        <Name>	
+                            <Name>A moonlit river landscape with a figure</Name>
+                        </Name>
+                        <Creator>
+                            <Name>Herman Alfred Leonard Wahlberg</Name>	
+                        </Creator>
+                        <Period>
+                            <Name>Romanticism</Name>          						
+                        </Period>
+                        <Technique>
+                            <Name>Oil on canvas</Name>
+                        </Technique>
+                        <Materials>
+                            <Name>Canvas</Name>
+                        </Materials>
+                        <Date>
+                            <Name>
+                                1870
+                            </Name>
+                        </Date>
+                        <Actor>
+                            <Name>A soilitary person</Name>          
+                        </Actor>
+                        <Location>
+                            <Name>A river landscape in Sweden</Name> 
+                        </Location>
+                        <Activity>
+                            <Name>River flowing</Name>
+                        </Activity>
+                        <Theme>
+                            <Name>Nature Landscape Forrest Meadow</Name>
+                        </Theme>
+                        <Concept>
+                            <Name>A still nightscene</Name>
+                        </Concept>															            
+                    </StructuredAnnotation>
+                </TextAnnotation>
+                <Semantic>
+                    <Label>
+                        <Name />
+                    </Label>
+                    <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                        <Label>
+                            <Name>John Doe</Name>
+                        </Label>
+                        <Agent xsi:type="PersonType">
+                            <Name>
+                                <GivenName>Alfred</GivenName>
+                                <FamilyName>Wahlberg</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                        <Label>
+                            <Name>Summer 1870</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This semantic time defines the summer in the year 1870</FreeTextAnnotation>
+                        </Definition>
+                        <Time>
+                            <TimePoint>2004-07-01T12:00</TimePoint>
+                        </Time>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_3">
+                        <Label>
+                            <Name>Riverbank</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This event symbolizes a riverbank</FreeTextAnnotation>
+                        </Definition>
+                        <Event>
+                            <Label>
+                                <Name>Presentation</Name>
+                            </Label>
+                            <SemanticPlace>
+                                <Label>
+                                    <Name />
+                                </Label>
+                            </SemanticPlace>
+                            <SemanticTime>
+                                <Label>
+                                    <Name>Time of Presentation</Name>
+                                </Label>
+                                <Time>
+                                    <TimePoint>1870-11-05T10:50</TimePoint>
+                                </Time>
+                            </SemanticTime>
+                        </Event>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_4">
+                        <Label>
+                            <Name>Nighttime</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This event symbolizes nighttime</FreeTextAnnotation>
+                        </Definition>  
+                    </SemanticBase>
+                    <SemanticBase xsi:type="ConceptType" id="id_6">
+                        <Label>
+                            <Name>Stillness</Name>
+                        </Label>
+                        <Agent xsi:type="AbstractType">
+                            <Name>
+                                <GivenName>Sorrow</GivenName>
+                                <FamilyName>Pain</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <Graph>
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                    </Graph>
+                </Semantic>        
+            </Image>
+        </MultimediaContent>
+    </Description>
+</Mpeg7>
+

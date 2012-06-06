@@ -67,7 +67,7 @@ public class ImageResize {
         graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        graphics.drawImage(image, 5 + (w - iw) / 2, 5, iw, ih, null);
+        graphics.drawImage(image, 5+(w-iw)/2, 5, iw, ih, null);
         //graphics.drawImage(image, 0, 0, iw, ih, null);
         graphics.dispose();
 

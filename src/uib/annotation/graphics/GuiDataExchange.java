@@ -4,7 +4,7 @@
  */
 package uib.annotation.graphics;
 
-import uib.gui.AvatarChooser;
+import uib.scratch.AvatarChooser;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.apache.lucene.document.Document;
@@ -43,9 +43,10 @@ public class GuiDataExchange {
     }
     
     public void testParent() throws FileNotFoundException, IOException{
-        System.out.println(chooser.getImage());
-        int docId = chooser.getImage();
-        startSearch(docId);
+        //TODO fix the browsingpanel 
+        //System.out.println(chooser.getImage());
+        //int docId = chooser.getImage();
+        //startSearch(docId);
         
     }
     

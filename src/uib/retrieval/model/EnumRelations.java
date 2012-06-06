@@ -4,9 +4,7 @@
  */
 package uib.retrieval.model;
 
-;
 import java.util.EnumMap;
-import java.util.Map;
 
 /**
  *

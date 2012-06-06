@@ -766,6 +766,7 @@ public class LucenePathIndexRetrievalEngine extends AbstractRetrievalEngine {
         if (!nodeID.equals("-1")) return (nodeID);
         else return "*";
     }
+    @Override
 	public List<ResultListEntry> getSimilarImages_fromSet(Set<Element> VisualDescriptorSet, String whereToSearch, boolean recursive, JProgressBar progress) {
         throw new UnsupportedOperationException("Not Implemented!");
     }

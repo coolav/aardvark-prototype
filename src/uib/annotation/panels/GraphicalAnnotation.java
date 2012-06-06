@@ -29,15 +29,12 @@ import uib.annotation.util.DataExchange;
 import uib.annotation.util.mpeg7.Mpeg7FileFilter;
 import uib.resource.OCToolkit;
 
-
-
 /**
  *
  * @author Olav
  */
 public class GraphicalAnnotation extends JPanel implements ActionListener, DataExchange {
 
-    
     public final static String BASE_OBJECT_FILE =
             "../../resource/base-objects.mp7.xml";
     public final static String CRM_RELATIONS = "/uib/resource/semantic-relations.crm.xml";
@@ -60,17 +57,25 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
     URL baseObjectsUrl = GraphicalAnnotation.class.getResource("../../resource/base-objects.mp7.xml");
     //JFrame parent;
 
-    public GraphicalAnnotation()  {
+    public GraphicalAnnotation() {
         super(new BorderLayout());
-        
-        
-        /*  No need for this?
+
+        /*
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                } else {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                }
+            }
+
         } catch (Exception e) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, e);
 
         }*/
-        
+
         xmlBuilder = new SAXBuilder();
         readRelations();
         initComponents();
@@ -78,7 +83,7 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
 
     }
 
-    private void initComponents(){
+    private void initComponents() {
 
         entityTableModel = new SemanticEntityTableModel();
         relationTableModel = new RelationTableModel();
@@ -208,7 +213,7 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
                 Element elem = (Element) aRelList;
                 String tmpRelationName = elem.getChildText("name");
                 String tmpInverseRelationName = elem.getChildText("inverse");
-               
+
                 if (tmpRelationName != null) {
                     tmpRelationsVector.add(tmpRelationName);
                 }
@@ -226,7 +231,6 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
 
         Arrays.sort(relationsArray);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("createObjectFromAgent")) {
@@ -342,7 +346,7 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
         return annotationPanel.createDocument();
     }
 
-     public void importAgents() {
+    public void importAgents() {
         File f = getFile(".", new Mpeg7FileFilter());
         if (f != null) {
             relationTableModel.addAllAgents(retrieveNodes(f, "AgentObjectType"));
@@ -366,21 +370,20 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
             entityTableModel.fireTableDataChanged();
         }
     }
-     private ArrayList<Element> retrieveNodes(File f, String type) {
+
+    private ArrayList<Element> retrieveNodes(File f, String type) {
         ArrayList<Element> v = new ArrayList<Element>();
         SAXBuilder builder = new SAXBuilder();
         try {
             Document agents = builder.build(f);
             Namespace mpeg7 = agents.getRootElement().getNamespace();
-            Namespace xsi = Namespace.getNamespace
-                    ("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            java.util.List nodeList = agents.getRootElement()
-                    .getChild("Description", mpeg7).getChild("Semantics", mpeg7)
-                    .getChildren("SemanticBase", mpeg7);
+            Namespace xsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            java.util.List nodeList = agents.getRootElement().getChild("Description", mpeg7).getChild("Semantics", mpeg7).getChildren("SemanticBase", mpeg7);
             for (Iterator i = nodeList.iterator(); i.hasNext();) {
                 Element e = (Element) i.next();
-                if (e.getAttributeValue("type", xsi).equals(type))
+                if (e.getAttributeValue("type", xsi).equals(type)) {
                     v.add(e);
+                }
             }
         } catch (JDOMException e) {
             e.printStackTrace();
@@ -399,6 +402,7 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
         }
         return myFile;
     }
+
     public void addRelation(ArrayList v) {
         relationTableModel.addAllAgents(v);
         relationTableModel.sort();
@@ -426,19 +430,18 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
 
             if (d != null) {
                 Element e = d.getRootElement();
-                Namespace xsi = Namespace.getNamespace
-                        ("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                Namespace xsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
                 Namespace mpeg7 = e.getNamespace();
                 Namespace fsw = OCToolkit.getFSWNamespace();
 
                 java.util.List latt = e.getAttributes();
                 for (Iterator it = latt.iterator(); it.hasNext();) {
                     Attribute attribute = (Attribute) it.next();
-                    if (attribute.getNamespacePrefix().equals("xsi"))
+                    if (attribute.getNamespacePrefix().equals("xsi")) {
                         xsi = attribute.getNamespace();
+                    }
                 }
                 if (!(e != null)) {
-
                 }
                 e = e.getChild("Description", mpeg7);
                 e = e.getChild("Semantics", mpeg7);
@@ -447,18 +450,10 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
                 for (Iterator it = l.iterator(); it.hasNext();) {
                     Element tmpElement = (Element) it.next();
                     if (tmpElement.getName().equals("SemanticBase")
-                            && tmpElement.getAttributeValue("type", xsi) != null)
-                    {
-                        if (tmpElement.getAttributeValue("type", xsi)
-                                .equals("AgentObjectType") || tmpElement.getAttributeValue("type", xsi)
-                                .equals("fsw:FSWRefereeType"))
-                        {
+                            && tmpElement.getAttributeValue("type", xsi) != null) {
+                        if (tmpElement.getAttributeValue("type", xsi).equals("AgentObjectType") || tmpElement.getAttributeValue("type", xsi).equals("fsw:FSWRefereeType")) {
                             relationTableModel.addAgent(tmpElement);
-                        } else if (tmpElement.getAttributeValue("type", xsi
-                                ).equals("SemanticPlaceType") || tmpElement.getAttributeValue("type", xsi)
-                                .equals("ObjectType") || tmpElement.getAttributeValue("type", xsi).equals
-                                ("SemanticTimeType"))
-                        {
+                        } else if (tmpElement.getAttributeValue("type", xsi).equals("SemanticPlaceType") || tmpElement.getAttributeValue("type", xsi).equals("ObjectType") || tmpElement.getAttributeValue("type", xsi).equals("SemanticTimeType")) {
                             entityTableModel.addObject(tmpElement);
                         }
                     } else {
@@ -466,10 +461,9 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
                     }
                 }
             } else {
-                
             }
         } catch (Exception e1) {
-            
+
             e1.printStackTrace();
         }
     }
@@ -484,17 +478,20 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
 
             semantics = semantics.getChild("Description", mpeg7).getChild("Semantics", mpeg7);
             semantics.removeContent();
-            semantics.addContent(new Element("Label", mpeg7)
-                    .addContent(new Element("Name", mpeg7).addContent("Semantic Folder")));
+            semantics.addContent(new Element("Label", mpeg7).addContent(new Element("Name", mpeg7).addContent("Semantic Folder")));
 
             for (Iterator iterator = relationTableModel.getAgents().iterator(); iterator.hasNext();) {
                 Element elem = (Element) iterator.next();
-                if (elem.getParent() != null) elem = (Element) elem.clone();
+                if (elem.getParent() != null) {
+                    elem = (Element) elem.clone();
+                }
                 semantics.addContent(elem.detach());
             }
             for (Iterator iterator = entityTableModel.getObjects().iterator(); iterator.hasNext();) {
                 Element elem = (Element) iterator.next();
-                if (elem.getParent() != null) elem = (Element) elem.clone();
+                if (elem.getParent() != null) {
+                    elem = (Element) elem.clone();
+                }
                 semantics.addContent(elem.detach());
             }
 
@@ -504,9 +501,7 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
             osw.close();
             fos.close();
         } catch (JDOMException e) {
-
         } catch (IOException e) {
-
         }
     }
 
@@ -521,12 +516,11 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
         for (Iterator it = l.iterator(); it.hasNext();) {
             Element tmpElement = (Element) it.next();
             if (tmpElement.getName().equals("SemanticBase") && tmpElement.getAttributeValue("type", xsi) != null) {
-                if (tmpElement.getAttributeValue("type", xsi).equals("AgentObjectType") || tmpElement.getAttributeValue("type", xsi).equals("fsw:FSWRefereeType"))
-                {
+                if (tmpElement.getAttributeValue("type", xsi).equals("AgentObjectType") || tmpElement.getAttributeValue("type", xsi).equals("fsw:FSWRefereeType")) {
                     relationTableModel.addAgent(tmpElement);
-                } else if (tmpElement.getAttributeValue("type", xsi).equals("SemanticPlaceType") ||
-                        tmpElement.getAttributeValue("type", xsi).equals("ObjectType") ||
-                        tmpElement.getAttributeValue("type", xsi).equals("SemanticTimeType")) {
+                } else if (tmpElement.getAttributeValue("type", xsi).equals("SemanticPlaceType")
+                        || tmpElement.getAttributeValue("type", xsi).equals("ObjectType")
+                        || tmpElement.getAttributeValue("type", xsi).equals("SemanticTimeType")) {
                     entityTableModel.addObject(tmpElement);
                 }
             }
@@ -575,5 +569,4 @@ public class GraphicalAnnotation extends JPanel implements ActionListener, DataE
     public void editAgent() {
         // TODO: add code here to edit the agent curently selected.
     }
-
 }

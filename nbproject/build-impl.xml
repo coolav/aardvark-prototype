@@ -43,6 +43,14 @@ is divided into following sections:
         <property file="nbproject/private/configs/${config}.properties"/>
         <property file="nbproject/private/private.properties"/>
     </target>
+    <target depends="compile" name="copy">
+      <copy todir="${build}/uib/gui/wizard" file="${src}/uib/gui/wizard/wizard.properties"/>
+      <copy todir="${build}/uib/gui/wizard">
+          <fileset dir="${src}/uib/gui/wizard">
+              <include name="**/*.gif"/>
+          </fileset>
+      </copy>
+  </target>
     <target name="-pre-init-libraries">
         <property location="lib\nblibraries.properties" name="libraries.path"/>
         <dirname file="${libraries.path}" property="libraries.dir.nativedirsep"/>

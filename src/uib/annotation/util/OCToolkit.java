@@ -38,7 +38,7 @@ public class OCToolkit {
 
     public static URL getBaseObjectsFile() {
         return OCToolkit.class.getResource
-                ("C:/Users/Olav/Documents/NetbeansProjects/Aardvark/resources/BaseObjects/base-objects.mp7.xml");
+                ("C:/Users/Olav/Documents/Netbeans/Aardvark/resources/BaseObjects/base-objects.mp7.xml");
     }
 
     public static List xpathQuery(org.jdom.Document document, String xpathQuery1, Namespace xNs) {

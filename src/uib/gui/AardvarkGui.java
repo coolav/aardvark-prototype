@@ -14,10 +14,10 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
+import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.semanticmetadata.lire.DocumentBuilder;
 import org.apache.lucene.document.Document;
@@ -34,7 +34,11 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import uib.annotation.util.AnnotationToolkit;
 import uib.annotation.util.TextChangesListener;
-import uib.flickr.FlickrIndexingThread;
+import uib.download.FlickrIndexingThread;
+import uib.download.ImageIndexingThread;
+import uib.gui.wizard.InitializeWizard;
+import uib.gui.wizard.Wizard;
+import uib.gui.wizard.WizardPanelDescriptor;
 
 /**
  *
@@ -48,10 +52,14 @@ public class AardvarkGui extends javax.swing.JFrame {
     final protected SearchResultsTableModel tableModel =
             new SearchResultsTableModel();
     public IndexReader reader = null;
+    private final String[] searchModes = {"At least one (OR)", "All words (AND)", "Whole phrase"};
+    private final String[] searchModality = {"everywhere", "textAnnotation", "semanticDescriptions", "semanticLabels", "freeText", "metadataDesc"};
     private GuiUtils guiUtil = new GuiUtils(this);
     private PRChartCreation prChart = new PRChartCreation(this);
     private String qrelsFile = null;
     private String topicsFile = null;
+    private String indexPath = "index";
+    public static String BASE_DIRECTORY = ".";
     public boolean DEBUG;
     public File currentFile = null;
     public int currentDocument = 0;
@@ -64,7 +72,7 @@ public class AardvarkGui extends javax.swing.JFrame {
      * Creates new form AarvarkGui
      */
     public AardvarkGui() {
-        
+
         try {
             Image icon = ImageIO.read(getClass().getResource("/uib/resource/aardvark_icon.png"));
             if (icon != null) {
@@ -75,6 +83,7 @@ public class AardvarkGui extends javax.swing.JFrame {
         }
 
         initComponents();
+
         tableModel.addTableModelListener(resultsTable);
         TextChangesListener.createInstance(this);
         selectboxDocumentBuilder.setSelectedIndex(0);
@@ -82,9 +91,11 @@ public class AardvarkGui extends javax.swing.JFrame {
         System.gc();
         t = new DropTarget(searchPanel, new DropTargetListener() {
 
+            @Override
             public void dragEnter(DropTargetDragEvent dtde) {
             }
 
+            @Override
             public void dragOver(DropTargetDragEvent dtde) {
             }
 
@@ -167,15 +178,80 @@ public class AardvarkGui extends javax.swing.JFrame {
         switchButtonOptions = new javax.swing.JButton();
         switchButtonBrowse = new javax.swing.JButton();
         switchButtonAnnotate = new javax.swing.JButton();
-        switchButtonAbout = new javax.swing.JButton();
+        switchButtonExperiment = new javax.swing.JButton();
         switchButtonGraph = new javax.swing.JButton();
         buttonCreatePrecisionRecall = new javax.swing.JButton();
-        switchButtonAbout1 = new javax.swing.JButton();
-        switchButtonAbout2 = new javax.swing.JButton();
+        switchButtonAbout = new javax.swing.JButton();
         cardPanel = new javax.swing.JPanel();
+        experimentPanel = new javax.swing.JPanel();
+        labelExperimentPanelToplabel = labelIndexingPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        jLabelExperimentHints = new javax.swing.JLabel();
+        progressBarDownloadImages = new javax.swing.JProgressBar();
+        jButtonDownloadImages = new javax.swing.JButton();
+        jLabelDownloadImages = new javax.swing.JLabel();
+        jButtonStartExperiment = new javax.swing.JButton();
+        jLabelStartExperiment = new javax.swing.JLabel();
         IndexingPanel = new javax.swing.JPanel()
         ;
-        labelIndexingPanelToplabel = new javax.swing.JLabel();
+        labelIndexingPanelToplabel = labelIndexingPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         textfieldIndexDir = new javax.swing.JTextField();
         buttonOpenDir = new javax.swing.JButton();
         progressBarIndexing = new javax.swing.JProgressBar();
@@ -183,7 +259,36 @@ public class AardvarkGui extends javax.swing.JFrame {
         buttonStartIndexing = new javax.swing.JButton();
         labelIndexHint = new javax.swing.JLabel();
         searchPanel = new javax.swing.JPanel();
-        labelSearchPanelToplabel = new javax.swing.JLabel();
+        labelSearchPanelToplabel = labelSearchPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         textfieldSearchImage = new javax.swing.JTextField();
         buttonSearchPanelOpenImage = new javax.swing.JButton();
         progressBarSearchProgress = new javax.swing.JProgressBar();
@@ -193,16 +298,81 @@ public class AardvarkGui extends javax.swing.JFrame {
         buttonSearchText = new javax.swing.JButton();
         labelStructuralSearch = new javax.swing.JLabel();
         labelTextSearch = new javax.swing.JLabel();
-        browsePanel = new javax.swing.JPanel();
-        labelBrowsePanelToplabel = new javax.swing.JLabel();
+        buttonOpenTextIndex = new javax.swing.JButton();
+        jTextFieldDescription = new javax.swing.JTextField();
+        jComboBoxSearchMode = new javax.swing.JComboBox(searchModes);
+        jLabelSearchMode = new javax.swing.JLabel();
+        jComboBoxSearchModality = new javax.swing.JComboBox(searchModality);
+        jLabelSearchModality = new javax.swing.JLabel();
+        BrowsePanel = new javax.swing.JPanel();
+        browseContainerPanel = new javax.swing.JPanel();
+        browseControlPanel = new javax.swing.JPanel();
         spinnerCurrentDoc = new javax.swing.JSpinner();
+        labelBrowseCurrentDivider = new javax.swing.JLabel();
+        labelBrowseCurrentImage = new javax.swing.JLabel();
         spinnerMaxDoc = new javax.swing.JSpinner();
-        imageLabel = new javax.swing.JLabel();
-        labelCurrentDocumentSpinner = new javax.swing.JLabel();
-        labelDocCount = new javax.swing.JLabel();
         buttonSearchFromBrowse = new javax.swing.JButton();
+        labelBrowsePanelToplabel1 = labelBrowsePanelToplabel1 = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         annotatePanel = new javax.swing.JPanel();
-        labelAnnotatePanelToplabel = new javax.swing.JLabel();
+        labelAnnotatePanelToplabel = labelAnnotatePanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         panelAnnotateImage = new javax.swing.JPanel();
         imageLabelAnnotate = new javax.swing.JLabel();
         spinnerAnnotateCurrentDoc = new javax.swing.JSpinner();
@@ -242,7 +412,36 @@ public class AardvarkGui extends javax.swing.JFrame {
         textfieldAnnotateActor = new javax.swing.JTextField();
         buttonClearTextFields = new javax.swing.JButton();
         semanticGraphPanel = new javax.swing.JPanel();
-        labelGraphPanelToplabel = new javax.swing.JLabel();
+        labelGraphPanelToplabel = labelGraphPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         panelAnnotateImage1 = new javax.swing.JPanel();
         imageLabelAnnotateGraph = new javax.swing.JLabel();
         spinnerGraphCurrentDoc = new javax.swing.JSpinner();
@@ -251,7 +450,36 @@ public class AardvarkGui extends javax.swing.JFrame {
         semanticPanel = new javax.swing.JPanel();
         graphicalAnnotation1 = new uib.annotation.panels.GraphicalAnnotation();
         optionsPanel = new javax.swing.JPanel();
-        optionsPanelTopLabel = new javax.swing.JLabel();
+        optionsPanelTopLabel = optionsPanelTopLabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         indexTypeLabel = new javax.swing.JLabel();
         indexDirectoryLabel = new javax.swing.JLabel();
         numberOfResultsLabel = new javax.swing.JLabel();
@@ -275,6 +503,8 @@ public class AardvarkGui extends javax.swing.JFrame {
         jSliderAdjustFeatureWeighting = new javax.swing.JSlider();
         labelSliderFeatureWeight = new javax.swing.JLabel();
         labelSliderAdjustFeatureWeight2 = new javax.swing.JLabel();
+        labelShowDescriptions = new javax.swing.JLabel();
+        checkboxShowDescriptions = new javax.swing.JCheckBox();
         buttonOpenIndexButton = new javax.swing.JButton();
         checkboxRamIndex = new javax.swing.JCheckBox();
         precisionRecallPanel = new javax.swing.JPanel();
@@ -284,17 +514,36 @@ public class AardvarkGui extends javax.swing.JFrame {
         buttonCreatePRGraph = new javax.swing.JButton();
         buttonExportGraphImage = new javax.swing.JButton();
         jLabelChart = new javax.swing.JLabel();
-        presicionRecallPanelTopLabel = new javax.swing.JLabel();
-        slickPanel = new javax.swing.JPanel();
-        curvesPanel1 = new uib.gui.CurvesPanel();
-        avatarChooser1 = new uib.gui.AvatarChooser();
-        TestBrowsePanel = new javax.swing.JPanel();
-        browseContainerPanel = new javax.swing.JPanel();
-        browseControlPanel = new javax.swing.JPanel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jSpinner2 = new javax.swing.JSpinner();
+        presicionRecallPanelTopLabel = presicionRecallPanelTopLabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         resultsPane = new javax.swing.JPanel();
         jScrollPanelResults = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
@@ -330,7 +579,36 @@ public class AardvarkGui extends javax.swing.JFrame {
         };
         buttonBackToMainMenu = new javax.swing.JButton();
         buttonSaveQrelsFile = new javax.swing.JButton();
-        statusPanel = new javax.swing.JPanel();
+        statusPanel = statusPanel = new JPanel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color1,
+                    0, h, color2 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
         status = new javax.swing.JLabel();
         jProgressBarMemory = new javax.swing.JProgressBar();
         menuBar = new javax.swing.JMenuBar();
@@ -362,24 +640,34 @@ public class AardvarkGui extends javax.swing.JFrame {
         selectAll.setText("jMenuItem1");
         jPopupMenuSemantic.add(selectAll);
 
+        browseimagePanel.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+
         javax.swing.GroupLayout browseimagePanelLayout = new javax.swing.GroupLayout(browseimagePanel);
         browseimagePanel.setLayout(browseimagePanelLayout);
         browseimagePanelLayout.setHorizontalGroup(
             browseimagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 677, Short.MAX_VALUE)
+            .addGap(0, 806, Short.MAX_VALUE)
         );
         browseimagePanelLayout.setVerticalGroup(
             browseimagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 463, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(TITLE_BAR);
         setName("Aardvark"); // NOI18N
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         topPanel.setLayout(new java.awt.CardLayout());
 
-        controlButtonsPane.setBorder(new javax.swing.border.MatteBorder(null));
+        controlButtonsPane.setBackground(new java.awt.Color(214, 217, 223));
+        controlButtonsPane.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
 
         switchButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/search.png"))); // NOI18N
         switchButtonSearch.setText("Search");
@@ -445,16 +733,16 @@ public class AardvarkGui extends javax.swing.JFrame {
             }
         });
 
-        switchButtonAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/info.png"))); // NOI18N
-        switchButtonAbout.setText("About");
-        switchButtonAbout.setToolTipText("Infomation about the application");
-        switchButtonAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        switchButtonAbout.setOpaque(false);
-        switchButtonAbout.setPreferredSize(new java.awt.Dimension(75, 59));
-        switchButtonAbout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        switchButtonAbout.addActionListener(new java.awt.event.ActionListener() {
+        switchButtonExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/user_32.png"))); // NOI18N
+        switchButtonExperiment.setText("Start");
+        switchButtonExperiment.setToolTipText("Sets up the experiment and guides the user through the queries");
+        switchButtonExperiment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonExperiment.setOpaque(false);
+        switchButtonExperiment.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonExperiment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonExperiment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                switchButtonAboutActionPerformed(evt);
+                switchButtonExperimentActionPerformed(evt);
             }
         });
 
@@ -482,29 +770,16 @@ public class AardvarkGui extends javax.swing.JFrame {
             }
         });
 
-        switchButtonAbout1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/run.png"))); // NOI18N
-        switchButtonAbout1.setText("Gfx Test");
-        switchButtonAbout1.setToolTipText("Infomation about the application");
-        switchButtonAbout1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        switchButtonAbout1.setOpaque(false);
-        switchButtonAbout1.setPreferredSize(new java.awt.Dimension(75, 59));
-        switchButtonAbout1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        switchButtonAbout1.addActionListener(new java.awt.event.ActionListener() {
+        switchButtonAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/info.png"))); // NOI18N
+        switchButtonAbout.setText("About");
+        switchButtonAbout.setToolTipText("Infomation about the application");
+        switchButtonAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonAbout.setOpaque(false);
+        switchButtonAbout.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonAbout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                switchButtonAbout1ActionPerformed(evt);
-            }
-        });
-
-        switchButtonAbout2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/warning.png"))); // NOI18N
-        switchButtonAbout2.setText("Test Bro");
-        switchButtonAbout2.setToolTipText("Infomation about the application");
-        switchButtonAbout2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        switchButtonAbout2.setOpaque(false);
-        switchButtonAbout2.setPreferredSize(new java.awt.Dimension(75, 59));
-        switchButtonAbout2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        switchButtonAbout2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                switchButtonAbout2ActionPerformed(evt);
+                switchButtonAboutActionPerformed(evt);
             }
         });
 
@@ -513,7 +788,9 @@ public class AardvarkGui extends javax.swing.JFrame {
         controlButtonsPaneLayout.setHorizontalGroup(
             controlButtonsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlButtonsPaneLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
+                .addComponent(switchButtonExperiment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(switchButtonIndex)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(switchButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -529,10 +806,6 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addComponent(buttonCreatePrecisionRecall, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(switchButtonAbout, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(switchButtonAbout1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(switchButtonAbout2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         controlButtonsPaneLayout.setVerticalGroup(
@@ -540,25 +813,102 @@ public class AardvarkGui extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlButtonsPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(controlButtonsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(switchButtonAbout1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonAbout, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(buttonCreatePrecisionRecall, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonGraph, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonOptions, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonAnnotate, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonIndex, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonBrowse, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addComponent(switchButtonAbout2, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                    .addComponent(switchButtonExperiment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                    .addComponent(buttonCreatePrecisionRecall, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonGraph, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonOptions, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonAnnotate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonIndex, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonBrowse, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonAbout, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        cardPanel.setBorder(new javax.swing.border.MatteBorder(null));
+        cardPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
         cardPanel.setLayout(new java.awt.CardLayout());
+
+        labelExperimentPanelToplabel.setBackground(new java.awt.Color(214, 217, 223));
+        labelExperimentPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelExperimentPanelToplabel.setText("  Setup experiment: ");
+        labelExperimentPanelToplabel.setMaximumSize(new java.awt.Dimension(126, 30));
+        labelExperimentPanelToplabel.setMinimumSize(new java.awt.Dimension(126, 30));
+        labelExperimentPanelToplabel.setOpaque(true);
+        labelExperimentPanelToplabel.setPreferredSize(new java.awt.Dimension(126, 30));
+
+        jLabelExperimentHints.setText("<html><b>Instructions:</b><ul><li><b>In order to perform this experiment you need to be connected to the internet!</b></i>\n<li><i><b>Step 1</i></b>: Press to download button. This will download the image collection and create an index. This takes from 1 to 3 minutes \ndepending on your internet connection and hardware. When the progressbar is finished, you're ready for the nest step</li>\n<li><i><b>Step 2</i></b>: press the experiment button. This action will open the experiment wizard that will guide you trough the experiment</li></ul>");
+
+        progressBarDownloadImages.setStringPainted(true);
+
+        jButtonDownloadImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        jButtonDownloadImages.setText("Download");
+        jButtonDownloadImages.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jButtonDownloadImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDownloadImagesbuttonStartDownloadPerformed(evt);
+            }
+        });
+
+        jLabelDownloadImages.setText("Download Image Collection");
+
+        jButtonStartExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/play16.png"))); // NOI18N
+        jButtonStartExperiment.setText("Start experiment");
+        jButtonStartExperiment.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jButtonStartExperiment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStartExperimentActionPerformed(evt);
+            }
+        });
+
+        jLabelStartExperiment.setText("Open experiment wizard");
+
+        javax.swing.GroupLayout experimentPanelLayout = new javax.swing.GroupLayout(experimentPanel);
+        experimentPanel.setLayout(experimentPanelLayout);
+        experimentPanelLayout.setHorizontalGroup(
+            experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelExperimentPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(progressBarDownloadImages, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelExperimentHints, javax.swing.GroupLayout.PREFERRED_SIZE, 982, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(experimentPanelLayout.createSequentialGroup()
+                        .addGap(276, 276, 276)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonDownloadImages, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDownloadImages))
+                        .addGap(277, 277, 277)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonStartExperiment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelStartExperiment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        experimentPanelLayout.setVerticalGroup(
+            experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addComponent(labelExperimentPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(progressBarDownloadImages, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDownloadImages)
+                    .addComponent(jLabelStartExperiment))
+                .addGap(32, 32, 32)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDownloadImages)
+                    .addComponent(jButtonStartExperiment))
+                .addGap(84, 84, 84)
+                .addComponent(jLabelExperimentHints, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(198, 198, 198))
+        );
+
+        cardPanel.add(experimentPanel, "card9");
 
         IndexingPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
 
-        labelIndexingPanelToplabel.setBackground(new java.awt.Color(204, 204, 204));
+        labelIndexingPanelToplabel.setBackground(new java.awt.Color(214, 217, 223));
         labelIndexingPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         labelIndexingPanelToplabel.setText("  Image Indexing: ");
         labelIndexingPanelToplabel.setMaximumSize(new java.awt.Dimension(126, 30));
@@ -596,41 +946,46 @@ public class AardvarkGui extends javax.swing.JFrame {
         IndexingPanel.setLayout(IndexingPanelLayout);
         IndexingPanelLayout.setHorizontalGroup(
             IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelIndexingPanelToplabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+            .addComponent(labelIndexingPanelToplabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
             .addGroup(IndexingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressBarIndexing, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
+                    .addComponent(progressBarIndexing, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 524, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IndexingPanelLayout.createSequentialGroup()
-                        .addComponent(textfieldIndexDir, javax.swing.GroupLayout.DEFAULT_SIZE, 954, Short.MAX_VALUE)
+                        .addComponent(textfieldIndexDir, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IndexingPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(checkBoxAddToExistingIndex)
-                        .addGap(36, 36, 36)
-                        .addComponent(buttonStartIndexing, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(IndexingPanelLayout.createSequentialGroup()
-                        .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 501, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonStartIndexing, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         IndexingPanelLayout.setVerticalGroup(
             IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IndexingPanelLayout.createSequentialGroup()
                 .addComponent(labelIndexingPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(40, 40, 40)
                 .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textfieldIndexDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonOpenDir))
-                .addGap(31, 31, 31)
-                .addComponent(progressBarIndexing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonStartIndexing)
-                    .addComponent(checkBoxAddToExistingIndex))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
-                .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
+                .addGap(18, 18, 18)
+                .addComponent(progressBarIndexing, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addGap(24, 330, Short.MAX_VALUE)
+                        .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100))
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonStartIndexing)
+                            .addComponent(checkBoxAddToExistingIndex))
+                        .addContainerGap())))
         );
 
         cardPanel.add(IndexingPanel, "card1");
@@ -644,6 +999,7 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         buttonSearchPanelOpenImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
         buttonSearchPanelOpenImage.setText("Open Image");
+        buttonSearchPanelOpenImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         buttonSearchPanelOpenImage.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         buttonSearchPanelOpenImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -674,32 +1030,57 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         labelTextSearch.setText("Textual Search");
 
+        buttonOpenTextIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonOpenTextIndex.setText("Open Index");
+        buttonOpenTextIndex.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonOpenTextIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOpenTextIndexActionPerformed(evt);
+            }
+        });
+
+        jLabelSearchMode.setText("Search mode");
+
+        jLabelSearchModality.setText("Search modality");
+
         javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
         searchPanel.setLayout(searchPanelLayout);
         searchPanelLayout.setHorizontalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelSearchPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+            .addComponent(labelSearchPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
             .addGroup(searchPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
-                        .addComponent(textfieldSearchImage, javax.swing.GroupLayout.DEFAULT_SIZE, 954, Short.MAX_VALUE)
+                        .addComponent(textfieldSearchImage, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonSearchPanelOpenImage, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
+                    .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
-                        .addGap(0, 972, Short.MAX_VALUE)
+                        .addGap(0, 995, Short.MAX_VALUE)
                         .addComponent(buttonSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(searchPanelLayout.createSequentialGroup()
-                        .addComponent(textfieldSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, 956, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(searchPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
                         .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelSearchPanelHintLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelStructuralSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(textfieldSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                            .addComponent(jTextFieldDescription))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(buttonOpenTextIndex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jComboBoxSearchModality, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxSearchMode, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchPanelLayout.createSequentialGroup()
+                                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(labelSearchPanelHintLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelStructuralSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelTextSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelSearchMode, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSearchModality))))
                 .addContainerGap())
         );
         searchPanelLayout.setVerticalGroup(
@@ -712,49 +1093,65 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textfieldSearchImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonSearchPanelOpenImage))
-                .addGap(29, 29, 29)
-                .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(buttonSearchButton)
-                .addGap(46, 46, 46)
+                .addGap(54, 54, 54)
                 .addComponent(labelTextSearch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textfieldSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonSearchText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonOpenTextIndex)
+                    .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxSearchMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSearchMode))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxSearchModality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSearchModality))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(labelSearchPanelHintLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(98, 98, 98))
         );
 
         cardPanel.add(searchPanel, "card2");
 
-        browsePanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+        BrowsePanel.setLayout(new java.awt.BorderLayout());
 
-        labelBrowsePanelToplabel.setBackground(new java.awt.Color(204, 204, 204));
-        labelBrowsePanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        labelBrowsePanelToplabel.setText("  Browse: ");
-        labelBrowsePanelToplabel.setOpaque(true);
+        browseContainerPanel.setLayout(new java.awt.BorderLayout());
+        BrowsePanel.add(browseContainerPanel, java.awt.BorderLayout.CENTER);
 
+        spinnerCurrentDoc.putClientProperty("JComponent.sizeVariant", "large");
         spinnerCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerCurrentDoc.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                spinnerCurrentDocMouseWheelMoved(evt);
+            }
+        });
         spinnerCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spinnerCurrentDocStateChanged(evt);
+                browseControlPanelSpinnerStateChanged(evt);
             }
         });
 
-        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imageLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        imageLabel.setMaximumSize(new java.awt.Dimension(401, 287));
-        imageLabel.setMinimumSize(new java.awt.Dimension(401, 287));
-        imageLabel.setPreferredSize(new java.awt.Dimension(401, 287));
+        labelBrowseCurrentDivider.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelBrowseCurrentDivider.setText("/");
 
-        labelCurrentDocumentSpinner.setText("Current document : ");
+        labelBrowseCurrentImage.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelBrowseCurrentImage.setText("Current Image ");
 
-        labelDocCount.setText("/");
+        spinnerMaxDoc.putClientProperty("JComponent.sizeVariant", "large");
 
+        buttonSearchFromBrowse.putClientProperty("JComponent.sizeVariant", "large");
         buttonSearchFromBrowse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
         buttonSearchFromBrowse.setText("Search");
+        buttonSearchFromBrowse.setToolTipText("Searches for the current image");
         buttonSearchFromBrowse.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         buttonSearchFromBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,46 +1159,46 @@ public class AardvarkGui extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout browsePanelLayout = new javax.swing.GroupLayout(browsePanel);
-        browsePanel.setLayout(browsePanelLayout);
-        browsePanelLayout.setHorizontalGroup(
-            browsePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelBrowsePanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
-            .addGroup(browsePanelLayout.createSequentialGroup()
-                .addGroup(browsePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(browsePanelLayout.createSequentialGroup()
-                        .addGap(268, 268, 268)
-                        .addComponent(labelCurrentDocumentSpinner)
-                        .addGap(96, 96, 96)
-                        .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(labelDocCount)
-                        .addGap(34, 34, 34)
-                        .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(buttonSearchFromBrowse))
-                    .addGroup(browsePanelLayout.createSequentialGroup()
-                        .addGap(219, 219, 219)
-                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        browsePanelLayout.setVerticalGroup(
-            browsePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(browsePanelLayout.createSequentialGroup()
-                .addComponent(labelBrowsePanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addGroup(browsePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonSearchFromBrowse)
-                    .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCurrentDocumentSpinner)
-                    .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelDocCount))
+        labelBrowsePanelToplabel1.setBackground(new java.awt.Color(204, 204, 204));
+        labelBrowsePanelToplabel1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelBrowsePanelToplabel1.setText("  Browse: ");
+        labelBrowsePanelToplabel1.setOpaque(true);
+
+        javax.swing.GroupLayout browseControlPanelLayout = new javax.swing.GroupLayout(browseControlPanel);
+        browseControlPanel.setLayout(browseControlPanelLayout);
+        browseControlPanelLayout.setHorizontalGroup(
+            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(browseControlPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(labelBrowseCurrentImage)
                 .addGap(18, 18, 18)
-                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(labelBrowseCurrentDivider)
+                .addGap(18, 18, 18)
+                .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonSearchFromBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(labelBrowsePanelToplabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+        );
+        browseControlPanelLayout.setVerticalGroup(
+            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(browseControlPanelLayout.createSequentialGroup()
+                .addComponent(labelBrowsePanelToplabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelBrowseCurrentDivider)
+                    .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSearchFromBrowse)
+                    .addComponent(labelBrowseCurrentImage))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        cardPanel.add(browsePanel, "card3");
+        BrowsePanel.add(browseControlPanel, java.awt.BorderLayout.PAGE_START);
+
+        cardPanel.add(BrowsePanel, "card3");
 
         annotatePanel.setPreferredSize(new java.awt.Dimension(1087, 495));
 
@@ -811,6 +1208,8 @@ public class AardvarkGui extends javax.swing.JFrame {
         labelAnnotatePanelToplabel.setOpaque(true);
 
         panelAnnotateImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        imageLabelAnnotate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         spinnerAnnotateCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerAnnotateCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -858,61 +1257,87 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         panelAnnotateKeywords.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        labelAnnotateName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotateName.setText("Name");
 
         annotationFields.add(textfieldAnnotateName);
         textfieldAnnotateName.setComponentPopupMenu(jPopupMenuSemantic);
 
+        jlabelAnnotateCreator.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jlabelAnnotateCreator.setText("Creator");
 
         annotationFields.add(textfieldAnnotateCreator);
+        textfieldAnnotateCreator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textfieldAnnotateCreatorActionPerformed(evt);
+            }
+        });
 
+        labelAnnotatePeriod.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotatePeriod.setText("Period");
 
         annotationFields.add(textfieldAnnotatePeriod);
 
+        lableAnnotateTechnique.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lableAnnotateTechnique.setText("Technique");
 
         annotationFields.add(textfieldAnnotateTechnique);
 
+        lablelAnnotateMaterials.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lablelAnnotateMaterials.setText("Materials");
 
         annotationFields.add(textfieldAnnotateMaterials);
 
+        lablelAnnotateHeight.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lablelAnnotateHeight.setText("Height");
 
         annotationFields.add(textfieldAnnotateHeight);
 
+        lablelAnnotateDate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lablelAnnotateDate.setText("Date");
 
         annotationFields.add(textfieldAnnotateDate);
 
+        labelAnnotateWidth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotateWidth.setText("Width");
+        labelAnnotateWidth.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         annotationFields.add(textfieldAnnotateWidth);
         textfieldAnnotateWidth.setComponentPopupMenu(jPopupMenuSemantic);
 
+        lableAnnotateLocation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lableAnnotateLocation.setText("Location");
 
         annotationFields.add(textfieldAnnotateLocation);
 
+        lablelAnnotateActivity.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lablelAnnotateActivity.setText("Activity");
 
         annotationFields.add(textfieldAnnotateActivity);
 
+        labelAnnotateTheme.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotateTheme.setText("Theme");
 
         annotationFields.add(textfieldAnnotateTheme);
 
+        labelAnnotateConcept.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotateConcept.setText("Concept");
 
         annotationFields.add(textFieldAnnotateConcept);
 
+        labelFreeTextAnnotation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelFreeTextAnnotation.setLabelFor(textAreaAnnotateFreetext);
         labelFreeTextAnnotation.setText("Free text");
 
-        textAreaAnnotateFreetext.setColumns(20);
+        jScrollPaneFreeTextAnnotation.setHorizontalScrollBar(null);
+
+        textAreaAnnotateFreetext.setColumns(40);
+        textAreaAnnotateFreetext.setFont(new Font("monospaced", Font.PLAIN, 12));
         textAreaAnnotateFreetext.setLineWrap(true);
-        textAreaAnnotateFreetext.setRows(5);
+        textAreaAnnotateFreetext.setRows(20);
+        textAreaAnnotateFreetext.setTabSize(1);
+        textAreaAnnotateFreetext.setWrapStyleWord(true);
+        textAreaAnnotateFreetext.setAutoscrolls(false);
         jScrollPaneFreeTextAnnotation.setViewportView(textAreaAnnotateFreetext);
 
         buttonAnnotateSavebutton.setText("Save");
@@ -929,6 +1354,7 @@ public class AardvarkGui extends javax.swing.JFrame {
             }
         });
 
+        labelAnnotateActor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelAnnotateActor.setText("Actor");
 
         annotationFields.add(textfieldAnnotateActor);
@@ -940,63 +1366,57 @@ public class AardvarkGui extends javax.swing.JFrame {
         panelAnnotateKeywordsLayout.setHorizontalGroup(
             panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lablelAnnotateMaterials)
-                            .addComponent(lablelAnnotateHeight)
-                            .addComponent(labelAnnotatePeriod))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
-                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelAnnotateConcept)
-                            .addComponent(lableAnnotateLocation)
-                            .addComponent(labelAnnotateWidth)
-                            .addComponent(labelFreeTextAnnotation)
-                            .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(labelAnnotateTheme)
-                                .addComponent(lablelAnnotateActivity)))
-                        .addGap(22, 22, 22))
-                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lablelAnnotateDate)
-                            .addComponent(labelAnnotateActor))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                                .addComponent(lableAnnotateTechnique)
-                                .addGap(18, 18, 18)
-                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(textfieldAnnotateMaterials, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(textfieldAnnotateTechnique)
-                                    .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                                        .addComponent(buttonAnnotateSavebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(buttonAnnotateUpdatebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 2, Short.MAX_VALUE))))
                             .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
                                 .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lablelAnnotateDate)
+                                    .addComponent(labelAnnotateActor))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lablelAnnotateMaterials)
+                                    .addComponent(lablelAnnotateHeight)
+                                    .addComponent(labelAnnotatePeriod)
+                                    .addComponent(lableAnnotateTechnique)
                                     .addComponent(labelAnnotateName)
                                     .addComponent(jlabelAnnotateCreator))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                                    .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateMaterials)
+                                    .addComponent(textfieldAnnotateTechnique, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotatePeriod, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateCreator, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateName, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(textfieldAnnotatePeriod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                                    .addComponent(textfieldAnnotateName)
-                                    .addComponent(textfieldAnnotateCreator))))
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelAnnotateConcept)
+                                    .addComponent(labelFreeTextAnnotation)
+                                    .addComponent(labelAnnotateTheme)
+                                    .addComponent(lablelAnnotateActivity)
+                                    .addComponent(lableAnnotateLocation)
+                                    .addComponent(labelAnnotateWidth))
+                                .addGap(18, 18, 18))))
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(buttonAnnotateSavebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonAnnotateUpdatebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonClearTextFields, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textfieldAnnotateWidth)
+                    .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                     .addComponent(textfieldAnnotateLocation)
-                    .addComponent(textFieldAnnotateConcept, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(textfieldAnnotateTheme, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                    .addComponent(textfieldAnnotateWidth)
                     .addComponent(textfieldAnnotateActivity)
-                    .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+                    .addComponent(textfieldAnnotateTheme)
+                    .addComponent(textFieldAnnotateConcept))
                 .addContainerGap())
         );
         panelAnnotateKeywordsLayout.setVerticalGroup(
@@ -1044,32 +1464,31 @@ public class AardvarkGui extends javax.swing.JFrame {
                         .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textFieldAnnotateConcept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelAnnotateConcept))))
-                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lablelAnnotateHeight)
-                                    .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lablelAnnotateDate)
-                                    .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelAnnotateActor)
-                                    .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(labelFreeTextAnnotation)
+                            .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(labelFreeTextAnnotation)))
-                .addGap(72, 72, 72)
-                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonAnnotateSavebutton)
-                    .addComponent(buttonAnnotateUpdatebutton)
-                    .addComponent(buttonClearTextFields))
-                .addGap(139, 139, 139))
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lablelAnnotateHeight)
+                            .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lablelAnnotateDate)
+                            .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAnnotateActor)
+                            .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonAnnotateSavebutton)
+                            .addComponent(buttonAnnotateUpdatebutton)
+                            .addComponent(buttonClearTextFields))
+                        .addGap(95, 95, 95))))
         );
 
         javax.swing.GroupLayout annotatePanelLayout = new javax.swing.GroupLayout(annotatePanel);
@@ -1081,7 +1500,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addComponent(panelAnnotateImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelAnnotateKeywords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(labelAnnotatePanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1087, Short.MAX_VALUE)
+            .addComponent(labelAnnotatePanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
         );
         annotatePanelLayout.setVerticalGroup(
             annotatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1107,6 +1526,10 @@ public class AardvarkGui extends javax.swing.JFrame {
         labelGraphPanelToplabel.setPreferredSize(new java.awt.Dimension(126, 30));
 
         panelAnnotateImage1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        imageLabelAnnotateGraph.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLabelAnnotateGraph.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        imageLabelAnnotateGraph.setIconTextGap(0);
 
         spinnerGraphCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerGraphCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1149,7 +1572,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                     .addComponent(spinnerGraphCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(67, 67, 67)
                 .addComponent(buttonAnnotateOpenImage1)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         semanticPanel.setPreferredSize(new java.awt.Dimension(866, 494));
@@ -1158,13 +1581,13 @@ public class AardvarkGui extends javax.swing.JFrame {
         semanticPanel.setLayout(semanticPanelLayout);
         semanticPanelLayout.setHorizontalGroup(
             semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 799, Short.MAX_VALUE)
+            .addGap(0, 822, Short.MAX_VALUE)
             .addGroup(semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(graphicalAnnotation1, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE))
         );
         semanticPanelLayout.setVerticalGroup(
             semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 543, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
             .addGroup(semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(graphicalAnnotation1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
         );
@@ -1173,12 +1596,12 @@ public class AardvarkGui extends javax.swing.JFrame {
         semanticGraphPanel.setLayout(semanticGraphPanelLayout);
         semanticGraphPanelLayout.setHorizontalGroup(
             semanticGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelGraphPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+            .addComponent(labelGraphPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
             .addGroup(semanticGraphPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelAnnotateImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE)
+                .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
                 .addContainerGap())
         );
         semanticGraphPanelLayout.setVerticalGroup(
@@ -1188,7 +1611,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(semanticGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panelAnnotateImage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
+                    .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1243,7 +1666,7 @@ public class AardvarkGui extends javax.swing.JFrame {
         );
         panelAdvancedOptionsHiddenLayout.setVerticalGroup(
             panelAdvancedOptionsHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 398, Short.MAX_VALUE)
         );
 
         panelAdvancedOptions.add(panelAdvancedOptionsHidden, "card2");
@@ -1296,6 +1719,15 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         labelSliderAdjustFeatureWeight2.setText("Semantic");
 
+        labelShowDescriptions.setText("Show descriptions");
+
+        checkboxShowDescriptions.setText("On/Off");
+        checkboxShowDescriptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkboxShowDescriptionsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAdvancedOptionsShownLayout = new javax.swing.GroupLayout(panelAdvancedOptionsShown);
         panelAdvancedOptionsShown.setLayout(panelAdvancedOptionsShownLayout);
         panelAdvancedOptionsShownLayout.setHorizontalGroup(
@@ -1316,18 +1748,23 @@ public class AardvarkGui extends javax.swing.JFrame {
                             .addComponent(jsliderEdgeHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jsliderColorLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jsliderScalableColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                .addComponent(labelSliderFeatureWeight)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAdvancedOptionsShownLayout.createSequentialGroup()
-                        .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelSliderAdjustFeatureWeight2)
-                        .addGap(87, 87, 87))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAdvancedOptionsShownLayout.createSequentialGroup()
                         .addComponent(labelAdvancedOptionStructuralSemanticWeight)
-                        .addGap(174, 174, 174))))
+                        .addGap(174, 174, 174))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelSliderFeatureWeight)
+                            .addComponent(labelShowDescriptions))
+                        .addGap(28, 28, 28)
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelSliderAdjustFeatureWeight2))
+                            .addComponent(checkboxShowDescriptions))
+                        .addGap(87, 87, 87))))
         );
         panelAdvancedOptionsShownLayout.setVerticalGroup(
             panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1351,20 +1788,25 @@ public class AardvarkGui extends javax.swing.JFrame {
                                 .addGap(31, 31, 31)
                                 .addComponent(labelSliderColorLayout))
                             .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jsliderScalableColor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                        .addComponent(labelSliderFeatureWeight)
+                                        .addGap(18, 18, 18)))
                                 .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jsliderScalableColor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jsliderEdgeHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jsliderEdgeHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelShowDescriptions)
+                                    .addComponent(checkboxShowDescriptions))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jsliderColorLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(labelSliderFeatureWeight))
-                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addComponent(labelSliderAdjustFeatureWeight2)))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         panelAdvancedOptions.add(panelAdvancedOptionsShown, "card3");
@@ -1410,7 +1852,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(buttonOpenIndexButton))
                             .addComponent(checkboxRamIndex))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         optionsPanelLayout.setVerticalGroup(
             optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1500,7 +1942,7 @@ public class AardvarkGui extends javax.swing.JFrame {
             .addGroup(controlPanelCreateGraphPanelLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(controlPanelCreateGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonChartOpenQrels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonChartOpenQrels, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                     .addComponent(buttonOpenTopicsFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonCreatePRGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonExportGraphImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1520,9 +1962,9 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addGap(162, 162, 162))
         );
 
-        jLabelChart.addComponentListener(new java.awt.event.ComponentAdapter() {
+        jFreeGraphPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
-                jLabelChartComponentResized(evt);
+                jFreeGraphPanelResized(evt);
             }
         });
 
@@ -1530,11 +1972,11 @@ public class AardvarkGui extends javax.swing.JFrame {
         jFreeGraphPanel.setLayout(jFreeGraphPanelLayout);
         jFreeGraphPanelLayout.setHorizontalGroup(
             jFreeGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelChart, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
+            .addComponent(jLabelChart, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
         );
         jFreeGraphPanelLayout.setVerticalGroup(
             jFreeGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelChart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+            .addComponent(jLabelChart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
         );
 
         presicionRecallPanelTopLabel.setBackground(new java.awt.Color(204, 204, 204));
@@ -1550,7 +1992,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addComponent(controlPanelCreateGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jFreeGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(presicionRecallPanelTopLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+            .addComponent(presicionRecallPanelTopLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
         );
         precisionRecallPanelLayout.setVerticalGroup(
             precisionRecallPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1563,82 +2005,6 @@ public class AardvarkGui extends javax.swing.JFrame {
         );
 
         cardPanel.add(precisionRecallPanel, "card8");
-
-        slickPanel.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
-            public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
-            }
-            public void ancestorResized(java.awt.event.HierarchyEvent evt) {
-                slickPanelAncestorResized(evt);
-            }
-        });
-
-        avatarChooser1.setPreferredSize(new java.awt.Dimension(640, 480));
-
-        javax.swing.GroupLayout avatarChooser1Layout = new javax.swing.GroupLayout(avatarChooser1);
-        avatarChooser1.setLayout(avatarChooser1Layout);
-        avatarChooser1Layout.setHorizontalGroup(
-            avatarChooser1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1109, Short.MAX_VALUE)
-        );
-        avatarChooser1Layout.setVerticalGroup(
-            avatarChooser1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 602, Short.MAX_VALUE)
-        );
-
-        curvesPanel1.add(avatarChooser1, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout slickPanelLayout = new javax.swing.GroupLayout(slickPanel);
-        slickPanel.setLayout(slickPanelLayout);
-        slickPanelLayout.setHorizontalGroup(
-            slickPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(curvesPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
-        );
-        slickPanelLayout.setVerticalGroup(
-            slickPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(curvesPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-        );
-
-        cardPanel.add(slickPanel, "card9");
-
-        TestBrowsePanel.setLayout(new java.awt.BorderLayout());
-
-        browseContainerPanel.setLayout(new java.awt.BorderLayout());
-        TestBrowsePanel.add(browseContainerPanel, java.awt.BorderLayout.CENTER);
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        javax.swing.GroupLayout browseControlPanelLayout = new javax.swing.GroupLayout(browseControlPanel);
-        browseControlPanel.setLayout(browseControlPanelLayout);
-        browseControlPanelLayout.setHorizontalGroup(
-            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(browseControlPanelLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(759, Short.MAX_VALUE))
-        );
-        browseControlPanelLayout.setVerticalGroup(
-            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(browseControlPanelLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-
-        TestBrowsePanel.add(browseControlPanel, java.awt.BorderLayout.PAGE_START);
-
-        cardPanel.add(TestBrowsePanel, "card10");
 
         javax.swing.GroupLayout controlPaneLayout = new javax.swing.GroupLayout(controlPane);
         controlPane.setLayout(controlPaneLayout);
@@ -1662,7 +2028,6 @@ public class AardvarkGui extends javax.swing.JFrame {
         resultsTable.setModel(tableModel);
         resultsTable.setToolTipText("<html>Double click on row searches for similar images<br>Right click on image opens it in external viewer</html>");
         resultsTable.setGridColor(new java.awt.Color(0, 0, 0));
-        resultsTable.setRowMargin(5);
         resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resultsTableMouseClicked(evt);
@@ -1687,6 +2052,7 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         buttonSaveQrelsFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/download.png"))); // NOI18N
         buttonSaveQrelsFile.setText("Save Qrels");
+        buttonSaveQrelsFile.setToolTipText("Save the relevant results");
         buttonSaveQrelsFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonSaveQrelsFile.setOpaque(false);
         buttonSaveQrelsFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1705,7 +2071,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                 .addComponent(buttonBackToMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonSaveQrelsFile)
-                .addContainerGap(919, Short.MAX_VALUE))
+                .addContainerGap(942, Short.MAX_VALUE))
         );
         searchResultsControlPanelLayout.setVerticalGroup(
             searchResultsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1723,9 +2089,8 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
 
-        statusPanel.setBorder(new javax.swing.border.MatteBorder(null));
+        statusPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
 
-        jProgressBarMemory.setOpaque(true);
         jProgressBarMemory.setString("");
         jProgressBarMemory.setStringPainted(true);
 
@@ -1733,15 +2098,15 @@ public class AardvarkGui extends javax.swing.JFrame {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1109, Short.MAX_VALUE)
+            .addGap(0, 1132, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(statusPanelLayout.createSequentialGroup()
-                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(290, Short.MAX_VALUE)))
+                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 297, Short.MAX_VALUE)))
             .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(statusPanelLayout.createSequentialGroup()
-                    .addContainerGap(932, Short.MAX_VALUE)
-                    .addComponent(jProgressBarMemory, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(943, Short.MAX_VALUE)
+                    .addComponent(jProgressBarMemory, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1772,6 +2137,7 @@ public class AardvarkGui extends javax.swing.JFrame {
         fileMenu.add(Open);
 
         Exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        Exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/cancel16.png"))); // NOI18N
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1893,7 +2259,7 @@ public class AardvarkGui extends javax.swing.JFrame {
     private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
         JOptionPane.showMessageDialog(this, "<html><center><b>Simple application for Image Retrieval using CIDOC CRM/MPEG-7.</b><br>"
                 + "<br>Visit http://www.feita.net for more information.<br>"
-                + "<br>&copy; 2007-2011 by Olav Løne<br>"
+                + "<br>&copy; 2010-2012 by Olav Løne<br>"
                 + "olav.lone@student.uib.no<br></center></html>",
                 "About AARDVARK", JOptionPane.PLAIN_MESSAGE);
 }//GEN-LAST:event_AboutActionPerformed
@@ -1934,25 +2300,53 @@ public class AardvarkGui extends javax.swing.JFrame {
     private void switchButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonBrowseActionPerformed
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "card3");
-        guiUtil.initReader(spinnerMaxDoc, spinnerCurrentDoc, imageLabel);
+        try {
+            guiUtil.initReaderImagePanel(spinnerMaxDoc, spinnerCurrentDoc);
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
         spinnerCurrentDoc.setValue(currentDocument);
 }//GEN-LAST:event_switchButtonBrowseActionPerformed
 
     private void switchButtonAnnotateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAnnotateActionPerformed
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "card4");
-        guiUtil.initReader(spinnerMaxDoc, spinnerAnnotateCurrentDoc, imageLabelAnnotate);
-        spinnerAnnotateCurrentDoc.setValue(currentDocument);
+        try {
+            if (reader == null) {
+
+                guiUtil.initReader(spinnerMaxDoc, spinnerAnnotateCurrentDoc, imageLabelAnnotate);
+            } else {
+                guiUtil.setDocumentIcon(currentDocument, imageLabelAnnotate);
+            }
+            spinnerAnnotateCurrentDoc.setValue(currentDocument);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 }//GEN-LAST:event_switchButtonAnnotateActionPerformed
 
-    private void switchButtonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAboutActionPerformed
-        showAbout();
-}//GEN-LAST:event_switchButtonAboutActionPerformed
+    private void switchButtonExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonExperimentActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card9");
+}//GEN-LAST:event_switchButtonExperimentActionPerformed
 
     private void switchButtonGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonGraphActionPerformed
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "card7");
-        guiUtil.initReader(spinnerMaxDoc, spinnerGraphCurrentDoc, imageLabelAnnotateGraph);
+        if (reader == null) {
+            try {
+                guiUtil.initReader(spinnerMaxDoc, spinnerGraphCurrentDoc, imageLabelAnnotateGraph);
+            } catch (IOException ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            guiUtil.setDocumentIcon(currentDocument, imageLabelAnnotateGraph);
+        }
         spinnerGraphCurrentDoc.setValue(currentDocument);
 }//GEN-LAST:event_switchButtonGraphActionPerformed
 
@@ -1981,7 +2375,7 @@ public class AardvarkGui extends javax.swing.JFrame {
         } else {
             int result = JOptionPane.showConfirmDialog(actionMenu, "You did not "
                     + "specify images to index.\n"
-                    + "Should LireDemo download random Flickr images for indexing?.\n"
+                    + "Should Aardvark download random Flickr images for indexing?.\n"
                     + "Note that this is rather slow an consumes a lot of bandwidth.");
             if (result == JOptionPane.OK_OPTION) {
                 FlickrIndexingThread flickerTread = new FlickrIndexingThread(this,
@@ -2028,32 +2422,6 @@ public class AardvarkGui extends javax.swing.JFrame {
         }
 }//GEN-LAST:event_buttonSearchButtonActionPerformed
 
-    private void spinnerCurrentDocStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerCurrentDocStateChanged
-        guiUtil.setDocumentImageIcon(((Integer) spinnerCurrentDoc.getValue()).intValue(), imageLabel);
-        try {
-            BufferedImage img = null;
-            guiUtil.setCurrentFile(guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue()));
-            System.out.println(currentFile);
-            currentDocument = (((Integer) spinnerCurrentDoc.getValue()).intValue());
-            currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue());
-        } catch (IOException ex) {
-            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_spinnerCurrentDocStateChanged
-
-    private void buttonSearchFromBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchFromBrowseActionPerformed
-        int docID = ((Integer) spinnerCurrentDoc.getValue()).intValue();
-        if (docID < 0 || docID > reader.maxDoc());
-        try {
-            //avatarChooser1.startSearch(this, avatarChooser1.getImage()); //Binding in beans WTF??  
-            SearchForDocument searchDoc = new SearchForDocument(this, reader.document(docID));
-            searchDoc.start();
-            System.gc();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }//GEN-LAST:event_buttonSearchFromBrowseActionPerformed
-
     private void spinnerAnnotateCurrentDocStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerAnnotateCurrentDocStateChanged
         guiUtil.setDocumentImageIcon(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue(), imageLabelAnnotate);
         try {
@@ -2064,6 +2432,8 @@ public class AardvarkGui extends javax.swing.JFrame {
         } catch (CorruptIndexException ex) {
             Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 }//GEN-LAST:event_spinnerAnnotateCurrentDocStateChanged
@@ -2090,6 +2460,8 @@ public class AardvarkGui extends javax.swing.JFrame {
             currentDocument = (((Integer) spinnerGraphCurrentDoc.getValue()).intValue());
             currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerGraphCurrentDoc.getValue()).intValue());
         } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 }//GEN-LAST:event_spinnerGraphCurrentDocStateChanged
@@ -2178,7 +2550,7 @@ public class AardvarkGui extends javax.swing.JFrame {
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
         if (evt.getButton() == MouseEvent.BUTTON3) {
-            int imageID = resultsTable.rowAtPoint(evt.getPoint()) * 3 + resultsTable.columnAtPoint(evt.getPoint());
+            int imageID = resultsTable.rowAtPoint(evt.getPoint());
             if (imageID >= 0 && imageID < tableModel.getHits().length()) {
                 String file = tableModel.getHits().doc(imageID).getFieldable(DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
 
@@ -2209,6 +2581,7 @@ public class AardvarkGui extends javax.swing.JFrame {
 
                         boolean checked = (Boolean) resultsTable.getValueAt(row, column);
 
+                        @Override
                         public void run() {
                             if (checked == false) {
                                 SetData(true, row, column);
@@ -2224,34 +2597,39 @@ public class AardvarkGui extends javax.swing.JFrame {
     private void buttonBackToMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackToMainMenuActionPerformed
         CardLayout cl = (CardLayout) topPanel.getLayout();
         cl.show(topPanel, "card1");
+        CardLayout cls = (CardLayout)cardPanel.getLayout();
+        cls.show(cardPanel, "card3");
         buttonSearchButton.setEnabled(true);
 }//GEN-LAST:event_buttonBackToMainMenuActionPerformed
 
     private void buttonSaveQrelsFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveQrelsFileActionPerformed
-        JFileChooser jfc = new JFileChooser();
-        jfc.setDialogTitle("Save the relevant images for the query");
-        jfc.showSaveDialog(this);
-        jfc.getCurrentDirectory();
-        String fileName;
+        String qrelsDirectory = "/qrels/";
         try {
-            fileName = jfc.getSelectedFile().getCanonicalPath() + ".txt";
-            guiUtil.writeQrels(fileName);
+            String installPath = new File(".").getCanonicalPath();
+            File cacheDir = new File(installPath + qrelsDirectory);
+            if (!cacheDir.exists()) {
+                cacheDir.mkdir();
+            }
         } catch (IOException ex) {
             Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
         }
-}//GEN-LAST:event_buttonSaveQrelsFileActionPerformed
 
-    private void switchButtonAbout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAbout1ActionPerformed
-        CardLayout cl = (CardLayout) cardPanel.getLayout();
-        cl.show(cardPanel, "card9");
-        startAnimation();
-    }//GEN-LAST:event_switchButtonAbout1ActionPerformed
-
-    private void jLabelChartComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabelChartComponentResized
-        if (PRChartCreation.isCreated != false) {
-            prChart.createChart(jLabelChart.getWidth(), jLabelChart.getHeight(), jLabelChart);
+        JFileChooser jfc = new JFileChooser("./qrels/");
+        jfc.setDialogTitle("Save the relevant images for the query");
+        int returnVal = jfc.showSaveDialog(this);
+        String fileName = "";
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            fileName = jfc.getSelectedFile() + ".txt";
+            guiUtil.writeQrels(fileName);
+            try {
+                guiUtil.uploadQrels(fileName);
+            } catch (Exception ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            status.setText("Action cancelled by user");
         }
-    }//GEN-LAST:event_jLabelChartComponentResized
+}//GEN-LAST:event_buttonSaveQrelsFileActionPerformed
 
     private void buttonOpenIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenIndexButtonActionPerformed
         JFileChooser jfc = new JFileChooser(".");
@@ -2264,11 +2642,8 @@ public class AardvarkGui extends javax.swing.JFrame {
                 Logger.getLogger("global").log(Level.SEVERE, null, ex);
             }
         }
+        currentDocument = 0;
     }//GEN-LAST:event_buttonOpenIndexButtonActionPerformed
-
-    private void slickPanelAncestorResized(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_slickPanelAncestorResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_slickPanelAncestorResized
 
     private void IndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IndexActionPerformed
         CardLayout cl = (CardLayout) cardPanel.getLayout();
@@ -2302,42 +2677,161 @@ public class AardvarkGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ActionViewXML
 
-    private void switchButtonAbout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAbout2ActionPerformed
-        CardLayout cl = (CardLayout) cardPanel.getLayout();
-        cl.show(cardPanel, "card10");
-        guiUtil.initReader(jSpinner2, jSpinner1, imageLabel);
-        //if()
-        jSpinner1.setValue(currentDocument);
-    }//GEN-LAST:event_switchButtonAbout2ActionPerformed
-
     private void buttonAnnotateUpdatebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnnotateUpdatebuttonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonAnnotateUpdatebuttonActionPerformed
 
+    private void browseControlPanelSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_browseControlPanelSpinnerStateChanged
+        if (currentDocument < 0) {
+            JOptionPane.showMessageDialog(this, "An error occurred:\n"
+                    + " ");
+            return;
+        }
+        if (currentDocument > reader.maxDoc()) {
+            return;
+        }
+        guiUtil.setImagePanel(((Integer) spinnerCurrentDoc.getValue()).intValue());
+        try {
+            //BufferedImage img = null;
+            guiUtil.setCurrentFile(guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue()));
+            currentDocument = (((Integer) spinnerCurrentDoc.getValue()).intValue());
+            currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue());
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_browseControlPanelSpinnerStateChanged
+
+    private void spinnerCurrentDocMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_spinnerCurrentDocMouseWheelMoved
+        spinnerCurrentDoc.setValue(new Integer(((Integer) spinnerCurrentDoc.getValue()).intValue()
+                - evt.getWheelRotation()));
+        //int increment = evt.getWheelRotation();
+        //  guiUtil.setDocumentImageIcon(((Integer) jSpinner1.getValue()).intValue(), imageLabel);
+    }//GEN-LAST:event_spinnerCurrentDocMouseWheelMoved
+
+    private void buttonSearchFromBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchFromBrowseActionPerformed
+        int docID = ((Integer) spinnerCurrentDoc.getValue()).intValue();
+        if (docID < 0 || docID > reader.maxDoc());
+        try {
+            //avatarChooser1.startSearch(this, avatarChooser1.getImage()); //Binding in beans WTF??  
+            SearchForDocument searchDoc = new SearchForDocument(this, reader.document(docID));
+            searchDoc.start();
+            System.gc();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_buttonSearchFromBrowseActionPerformed
+
+    private void jFreeGraphPanelResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jFreeGraphPanelResized
+        if (PRChartCreation.isCreated != false) {
+            prChart.createChart(jLabelChart.getWidth(), jLabelChart.getHeight(), jLabelChart);
+        }
+    }//GEN-LAST:event_jFreeGraphPanelResized
+
+    private void buttonOpenTextIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenTextIndexActionPerformed
+        JFileChooser jfc = new JFileChooser(".");
+        jfc.setMultiSelectionEnabled(false);
+
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        jfc.setFileFilter(new FileFilter() {
+
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            public String getDescription() {
+                return "Directories";
+            }
+        });
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                jTextFieldDescription.setText(jfc.getSelectedFile().getCanonicalPath());
+                BASE_DIRECTORY = jfc.getSelectedFile().getCanonicalPath();
+            } catch (IOException e) {
+                System.err.println("Error reading directory: IOException - " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_buttonOpenTextIndexActionPerformed
+
+    private void textfieldAnnotateCreatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textfieldAnnotateCreatorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textfieldAnnotateCreatorActionPerformed
+
+    private void checkboxShowDescriptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxShowDescriptionsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkboxShowDescriptionsActionPerformed
+
+    private void switchButtonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAboutActionPerformed
+        showAbout();
+    }//GEN-LAST:event_switchButtonAboutActionPerformed
+
+    private void jButtonDownloadImagesbuttonStartDownloadPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownloadImagesbuttonStartDownloadPerformed
+        int result = JOptionPane.showConfirmDialog(actionMenu, "You need to "
+                + "download the images in order to index them.\n"
+                + "Should Aardvark download the images for indexing?.\n"
+                + "Note that could take a couple of minutes depending\n"
+                + "on bandwidth and processing power.");
+        if (result == JOptionPane.OK_OPTION) {
+            ImageIndexingThread t = new ImageIndexingThread(this);
+            t.start();
+        }
+        System.gc();
+    }//GEN-LAST:event_jButtonDownloadImagesbuttonStartDownloadPerformed
+
+    private void jButtonStartExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartExperimentActionPerformed
+        InitializeWizard dialog = new InitializeWizard();
+        dialog.InittializeWizard(this, "Test Dialog");        
+    }//GEN-LAST:event_jButtonStartExperimentActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        final Component c = evt.getComponent();
+        c.requestFocus();
+    }//GEN-LAST:event_formWindowGainedFocus
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 JFrame frame = new AardvarkGui();
+
                 try {
-                    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                        if ("Nimbus".equals(info.getName())) {
-                            UIManager.setLookAndFeel(info.getClassName());
-                            break;
-                        } else {
-                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                        }
-                    }
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 
                 } catch (Exception e) {
                     Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, e);
 
                 }
-
                 SwingUtilities.updateComponentTreeUI(frame);
+                //SwingUtilities.updateComponentTreeUI(frame);
+                /*
+                 * try { for (LookAndFeelInfo info :
+                 * UIManager.getInstalledLookAndFeels()) { if
+                 * ("Nimbus".equals(info.getName())) {
+                 * UIManager.setLookAndFeel(info.getClassName()); break; } else
+                 * {
+                 * UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                 * } }
+                 *
+                 * } catch (Exception e) {
+                 * Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE,
+                 * null, e);
+                 *
+                 * }
+                 *
+                 * SwingUtilities.updateComponentTreeUI(frame);
+                 */
                 frame.pack();
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -2349,7 +2843,7 @@ public class AardvarkGui extends javax.swing.JFrame {
     private void showAbout() {
         JOptionPane.showMessageDialog(this, "<html><center><b>Simple application for Image Retrieval using CIDOC CRM/MPEG-7.</b><br>"
                 + "<br>Visit http://www.feita.net for more information.<br>"
-                + "<br>&copy; 2007-2011 by Olav Løne<br>"
+                + "<br>&copy; 2010 - 2012 by Olav Løne<br>"
                 + "olav.lone@student.uib.no<br></center></html>",
                 "About AARDVARK", JOptionPane.PLAIN_MESSAGE);
 
@@ -2380,20 +2874,18 @@ public class AardvarkGui extends javax.swing.JFrame {
     public File getCurrentFile() {
         return currentFile;
     }
-
-    private void startAnimation() {
-        javax.swing.Timer timer = new javax.swing.Timer(50, new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                curvesPanel1.animate();
-                curvesPanel1.repaint();
-            }
-        });
-        timer.start();
-    }
+    //TODO: fix nice browserpanel
+    /*
+     * private void startAnimation() { javax.swing.Timer timer = new
+     * javax.swing.Timer(50, new ActionListener() {
+     *
+     * public void actionPerformed(ActionEvent e) { curvesPanel1.animate();
+     * curvesPanel1.repaint(); } }); timer.start(); }
+     */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem About;
     private javax.swing.JMenuItem Annotate;
+    private javax.swing.JPanel BrowsePanel;
     private javax.swing.JMenuItem Exit;
     private javax.swing.JMenuItem Graph;
     private javax.swing.JMenuItem Index;
@@ -2402,13 +2894,10 @@ public class AardvarkGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem Options;
     private javax.swing.JMenuItem SavelAllDocuments;
     private javax.swing.JMenuItem Search;
-    private javax.swing.JPanel TestBrowsePanel;
-    private javax.swing.JMenu actionMenu;
+    public javax.swing.JMenu actionMenu;
     protected javax.swing.JPanel annotatePanel;
-    public uib.gui.AvatarChooser avatarChooser1;
     private javax.swing.JPanel browseContainerPanel;
     protected javax.swing.JPanel browseControlPanel;
-    private javax.swing.JPanel browsePanel;
     protected uib.gui.ImagePanel browseimagePanel;
     private javax.swing.JButton buttonAnnotateOpenImage;
     private javax.swing.JButton buttonAnnotateOpenImage1;
@@ -2422,6 +2911,7 @@ public class AardvarkGui extends javax.swing.JFrame {
     private javax.swing.JButton buttonExportGraphImage;
     public javax.swing.JButton buttonOpenDir;
     private javax.swing.JButton buttonOpenIndexButton;
+    private javax.swing.JButton buttonOpenTextIndex;
     private javax.swing.JButton buttonOpenTopicsFile;
     private javax.swing.JButton buttonSaveQrelsFile;
     private javax.swing.JButton buttonSearchButton;
@@ -2433,30 +2923,36 @@ public class AardvarkGui extends javax.swing.JFrame {
     public javax.swing.JCheckBox checkBoxAddToExistingIndex;
     private javax.swing.JCheckBox checkboxAdvancedOptions;
     protected javax.swing.JCheckBox checkboxRamIndex;
+    public javax.swing.JCheckBox checkboxShowDescriptions;
     private javax.swing.JPanel controlButtonsPane;
     private javax.swing.JPanel controlPane;
     private javax.swing.JPanel controlPanelCreateGraphPanel;
-    public uib.gui.CurvesPanel curvesPanel1;
+    private javax.swing.JPanel experimentPanel;
     private javax.swing.JMenu fileMenu;
     public uib.annotation.panels.GraphicalAnnotation graphicalAnnotation1;
     private javax.swing.JMenu helpMenu;
-    protected javax.swing.JLabel imageLabel;
     protected javax.swing.JLabel imageLabelAnnotate;
     protected javax.swing.JLabel imageLabelAnnotateGraph;
     private javax.swing.JLabel indexDirectoryLabel;
     private javax.swing.JLabel indexTypeLabel;
+    private javax.swing.JButton jButtonDownloadImages;
+    private javax.swing.JButton jButtonStartExperiment;
+    public javax.swing.JComboBox jComboBoxSearchModality;
+    public javax.swing.JComboBox jComboBoxSearchMode;
     protected final javax.swing.JPanel jFreeGraphPanel = new javax.swing.JPanel();
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelChart;
+    private javax.swing.JLabel jLabelDownloadImages;
+    private javax.swing.JLabel jLabelExperimentHints;
+    private javax.swing.JLabel jLabelSearchModality;
+    private javax.swing.JLabel jLabelSearchMode;
+    private javax.swing.JLabel jLabelStartExperiment;
     private javax.swing.JMenuItem jMenuItem1;
     public javax.swing.JPopupMenu jPopupMenuSemantic;
     protected javax.swing.JProgressBar jProgressBarMemory;
     private javax.swing.JScrollPane jScrollPaneFreeTextAnnotation;
     protected javax.swing.JScrollPane jScrollPanelResults;
     private javax.swing.JSlider jSliderAdjustFeatureWeighting;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
+    public javax.swing.JTextField jTextFieldDescription;
     private javax.swing.JLabel jlabelAnnotateCreator;
     public javax.swing.JSlider jsliderColorLayout;
     public javax.swing.JSlider jsliderEdgeHistogram;
@@ -2472,15 +2968,17 @@ public class AardvarkGui extends javax.swing.JFrame {
     private javax.swing.JLabel labelAnnotateSpinner;
     private javax.swing.JLabel labelAnnotateTheme;
     private javax.swing.JLabel labelAnnotateWidth;
-    private javax.swing.JLabel labelBrowsePanelToplabel;
-    private javax.swing.JLabel labelCurrentDocumentSpinner;
-    private javax.swing.JLabel labelDocCount;
+    private javax.swing.JLabel labelBrowseCurrentDivider;
+    private javax.swing.JLabel labelBrowseCurrentImage;
+    private javax.swing.JLabel labelBrowsePanelToplabel1;
+    private javax.swing.JLabel labelExperimentPanelToplabel;
     private javax.swing.JLabel labelFreeTextAnnotation;
     private javax.swing.JLabel labelGraphPanelToplabel;
     private javax.swing.JLabel labelIndexHint;
     private javax.swing.JLabel labelIndexingPanelToplabel;
     private javax.swing.JLabel labelSearchPanelHintLabel;
     private javax.swing.JLabel labelSearchPanelToplabel;
+    private javax.swing.JLabel labelShowDescriptions;
     private javax.swing.JLabel labelSliderAdjustFeatureWeight2;
     private javax.swing.JLabel labelSliderColorLayout;
     private javax.swing.JLabel labelSliderEdgeHistogram;
@@ -2509,6 +3007,7 @@ public class AardvarkGui extends javax.swing.JFrame {
     protected javax.swing.JPanel panelAnnotateKeywords;
     private javax.swing.JPanel precisionRecallPanel;
     private javax.swing.JLabel presicionRecallPanelTopLabel;
+    public javax.swing.JProgressBar progressBarDownloadImages;
     public javax.swing.JProgressBar progressBarIndexing;
     protected javax.swing.JProgressBar progressBarSearchProgress;
     private javax.swing.JMenuItem removeObject;
@@ -2520,7 +3019,6 @@ public class AardvarkGui extends javax.swing.JFrame {
     public javax.swing.JComboBox selectboxDocumentBuilder;
     private javax.swing.JPanel semanticGraphPanel;
     private javax.swing.JPanel semanticPanel;
-    public javax.swing.JPanel slickPanel;
     private javax.swing.JSpinner spinnerAnnotateCurrentDoc;
     private javax.swing.JSpinner spinnerCurrentDoc;
     private javax.swing.JSpinner spinnerGraphCurrentDoc;
@@ -2528,10 +3026,9 @@ public class AardvarkGui extends javax.swing.JFrame {
     public javax.swing.JLabel status;
     private javax.swing.JPanel statusPanel;
     public javax.swing.JButton switchButtonAbout;
-    public javax.swing.JButton switchButtonAbout1;
-    public javax.swing.JButton switchButtonAbout2;
     public javax.swing.JButton switchButtonAnnotate;
     public javax.swing.JButton switchButtonBrowse;
+    public javax.swing.JButton switchButtonExperiment;
     private javax.swing.JButton switchButtonGraph;
     public javax.swing.JButton switchButtonIndex;
     public javax.swing.JButton switchButtonOptions;
@@ -2554,7 +3051,7 @@ public class AardvarkGui extends javax.swing.JFrame {
     public javax.swing.JTextField textfieldIndexDirectory;
     protected javax.swing.JTextField textfieldNumberOfResults;
     private javax.swing.JTextField textfieldSearchImage;
-    private javax.swing.JTextField textfieldSearchText;
+    public javax.swing.JTextField textfieldSearchText;
     public javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 }

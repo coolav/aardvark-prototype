@@ -21,6 +21,7 @@ public class SearchForImage extends Thread {
     private AardvarkGui parent;
     final String path;
     public JPanel frame;
+    private IndexReader reader; 
 
     public SearchForImage(AardvarkGui parent, String imagePath)
             throws FileNotFoundException, IOException {
@@ -43,17 +44,21 @@ public class SearchForImage extends Thread {
         // switching away from search results ...
         ((CardLayout) parent.topPanel.getLayout()).first(parent.topPanel);
         try {
-            parent.status.setText("Searching");
+            parent.status.setText(" Searching");
             long time = System.currentTimeMillis();
-            IndexReader reader = IndexReader.open(FSDirectory.open
-                    (new File(parent.textfieldIndexDirectory.getText())));
+            if(parent.reader == null){
+                 reader = IndexReader.open(FSDirectory.open
+                        (new File(parent.textfieldIndexDirectory.getText())));
+            }else{
+            reader = parent.reader;
+            }
             int numDocs = reader.numDocs();
             System.out.println("numDocs = " + numDocs);
 
             ImageSearcher searcher = getSearcher();
             ImageSearchHits hits = searcher.search(ImageIO.read(new FileInputStream(path)), reader);
             parent.tableModel.setHits(hits, parent.progressBarSearchProgress);
-            reader.close();
+            //reader.close();
 
             Rectangle bounds = parent.resultsTable.getCellRect(2, 2, true);
             parent.jScrollPanelResults.getViewport().setViewPosition(bounds.getLocation());
@@ -62,9 +67,9 @@ public class SearchForImage extends Thread {
                     + " miliseconds" + " found " + numDocs + " documents");
         } catch (Exception e) {
         } finally {
-            parent.resultsTable.setRowHeight(192);
-            parent.resultsTable.getColumnModel().getColumn(1).setMaxWidth(256);
-            parent.resultsTable.getColumnModel().getColumn(1).setMinWidth(256);
+            parent.resultsTable.setRowHeight(128);
+            parent.resultsTable.getColumnModel().getColumn(1).setMaxWidth(192);
+            parent.resultsTable.getColumnModel().getColumn(1).setMinWidth(192);
             parent.resultsTable.getColumnModel().getColumn(2).setMaxWidth(64);
             ((CardLayout) parent.topPanel.getLayout()).last(frame);
             parent.resultsTable.setEnabled(true);

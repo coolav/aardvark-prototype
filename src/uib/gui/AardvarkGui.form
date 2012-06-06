@@ -30,6 +30,9 @@
       </SubComponents>
     </Container>
     <Container class="uib.gui.ImagePanel" name="browseimagePanel">
+      <Properties>
+        <Property name="debugGraphicsOptions" type="int" value="-1"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
       </AuxValues>
@@ -37,12 +40,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="677" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="806" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="463" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="532" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -76,6 +79,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/uib/resource/cancel16.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
               <Events>
@@ -99,6 +105,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Actions"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="Search">
               <Properties>
@@ -231,6 +240,9 @@
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowGainedFocus" listener="java.awt.event.WindowFocusListener" parameters="java.awt.event.WindowEvent" handler="formWindowGainedFocus"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -241,7 +253,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,2,0,0,4,87"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,41,0,0,4,110"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -285,9 +297,14 @@
           <SubComponents>
             <Container class="javax.swing.JPanel" name="controlButtonsPane">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="df" green="d9" red="d6" type="rgb"/>
+                </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                    <MatteColorBorder/>
+                    <MatteColorBorder>
+                      <Color PropertyName="color" blue="f0" green="f0" red="f0" type="rgb"/>
+                    </MatteColorBorder>
                   </Border>
                 </Property>
               </Properties>
@@ -299,6 +316,8 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          <Component id="switchButtonExperiment" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="switchButtonIndex" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -315,10 +334,6 @@
                           <Component id="buttonCreatePrecisionRecall" min="-2" pref="79" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="switchButtonAbout" min="-2" pref="78" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="switchButtonAbout1" min="-2" pref="78" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="switchButtonAbout2" min="-2" pref="78" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -328,16 +343,15 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="switchButtonAbout1" alignment="1" pref="79" max="32767" attributes="1"/>
+                              <Component id="switchButtonExperiment" alignment="0" pref="79" max="32767" attributes="1"/>
+                              <Component id="buttonCreatePrecisionRecall" alignment="0" max="32767" attributes="0"/>
+                              <Component id="switchButtonGraph" alignment="0" max="32767" attributes="0"/>
+                              <Component id="switchButtonOptions" alignment="0" max="32767" attributes="1"/>
+                              <Component id="switchButtonAnnotate" alignment="1" max="32767" attributes="1"/>
+                              <Component id="switchButtonIndex" alignment="0" max="32767" attributes="1"/>
+                              <Component id="switchButtonSearch" alignment="0" max="32767" attributes="1"/>
+                              <Component id="switchButtonBrowse" alignment="0" max="32767" attributes="1"/>
                               <Component id="switchButtonAbout" alignment="0" pref="79" max="32767" attributes="1"/>
-                              <Component id="buttonCreatePrecisionRecall" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="switchButtonGraph" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="switchButtonOptions" alignment="0" pref="79" max="32767" attributes="1"/>
-                              <Component id="switchButtonAnnotate" alignment="1" pref="79" max="32767" attributes="1"/>
-                              <Component id="switchButtonIndex" alignment="0" pref="79" max="32767" attributes="1"/>
-                              <Component id="switchButtonSearch" alignment="0" pref="79" max="32767" attributes="1"/>
-                              <Component id="switchButtonBrowse" alignment="0" pref="79" max="32767" attributes="1"/>
-                              <Component id="switchButtonAbout2" alignment="1" pref="79" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -444,13 +458,13 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="switchButtonAbout">
+                <Component class="javax.swing.JButton" name="switchButtonExperiment">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/uib/resource/info.png"/>
+                      <Image iconType="3" name="/uib/resource/user_32.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="About"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Infomation about the application"/>
+                    <Property name="text" type="java.lang.String" value="Start"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Sets up the experiment and guides the user through the queries"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="opaque" type="boolean" value="false"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -459,7 +473,7 @@
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonAboutActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonExperimentActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -497,12 +511,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCreatePrecisionRecallActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="switchButtonAbout1">
+                <Component class="javax.swing.JButton" name="switchButtonAbout">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/uib/resource/run.png"/>
+                      <Image iconType="3" name="/uib/resource/info.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Gfx Test"/>
+                    <Property name="text" type="java.lang.String" value="About"/>
                     <Property name="toolTipText" type="java.lang.String" value="Infomation about the application"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="opaque" type="boolean" value="false"/>
@@ -512,28 +526,7 @@
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonAbout1ActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JButton" name="switchButtonAbout2">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/uib/resource/warning.png"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Test Bro"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Infomation about the application"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="opaque" type="boolean" value="false"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[75, 59]"/>
-                    </Property>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonAbout2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchButtonAboutActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -545,7 +538,9 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                    <MatteColorBorder/>
+                    <MatteColorBorder>
+                      <Color PropertyName="color" blue="f0" green="f0" red="f0" type="rgb"/>
+                    </MatteColorBorder>
                   </Border>
                 </Property>
               </Properties>
@@ -555,6 +550,139 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
               <SubComponents>
+                <Container class="javax.swing.JPanel" name="experimentPanel">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                      <CardConstraints cardName="card9"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelExperimentPanelToplabel" pref="1132" max="32767" attributes="1"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="progressBarDownloadImages" pref="1112" max="32767" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabelExperimentHints" min="-2" pref="982" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="276" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jButtonDownloadImages" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
+                                          <Component id="jLabelDownloadImages" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jButtonStartExperiment" max="32767" attributes="0"/>
+                                          <Component id="jLabelStartExperiment" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="labelExperimentPanelToplabel" min="-2" pref="37" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="progressBarDownloadImages" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace pref="43" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabelDownloadImages" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelStartExperiment" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButtonDownloadImages" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonStartExperiment" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="jLabelExperimentHints" min="-2" pref="95" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="198" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="labelExperimentPanelToplabel">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="df" green="d9" red="d6" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Verdana" size="24" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="  Setup experiment: "/>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[126, 30]"/>
+                        </Property>
+                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[126, 30]"/>
+                        </Property>
+                        <Property name="opaque" type="boolean" value="true"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[126, 30]"/>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelIndexingPanelToplabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelExperimentHints">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Instructions:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;In order to perform this experiment you need to be connected to the internet!&lt;/b&gt;&lt;/i&gt;&#xa;&lt;li&gt;&lt;i&gt;&lt;b&gt;Step 1&lt;/i&gt;&lt;/b&gt;: Press to download button. This will download the image collection and create an index. This takes from 1 to 3 minutes &#xa;depending on your internet connection and hardware. When the progressbar is finished, you&apos;re ready for the nest step&lt;/li&gt;&#xa;&lt;li&gt;&lt;i&gt;&lt;b&gt;Step 2&lt;/i&gt;&lt;/b&gt;: press the experiment button. This action will open the experiment wizard that will guide you trough the experiment&lt;/li&gt;&lt;/ul&gt;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JProgressBar" name="progressBarDownloadImages">
+                      <Properties>
+                        <Property name="stringPainted" type="boolean" value="true"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonDownloadImages">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/uib/resource/process_16.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Download"/>
+                        <Property name="horizontalTextPosition" type="int" value="10"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDownloadImagesbuttonStartDownloadPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelDownloadImages">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Download Image Collection"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButtonStartExperiment">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/uib/resource/play16.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Start experiment"/>
+                        <Property name="horizontalTextPosition" type="int" value="10"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStartExperimentActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelStartExperiment">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Open experiment wizard"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
                 <Container class="javax.swing.JPanel" name="IndexingPanel">
                   <Properties>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -573,24 +701,25 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelIndexingPanelToplabel" alignment="1" pref="1109" max="32767" attributes="1"/>
+                          <Component id="labelIndexingPanelToplabel" alignment="1" pref="1132" max="32767" attributes="1"/>
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="progressBarIndexing" alignment="0" pref="1089" max="32767" attributes="1"/>
+                                  <Component id="progressBarIndexing" alignment="0" pref="1112" max="32767" attributes="1"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="524" max="32767" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="textfieldIndexDir" pref="954" max="32767" attributes="0"/>
+                                      <Component id="textfieldIndexDir" pref="977" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="buttonOpenDir" min="-2" pref="117" max="-2" attributes="1"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="checkBoxAddToExistingIndex" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="buttonStartIndexing" min="-2" pref="117" max="-2" attributes="1"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="501" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -601,21 +730,28 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="labelIndexingPanelToplabel" min="-2" pref="37" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="textfieldIndexDir" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="buttonOpenDir" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="progressBarIndexing" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="buttonStartIndexing" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="checkBoxAddToExistingIndex" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="progressBarIndexing" min="-2" pref="29" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="24" pref="330" max="32767" attributes="0"/>
+                                      <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="buttonStartIndexing" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="checkBoxAddToExistingIndex" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace pref="238" max="32767" attributes="0"/>
-                              <Component id="labelIndexHint" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -624,7 +760,7 @@
                     <Component class="javax.swing.JLabel" name="labelIndexingPanelToplabel">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                          <Color blue="df" green="d9" red="d6" type="rgb"/>
                         </Property>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Verdana" size="24" style="1"/>
@@ -641,6 +777,9 @@
                           <Dimension value="[126, 30]"/>
                         </Property>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelIndexingPanelToplabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JTextField" name="textfieldIndexDir">
                       <AuxValues>
@@ -720,32 +859,49 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelSearchPanelToplabel" alignment="0" pref="1109" max="32767" attributes="0"/>
+                          <Component id="labelSearchPanelToplabel" alignment="0" pref="1132" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="textfieldSearchImage" pref="954" max="32767" attributes="0"/>
+                                      <Component id="textfieldSearchImage" pref="977" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="buttonSearchPanelOpenImage" min="-2" pref="117" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="progressBarSearchProgress" alignment="0" pref="1089" max="32767" attributes="0"/>
+                                  <Component id="progressBarSearchProgress" alignment="0" pref="1112" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="972" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="995" max="32767" attributes="0"/>
                                       <Component id="buttonSearchButton" min="-2" pref="117" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="textfieldSearchText" pref="956" max="32767" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="buttonSearchText" min="-2" pref="115" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="labelSearchPanelHintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="labelStructuralSearch" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
-                                          <Component id="labelTextSearch" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                          <Component id="textfieldSearchText" pref="979" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldDescription" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="buttonSearchText" pref="115" max="32767" attributes="0"/>
+                                          <Component id="buttonOpenTextIndex" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jComboBoxSearchModality" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jComboBoxSearchMode" alignment="0" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="labelSearchPanelHintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="labelStructuralSearch" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                                                  <Component id="labelTextSearch" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabelSearchMode" min="-2" pref="115" max="-2" attributes="0"/>
+                                          <Component id="jLabelSearchModality" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -763,18 +919,33 @@
                                   <Component id="textfieldSearchImage" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="buttonSearchPanelOpenImage" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                              <Component id="progressBarSearchProgress" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="progressBarSearchProgress" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="buttonSearchButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Component id="labelTextSearch" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="textfieldSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="buttonSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="147" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="buttonOpenTextIndex" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldDescription" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jComboBoxSearchMode" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelSearchMode" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jComboBoxSearchModality" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelSearchModality" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="66" max="32767" attributes="0"/>
                               <Component id="labelSearchPanelHintLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                           </Group>
@@ -793,6 +964,9 @@
                         <Property name="text" type="java.lang.String" value="  Search: "/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelSearchPanelToplabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JTextField" name="textfieldSearchImage">
                     </Component>
@@ -802,6 +976,9 @@
                           <Image iconType="3" name="/uib/resource/folder_16.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Open Image"/>
+                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                          <Color id="Default Cursor"/>
+                        </Property>
                         <Property name="horizontalTextPosition" type="int" value="10"/>
                       </Properties>
                       <Events>
@@ -836,6 +1013,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="textfieldSearchText">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JButton" name="buttonSearchText">
                       <Properties>
@@ -856,135 +1036,180 @@
                         <Property name="text" type="java.lang.String" value="Textual Search"/>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JButton" name="buttonOpenTextIndex">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/uib/resource/folder_16.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Open Index"/>
+                        <Property name="horizontalTextPosition" type="int" value="10"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonOpenTextIndexActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextFieldDescription">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBoxSearchMode">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(searchModes);"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelSearchMode">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Search mode"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBoxSearchModality">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(searchModality);"/>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabelSearchModality">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Search modality"/>
+                      </Properties>
+                    </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="browsePanel">
-                  <Properties>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[1087, 495]"/>
-                    </Property>
-                  </Properties>
+                <Container class="javax.swing.JPanel" name="BrowsePanel">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
                       <CardConstraints cardName="card3"/>
                     </Constraint>
                   </Constraints>
 
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelBrowsePanelToplabel" alignment="0" pref="1109" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
-                                      <Component id="labelCurrentDocumentSpinner" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-                                      <Component id="spinnerCurrentDoc" min="-2" pref="67" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                                      <Component id="labelDocCount" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="spinnerMaxDoc" min="-2" pref="68" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                                      <Component id="buttonSearchFromBrowse" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="219" max="-2" attributes="0"/>
-                                      <Component id="imageLabel" min="-2" pref="661" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="labelBrowsePanelToplabel" min="-2" pref="37" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="buttonSearchFromBrowse" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="spinnerMaxDoc" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelCurrentDocumentSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="spinnerCurrentDoc" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelDocCount" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="imageLabel" min="-2" pref="434" max="-2" attributes="0"/>
-                              <EmptySpace pref="30" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="labelBrowsePanelToplabel">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Verdana" size="24" style="1"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="  Browse: "/>
-                        <Property name="opaque" type="boolean" value="true"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JSpinner" name="spinnerCurrentDoc">
-                      <Properties>
-                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerCurrentDocStateChanged"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JSpinner" name="spinnerMaxDoc">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="imageLabel">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                            <EtchetBorder/>
-                          </Border>
-                        </Property>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[401, 287]"/>
-                        </Property>
-                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[401, 287]"/>
-                        </Property>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[401, 287]"/>
-                        </Property>
-                      </Properties>
+                    <Container class="javax.swing.JPanel" name="browseContainerPanel">
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                          <BorderConstraints direction="Center"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="browseControlPanel">
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
                       </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelCurrentDocumentSpinner">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Current document : "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelDocCount">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="/"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="buttonSearchFromBrowse">
-                      <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/uib/resource/process_16.png"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Search"/>
-                        <Property name="horizontalTextPosition" type="int" value="10"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSearchFromBrowseActionPerformed"/>
-                      </Events>
-                    </Component>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                          <BorderConstraints direction="First"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Component id="labelBrowseCurrentImage" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="spinnerCurrentDoc" min="-2" pref="68" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="labelBrowseCurrentDivider" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="spinnerMaxDoc" min="-2" pref="72" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="buttonSearchFromBrowse" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="labelBrowsePanelToplabel1" alignment="0" pref="1132" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="labelBrowsePanelToplabel1" min="-2" pref="37" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="spinnerCurrentDoc" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelBrowseCurrentDivider" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="spinnerMaxDoc" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="buttonSearchFromBrowse" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelBrowseCurrentImage" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JSpinner" name="spinnerCurrentDoc">
+                          <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="spinnerCurrentDocMouseWheelMoved"/>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="browseControlPanelSpinnerStateChanged"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="spinnerCurrentDoc.putClientProperty(&quot;JComponent.sizeVariant&quot;, &quot;large&quot;);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="labelBrowseCurrentDivider">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="14" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="/"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="labelBrowseCurrentImage">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="14" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Current Image "/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JSpinner" name="spinnerMaxDoc">
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="spinnerMaxDoc.putClientProperty(&quot;JComponent.sizeVariant&quot;, &quot;large&quot;);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="buttonSearchFromBrowse">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/uib/resource/process_16.png"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Search"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Searches for the current image"/>
+                            <Property name="horizontalTextPosition" type="int" value="10"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSearchFromBrowseActionPerformed"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="buttonSearchFromBrowse.putClientProperty(&quot;JComponent.sizeVariant&quot;, &quot;large&quot;);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="labelBrowsePanelToplabel1">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Verdana" size="24" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="  Browse: "/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelBrowsePanelToplabel1 = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                          </AuxValues>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="annotatePanel">
@@ -1011,7 +1236,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="panelAnnotateKeywords" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="labelAnnotatePanelToplabel" alignment="0" pref="1087" max="32767" attributes="0"/>
+                          <Component id="labelAnnotatePanelToplabel" alignment="0" pref="1132" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1040,6 +1265,9 @@
                         <Property name="text" type="java.lang.String" value="  Annotate: "/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelAnnotatePanelToplabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
                     <Container class="javax.swing.JPanel" name="panelAnnotateImage">
                       <Properties>
@@ -1094,6 +1322,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="imageLabelAnnotate">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                          </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
                           </AuxValues>
@@ -1136,78 +1367,67 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lablelAnnotateMaterials" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lablelAnnotateHeight" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelAnnotatePeriod" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace pref="474" max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="labelAnnotateConcept" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lableAnnotateLocation" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelAnnotateWidth" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelFreeTextAnnotation" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                                  <Component id="labelAnnotateTheme" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lablelAnnotateActivity" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                      </Group>
                                       <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lablelAnnotateDate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelAnnotateActor" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="lableAnnotateTechnique" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="textfieldAnnotateDate" alignment="1" max="32767" attributes="0"/>
-                                                      <Component id="textfieldAnnotateHeight" alignment="1" max="32767" attributes="0"/>
-                                                      <Component id="textfieldAnnotateMaterials" alignment="1" max="32767" attributes="0"/>
-                                                      <Component id="textfieldAnnotateTechnique" max="32767" attributes="0"/>
-                                                      <Component id="textfieldAnnotateActor" alignment="1" max="32767" attributes="0"/>
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="buttonAnnotateSavebutton" min="-2" pref="77" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="buttonAnnotateUpdatebutton" min="-2" pref="77" max="-2" attributes="0"/>
-                                                          <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
-                                                      </Group>
+                                                      <Component id="lablelAnnotateDate" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="labelAnnotateActor" alignment="0" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="labelAnnotateName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jlabelAnnotateCreator" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="lablelAnnotateMaterials" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="lablelAnnotateHeight" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="labelAnnotatePeriod" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="lableAnnotateTechnique" max="-2" attributes="0"/>
+                                                      <Component id="labelAnnotateName" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="jlabelAnnotateCreator" alignment="0" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                      <Component id="textfieldAnnotateActor" pref="254" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateDate" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateHeight" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateMaterials" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateTechnique" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotatePeriod" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="textfieldAnnotateCreator" alignment="0" max="32767" attributes="1"/>
+                                                      <Component id="textfieldAnnotateName" alignment="0" max="32767" attributes="1"/>
                                                   </Group>
                                                   <EmptySpace max="32767" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="textfieldAnnotatePeriod" alignment="1" pref="174" max="32767" attributes="0"/>
-                                                      <Component id="textfieldAnnotateName" max="32767" attributes="1"/>
-                                                      <Component id="textfieldAnnotateCreator" max="32767" attributes="1"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="labelAnnotateConcept" max="-2" attributes="0"/>
+                                                      <Component id="labelFreeTextAnnotation" max="-2" attributes="0"/>
+                                                      <Component id="labelAnnotateTheme" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="lablelAnnotateActivity" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="lableAnnotateLocation" alignment="0" max="-2" attributes="0"/>
+                                                      <Component id="labelAnnotateWidth" alignment="0" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                                          <Component id="buttonAnnotateSavebutton" min="-2" pref="77" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="buttonAnnotateUpdatebutton" min="-2" pref="77" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="buttonClearTextFields" min="-2" pref="77" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="textfieldAnnotateWidth" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="jScrollPaneFreeTextAnnotation" alignment="1" pref="413" max="32767" attributes="0"/>
                                       <Component id="textfieldAnnotateLocation" alignment="0" max="32767" attributes="1"/>
-                                      <Component id="textFieldAnnotateConcept" alignment="0" pref="175" max="32767" attributes="0"/>
-                                      <Component id="textfieldAnnotateTheme" alignment="0" pref="175" max="32767" attributes="1"/>
+                                      <Component id="textfieldAnnotateWidth" alignment="0" max="32767" attributes="1"/>
                                       <Component id="textfieldAnnotateActivity" alignment="0" max="32767" attributes="1"/>
-                                      <Component id="jScrollPaneFreeTextAnnotation" alignment="0" pref="175" max="32767" attributes="0"/>
+                                      <Component id="textfieldAnnotateTheme" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="textFieldAnnotateConcept" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -1271,41 +1491,39 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="lablelAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="textfieldAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="lablelAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="textfieldAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="labelAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="textfieldAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
+                                              <Component id="labelFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
                                               <Component id="jScrollPaneFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                          <Component id="labelFreeTextAnnotation" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="lablelAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateHeight" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="lablelAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="labelAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="textfieldAnnotateActor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="buttonAnnotateSavebutton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="buttonAnnotateUpdatebutton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="buttonClearTextFields" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="buttonAnnotateSavebutton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="buttonAnnotateUpdatebutton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="buttonClearTextFields" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1313,6 +1531,9 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="labelAnnotateName">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Name"/>
                           </Properties>
                         </Component>
@@ -1329,10 +1550,16 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jlabelAnnotateCreator">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Creator"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="textfieldAnnotateCreator">
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textfieldAnnotateCreatorActionPerformed"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="annotationFields.add(textfieldAnnotateCreator);"/>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -1340,6 +1567,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotatePeriod">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Period"/>
                           </Properties>
                         </Component>
@@ -1351,6 +1581,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lableAnnotateTechnique">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Technique"/>
                           </Properties>
                         </Component>
@@ -1362,6 +1595,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lablelAnnotateMaterials">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Materials"/>
                           </Properties>
                         </Component>
@@ -1373,6 +1609,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lablelAnnotateHeight">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Height"/>
                           </Properties>
                         </Component>
@@ -1384,6 +1623,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lablelAnnotateDate">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Date"/>
                           </Properties>
                         </Component>
@@ -1395,7 +1637,11 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotateWidth">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Width"/>
+                            <Property name="horizontalTextPosition" type="int" value="4"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="textfieldAnnotateWidth">
@@ -1411,6 +1657,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lableAnnotateLocation">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Location"/>
                           </Properties>
                         </Component>
@@ -1422,6 +1671,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lablelAnnotateActivity">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Activity"/>
                           </Properties>
                         </Component>
@@ -1433,6 +1685,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotateTheme">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Theme"/>
                           </Properties>
                         </Component>
@@ -1444,6 +1699,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotateConcept">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Concept"/>
                           </Properties>
                         </Component>
@@ -1455,10 +1713,21 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelFreeTextAnnotation">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
+                            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                              <ComponentRef name="textAreaAnnotateFreetext"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Free text"/>
                           </Properties>
                         </Component>
                         <Container class="javax.swing.JScrollPane" name="jScrollPaneFreeTextAnnotation">
+                          <Properties>
+                            <Property name="horizontalScrollBar" type="javax.swing.JScrollBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                              <ComponentRef name="null"/>
+                            </Property>
+                          </Properties>
                           <AuxValues>
                             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                           </AuxValues>
@@ -1467,9 +1736,15 @@
                           <SubComponents>
                             <Component class="javax.swing.JTextArea" name="textAreaAnnotateFreetext">
                               <Properties>
-                                <Property name="columns" type="int" value="20"/>
+                                <Property name="columns" type="int" value="40"/>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                  <Connection code="new Font(&quot;monospaced&quot;, Font.PLAIN, 12)" type="code"/>
+                                </Property>
                                 <Property name="lineWrap" type="boolean" value="true"/>
-                                <Property name="rows" type="int" value="5"/>
+                                <Property name="rows" type="int" value="20"/>
+                                <Property name="tabSize" type="int" value="1"/>
+                                <Property name="wrapStyleWord" type="boolean" value="true"/>
+                                <Property name="autoscrolls" type="boolean" value="false"/>
                               </Properties>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -1495,6 +1770,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelAnnotateActor">
                           <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="11" style="1"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Actor"/>
                           </Properties>
                         </Component>
@@ -1528,12 +1806,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelGraphPanelToplabel" alignment="0" pref="1109" max="32767" attributes="1"/>
+                          <Component id="labelGraphPanelToplabel" alignment="0" pref="1132" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="panelAnnotateImage1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="semanticPanel" pref="799" max="32767" attributes="0"/>
+                              <Component id="semanticPanel" pref="822" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1545,7 +1823,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="panelAnnotateImage1" alignment="1" max="32767" attributes="1"/>
-                                  <Component id="semanticPanel" alignment="1" pref="543" max="32767" attributes="0"/>
+                                  <Component id="semanticPanel" alignment="1" pref="582" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1573,6 +1851,9 @@
                           <Dimension value="[126, 30]"/>
                         </Property>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="labelGraphPanelToplabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
                     <Container class="javax.swing.JPanel" name="panelAnnotateImage1">
                       <Properties>
@@ -1619,13 +1900,18 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                   <Component id="buttonAnnotateOpenImage1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="150" max="32767" attributes="0"/>
+                                  <EmptySpace pref="189" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="imageLabelAnnotateGraph">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="horizontalTextPosition" type="int" value="0"/>
+                            <Property name="iconTextGap" type="int" value="0"/>
+                          </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
                           </AuxValues>
@@ -1662,7 +1948,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="799" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="822" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                   <Component id="graphicalAnnotation1" alignment="0" pref="799" max="32767" attributes="0"/>
                               </Group>
@@ -1670,7 +1956,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="543" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="582" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                   <Component id="graphicalAnnotation1" alignment="1" pref="535" max="32767" attributes="0"/>
                               </Group>
@@ -1737,7 +2023,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="12" max="32767" attributes="0"/>
+                              <EmptySpace pref="35" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1790,6 +2076,9 @@
                         <Property name="text" type="java.lang.String" value="  Options: "/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="optionsPanelTopLabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JLabel" name="indexTypeLabel">
                       <Properties>
@@ -1887,7 +2176,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="359" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="398" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -1936,19 +2225,27 @@
                                               </Group>
                                           </Group>
                                       </Group>
-                                      <EmptySpace pref="108" max="32767" attributes="0"/>
-                                      <Component id="labelSliderFeatureWeight" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                      <EmptySpace pref="74" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jSliderAdjustFeatureWeighting" min="-2" pref="256" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="labelSliderAdjustFeatureWeight2" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                                          </Group>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="labelAdvancedOptionStructuralSemanticWeight" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="labelSliderFeatureWeight" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="labelShowDescriptions" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="jSliderAdjustFeatureWeighting" min="-2" pref="256" max="-2" attributes="0"/>
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="labelSliderAdjustFeatureWeight2" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Component id="checkboxShowDescriptions" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -1980,27 +2277,35 @@
                                                       <Component id="labelSliderColorLayout" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="1" attributes="0">
-                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                          <Component id="jsliderScalableColor" alignment="3" min="-2" pref="40" max="-2" attributes="1"/>
-                                                          <Component id="jSliderAdjustFeatureWeighting" alignment="3" min="-2" pref="40" max="-2" attributes="1"/>
+                                                      <Group type="103" groupAlignment="1" attributes="0">
+                                                          <Group type="102" attributes="0">
+                                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                                  <Component id="jsliderScalableColor" alignment="3" min="-2" pref="40" max="-2" attributes="1"/>
+                                                                  <Component id="jSliderAdjustFeatureWeighting" alignment="3" min="-2" pref="40" max="-2" attributes="1"/>
+                                                              </Group>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="1" attributes="0">
+                                                              <Component id="labelSliderFeatureWeight" min="-2" max="-2" attributes="0"/>
+                                                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                                          </Group>
                                                       </Group>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jsliderEdgeHistogram" min="-2" pref="40" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="3" attributes="0">
+                                                          <Component id="jsliderEdgeHistogram" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                                          <Component id="labelShowDescriptions" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="checkboxShowDescriptions" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jsliderColorLayout" min="-2" pref="40" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
-                                              <Component id="labelSliderFeatureWeight" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                                               <Component id="labelSliderAdjustFeatureWeight2" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace pref="118" max="32767" attributes="0"/>
+                                      <EmptySpace pref="156" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2113,6 +2418,22 @@
                                 <Property name="text" type="java.lang.String" value="Semantic"/>
                               </Properties>
                             </Component>
+                            <Component class="javax.swing.JLabel" name="labelShowDescriptions">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Show descriptions"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JCheckBox" name="checkboxShowDescriptions">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="On/Off"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkboxShowDescriptionsActionPerformed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                              </AuxValues>
+                            </Component>
                           </SubComponents>
                         </Container>
                       </SubComponents>
@@ -2161,7 +2482,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jFreeGraphPanel" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="presicionRecallPanelTopLabel" alignment="0" pref="1109" max="32767" attributes="0"/>
+                          <Component id="presicionRecallPanelTopLabel" alignment="0" pref="1132" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -2193,7 +2514,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="buttonChartOpenQrels" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="buttonChartOpenQrels" alignment="0" pref="141" max="32767" attributes="1"/>
                                       <Component id="buttonOpenTopicsFile" alignment="0" max="32767" attributes="1"/>
                                       <Component id="buttonCreatePRGraph" alignment="0" max="32767" attributes="1"/>
                                       <Component id="buttonExportGraphImage" alignment="1" max="32767" attributes="1"/>
@@ -2283,6 +2604,9 @@
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="jFreeGraphPanel">
+                      <Events>
+                        <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jFreeGraphPanelResized"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="20"/>
                       </AuxValues>
@@ -2290,20 +2614,17 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelChart" alignment="0" pref="880" max="32767" attributes="0"/>
+                              <Component id="jLabelChart" alignment="0" pref="895" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelChart" alignment="1" pref="559" max="32767" attributes="0"/>
+                              <Component id="jLabelChart" alignment="1" pref="598" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jLabelChart">
-                          <Events>
-                            <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jLabelChartComponentResized"/>
-                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -2318,150 +2639,10 @@
                         <Property name="text" type="java.lang.String" value="  Precision Recall: "/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="presicionRecallPanelTopLabel = new JLabel(){&#xd;&#xa;&#xd;&#xa;    protected void paintComponent( Graphics g )&#xd;&#xa;&#xd;&#xa;    {&#xd;&#xa;        if ( !isOpaque( ) )&#xd;&#xa;        {&#xd;&#xa;            super.paintComponent( g );&#xd;&#xa;            return;&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        int w = getWidth( );&#xd;&#xa;        int h = getHeight( );&#xd;&#xa;&#xd;&#xa;        Color color1 = getBackground( );&#xd;&#xa;        Color color2 = color1.darker( );&#xd;&#xa;        Graphics2D g2d = (Graphics2D)g;&#xd;&#xa;        // Paint a gradient from top to bottom&#xd;&#xa;        GradientPaint gp = new GradientPaint(&#xd;&#xa;            0, 0, color2,&#xd;&#xa;            0, h, color1 );&#xd;&#xa;&#xd;&#xa;        g2d.setPaint( gp );&#xd;&#xa;        g2d.fillRect( 0, 0, w, h );&#xd;&#xa;&#xd;&#xa;        setOpaque( false );&#xd;&#xa;        super.paintComponent( g );&#xd;&#xa;        setOpaque( true );&#xd;&#xa;    }&#xd;&#xa;};"/>
+                      </AuxValues>
                     </Component>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JPanel" name="slickPanel">
-                  <Events>
-                    <EventHandler event="ancestorResized" listener="java.awt.event.HierarchyBoundsListener" parameters="java.awt.event.HierarchyEvent" handler="slickPanelAncestorResized"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                  </AuxValues>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                      <CardConstraints cardName="card9"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="curvesPanel1" alignment="0" pref="1109" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="curvesPanel1" alignment="0" pref="602" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Container class="uib.gui.CurvesPanel" name="curvesPanel1">
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                      <SubComponents>
-                        <Container class="uib.gui.AvatarChooser" name="avatarChooser1">
-                          <Properties>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[640, 480]"/>
-                            </Property>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                          </AuxValues>
-                          <Constraints>
-                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                              <BorderConstraints direction="Center"/>
-                            </Constraint>
-                          </Constraints>
-
-                          <Layout>
-                            <DimensionLayout dim="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="1109" max="32767" attributes="0"/>
-                              </Group>
-                            </DimensionLayout>
-                            <DimensionLayout dim="1">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="602" max="32767" attributes="0"/>
-                              </Group>
-                            </DimensionLayout>
-                          </Layout>
-                        </Container>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JPanel" name="TestBrowsePanel">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                      <CardConstraints cardName="card10"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                  <SubComponents>
-                    <Container class="javax.swing.JPanel" name="browseContainerPanel">
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                          <BorderConstraints direction="Center"/>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="browseControlPanel">
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
-                      </AuxValues>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                          <BorderConstraints direction="First"/>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jSpinner1" min="-2" pref="96" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jSpinner2" min="-2" pref="96" max="-2" attributes="0"/>
-                                  <EmptySpace pref="759" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="40" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JSpinner" name="jSpinner1">
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel1">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="jLabel1"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel2">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="jLabel2"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JSpinner" name="jSpinner2">
-                        </Component>
-                      </SubComponents>
-                    </Container>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -2501,7 +2682,6 @@
                     <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
-                    <Property name="rowMargin" type="int" value="5"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -2540,7 +2720,7 @@
                           <Component id="buttonBackToMainMenu" min="-2" pref="85" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="buttonSaveQrelsFile" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="919" max="32767" attributes="0"/>
+                          <EmptySpace pref="942" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2578,6 +2758,7 @@
                       <Image iconType="3" name="/uib/resource/download.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Save Qrels"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Save the relevant results"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="opaque" type="boolean" value="false"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
@@ -2596,10 +2777,15 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-            <MatteColorBorder/>
+            <MatteColorBorder>
+              <Color PropertyName="color" blue="f0" green="f0" red="f0" type="rgb"/>
+            </MatteColorBorder>
           </Border>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="statusPanel = new JPanel(){&#xa;&#xa;    protected void paintComponent( Graphics g )&#xa;&#xa;    {&#xa;        if ( !isOpaque( ) )&#xa;        {&#xa;            super.paintComponent( g );&#xa;            return;&#xa;        }&#xa;&#xa;        int w = getWidth( );&#xa;        int h = getHeight( );&#xa;&#xa;        Color color1 = getBackground( );&#xa;        Color color2 = color1.darker( );&#xa;        Graphics2D g2d = (Graphics2D)g;&#xa;        // Paint a gradient from top to bottom&#xa;        GradientPaint gp = new GradientPaint(&#xa;            0, 0, color1,&#xa;            0, h, color2 );&#xa;&#xa;        g2d.setPaint( gp );&#xa;        g2d.fillRect( 0, 0, w, h );&#xa;&#xa;        setOpaque( false );&#xa;        super.paintComponent( g );&#xa;        setOpaque( true );&#xa;    }&#xa;}"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="South"/>
@@ -2609,17 +2795,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="1109" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="1132" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="status" min="-2" pref="819" max="-2" attributes="0"/>
-                      <EmptySpace pref="290" max="32767" attributes="0"/>
+                      <Component id="status" min="-2" pref="835" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="297" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="932" max="32767" attributes="0"/>
-                      <Component id="jProgressBarMemory" min="-2" pref="177" max="-2" attributes="0"/>
+                      <EmptySpace pref="943" max="32767" attributes="0"/>
+                      <Component id="jProgressBarMemory" pref="189" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -2644,7 +2830,6 @@
         </Component>
         <Component class="javax.swing.JProgressBar" name="jProgressBarMemory">
           <Properties>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="string" type="java.lang.String" value=""/>
             <Property name="stringPainted" type="boolean" value="true"/>
           </Properties>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName>
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Albion_Rose.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Albion_Rose.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Olav</FamilyName>
+                                    <GivenName>Løne</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                    </Creation>
+                </CreationInformation>  
+                <TextAnnotation>
+                    <FreeTextAnnotation>
+                        Also called Glad Day or The Dance of Albion
+                        This plate was once part of the Large Book of Designs 
+                        which Blake printed in 1796 for the miniature painter Ozias Humphrey.
+                        The design possibly dates back to a pencil drawing of 1780 (Victoria and Albert Museum),
+                        the date inscribed on the plate for Albion Rose. Blake executed the same subject in about 
+                        1804 as a black and white etching and engraving, to which he added the inscription 
+                        'Albion rose from where he labourd at the Mill with Slaves / Giving himself for the 
+                        Nations he danc'd the dance of Eternal Death'. The inscription recalls lines from Blake's 
+                        illuminated book, Milton, a Poem, begun in 1803, and from Milton's own work, Samson Agonistes (1671).
+
+                        The figure of Albion, a personification of humanity and of Britain, is freeing himself from the shackles of materialism.
+                    </FreeTextAnnotation>
+                    <StructuredAnnotation>
+                        <Name>	
+                            <Name>Albion Rose</Name>
+                        </Name>
+                        <Creator>
+                            <Name>William Blake</Name>	
+                        </Creator>
+                        <Period>
+                            <Name>Pre-romantic</Name>          						
+                        </Period>
+                        <Technique>
+                            <Name>Etching, watercolor and Ink</Name>
+                        </Technique>
+                        <Materials>
+                            <Name>Print</Name>
+                        </Materials>
+                        <Height>
+                            <Name>26.5</Name>
+                        </Height>
+                        <Width>
+                            <Name>
+                                18,8
+                            </Name>
+                        </Width>
+                        <Date>
+                            <Name>
+                                1796
+                            </Name>
+                        </Date>
+                        <Actor>
+                            <Name>Albion</Name>          
+                        </Actor>
+                        <Location>
+                            <Name>Mythological</Name> 
+                        </Location>
+                        <Activity>
+                            <Name>Albion rising</Name>
+                        </Activity>
+                        <Theme>
+                            <Name>Mythological the personification of Brittan gnostisism</Name>
+                        </Theme>
+                        <Concept>
+                            <Name>Late 18th century, religious ponderings Albion mythos four Zoas</Name>
+                        </Concept>															            
+                    </StructuredAnnotation>
+                </TextAnnotation>
+                <Semantic>
+                    <Label>
+                        <Name />
+                    </Label>
+                    <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                        <Label>
+                            <Name>Olav Løne</Name>
+                        </Label>
+                        <Agent xsi:type="PersonType">
+                            <Name>
+                                <GivenName>William</GivenName>
+                                <FamilyName>Blake</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                        <Label>
+                            <Name>1796</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This semantic time defines the year of 1796</FreeTextAnnotation>
+                        </Definition>
+                        <Time>
+                            <TimePoint>2004-07-01T12:00</TimePoint>
+                        </Time>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_3">
+                        <Label>
+                            <Name>Albion Rising</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation></FreeTextAnnotation>
+                        </Definition>
+                        <Event>
+                            <Label>
+                                <Name>The personiciation of brittan rises from the shackles of materialism</Name>
+                            </Label>
+                            <SemanticPlace>
+                                <Label>
+                                    <Name>
+                                        Mythos
+                                    </Name>
+                                </Label>
+                            </SemanticPlace>
+                            <SemanticTime>
+                                <Label>
+                                    <Name>Time of the event</Name>
+                                </Label>
+                                <Time>
+                                    <TimePoint>1796-10-08T10:50</TimePoint>
+                                </Time>
+                            </SemanticTime>
+                        </Event>
+                    </SemanticBase>
+                    <SemanticBase xsi:type="EventType" id="id_4">
+                        <Label>
+                            <Name>Revelation</Name>
+                        </Label>
+                        <Definition>
+                            <FreeTextAnnotation>This print illustates the mythological character Albion in a revelatory state</FreeTextAnnotation>
+                        </Definition>  
+                    </SemanticBase>
+                    <SemanticBase xsi:type="ConceptType" id="id_6">
+                        <Label>
+                            <Name>Religious Myhological</Name>
+                        </Label>
+                        <Agent xsi:type="AbstractType">
+                            <Name>
+                                <GivenName>Willian</GivenName>
+                                <FamilyName>Blake</FamilyName>
+                            </Name>
+                        </Agent>
+                    </SemanticBase>
+                    <Graph>
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                        <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                    </Graph>
+                </Semantic>        
+            </Image>
+        </MultimediaContent>
+    </Description>
+</Mpeg7>
+

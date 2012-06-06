@@ -96,7 +96,9 @@ public class AnnotationToolkit {
         } else {
             inst = null;
         }
+        System.out.println(inst);
         return inst;
+        
     }
 
     public static String getMpeg7Time() {

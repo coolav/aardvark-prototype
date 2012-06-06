@@ -22,6 +22,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.datatransfer.*;
 import java.awt.dnd.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.batik.svggen.*;
 import uib.annotation.panels.dialogs.*;
 import uib.annotation.util.DataExchange;
@@ -31,6 +33,7 @@ import uib.annotation.util.mpeg7.Mpeg7FileFilter;
 import uib.annotation.util.OCToolkit;
 import uib.annotation.util.TextChangesListener;
 import uib.annotation.util.XMLFileFilter;
+import uib.gui.AardvarkGui;
 
 /**
  *
@@ -56,18 +59,18 @@ public class AnnotationPanel extends JPanel implements ActionListener {
     public BufferedImage logo, background;
     private DropTarget dt;
     private IconCache configuration = IconCache.getInstance();
-    
 
     public AnnotationPanel(DataExchange parent) {
         super();
         this.parent = parent;
         initComponents();
-        
-       
+
+
     }
 
-    private void initComponents(){
+    private void initComponents() {
         dt = new DropTarget(this, new DropTargetAdapter() {
+
             public void drop(DropTargetDropEvent dtde) {
                 Point p = dtde.getLocation();
                 Transferable t = dtde.getTransferable();
@@ -83,12 +86,20 @@ public class AnnotationPanel extends JPanel implements ActionListener {
         });
 
         this.setDropTarget(dt);
+        /*try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                } else {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                }
+            }
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, e);
 
-        }
+        }*/
 
         objects = new ArrayList<SemanticEntityRepresentation>();
         relations = new ArrayList<SemanticRelationRepresentation>();
@@ -96,7 +107,7 @@ public class AnnotationPanel extends JPanel implements ActionListener {
         highlightedObject = null;
         highlightedRelation = null;
         pressedAt = null;
-        
+
         menu = new JPopupMenu();
         remObject = new JMenuItem("Remove object");
         remObject.addActionListener(this);
@@ -137,10 +148,10 @@ public class AnnotationPanel extends JPanel implements ActionListener {
         exportDescription.setIcon(IconCache.getInstance().getSaveAsIcon());
         exportDescriptionJpg = createMenuItem("JPG image ...", "exportJpg", this);
         exportDescriptionPng = createMenuItem("PNG image ...", "exportPng", this);
-       
+
         exportDescription.add(exportDescriptionJpg);
         exportDescription.add(exportDescriptionPng);
-        
+
 
         newSemanticObject = new JMenu("New Semantic ...");
         newSemanticObject.add(newAgent);
@@ -472,7 +483,7 @@ public class AnnotationPanel extends JPanel implements ActionListener {
             if (writeFile) {
                 if (!formatName.equals("svg")) {
                     saveRasterizedFile(formatName, jfc.getSelectedFile());
-                } 
+                }
             }
         }
     }
@@ -556,7 +567,7 @@ public class AnnotationPanel extends JPanel implements ActionListener {
     }
 
     private BufferedImage generateBackground() {
-        BufferedImage tmp = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage tmp = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) tmp.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.black);
@@ -783,7 +794,7 @@ public class AnnotationPanel extends JPanel implements ActionListener {
             }
             SpringEmbedder se = new SpringEmbedder(nodeList, edges);
             // todo: embedGraph thread
-            EmbedderThread embedderThread = new EmbedderThread(this , se, running);
+            EmbedderThread embedderThread = new EmbedderThread(this, se, running);
             Thread t = new Thread(embedderThread);
 
             t.start();
