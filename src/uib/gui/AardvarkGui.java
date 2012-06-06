@@ -14,10 +14,7 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,8 +34,6 @@ import uib.annotation.util.TextChangesListener;
 import uib.download.FlickrIndexingThread;
 import uib.download.ImageIndexingThread;
 import uib.gui.wizard.InitializeWizard;
-import uib.gui.wizard.Wizard;
-import uib.gui.wizard.WizardPanelDescriptor;
 
 /**
  *
@@ -99,6 +94,7 @@ public class AardvarkGui extends javax.swing.JFrame {
             public void dragOver(DropTargetDragEvent dtde) {
             }
 
+            @Override
             public void dropActionChanged(DropTargetDragEvent dtde) {
             }
 
@@ -2617,9 +2613,9 @@ public class AardvarkGui extends javax.swing.JFrame {
         JFileChooser jfc = new JFileChooser("./qrels/");
         jfc.setDialogTitle("Save the relevant images for the query");
         int returnVal = jfc.showSaveDialog(this);
-        String fileName = "";
+        
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            fileName = jfc.getSelectedFile() + ".txt";
+            String  fileName = jfc.getSelectedFile() + ".txt";
             guiUtil.writeQrels(fileName);
             try {
                 guiUtil.uploadQrels(fileName);
@@ -2739,6 +2735,7 @@ public class AardvarkGui extends javax.swing.JFrame {
 
         jfc.setFileFilter(new FileFilter() {
 
+            @Override
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -2747,6 +2744,7 @@ public class AardvarkGui extends javax.swing.JFrame {
                 }
             }
 
+            @Override
             public String getDescription() {
                 return "Directories";
             }
